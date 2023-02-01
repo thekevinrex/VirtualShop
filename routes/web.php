@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['splade'])->group(function () {
-    Route::get('/', fn () => view('home'))->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/docs', fn () => view('docs'))->name('docs');
+
+    // Auth::routes();
 
     // Registers routes to support password confirmation in Form and Link components...
     Route::spladePasswordConfirmation();
@@ -25,4 +30,11 @@ Route::middleware(['splade'])->group(function () {
 
     // Registers routes to support async File Uploads with Filepond...
     Route::spladeUploads();
+
+    Route::controller(AuthController::class)->group(function () {
+
+        Route::get('/login', 'ShowLoginForm')->name('auth.login');
+        Route::get('/register', 'ShowRegisterForm')->name('auth.register');
+
+    });
 });

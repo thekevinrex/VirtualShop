@@ -10,7 +10,18 @@ module.exports = {
     ],
 
     theme: {
-        extend: {},
+        extend: {
+            colors : {
+                'primary' : {
+                    DEFAULT : '#065fd4',
+                    300 : '#065fd44d',
+                },
+                'purple' : {
+                    DEFAULT : '#583469',
+                    300 : '#3f3162',
+                }
+            },
+        },
     },
 
     plugins: [
