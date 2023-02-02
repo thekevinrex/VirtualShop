@@ -1,4 +1,4 @@
-<form {{ $attributes }}>
+<x-splade-form {{ $attributes }}>
 
     @isset($header)
         {{ $header }}
@@ -10,4 +10,4 @@
         {{ $footer }}
     @endisset
     
-</form>
+</x-splade-form>

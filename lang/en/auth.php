@@ -17,4 +17,19 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'username' => 'Username',
+    'email' => 'Email Address',
+    'remember_me' => 'Remember me',
+
+    'sign_up' => 'Sign up',
+    'sign_in' => 'Sign in',
+    'register' => 'Register a new account',
+    'login' => 'Login into your account',
+    'name' => 'Name',
+    'password' => '{0}Password|{1}Confirm Password|{2}Actual Password',
+
+    'loading' => 'Loading...',
+    'terms' => 'Terms',
+    'policies' => 'Policies',
+    'terms_policies' => 'I aggre with the :terms and :policies of use',
 ];

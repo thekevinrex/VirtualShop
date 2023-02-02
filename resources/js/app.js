@@ -10,7 +10,6 @@ import { createApp } from "vue/dist/vue.esm-bundler.js";
 import { renderSpladeApp, SpladePlugin } from "@protonemedia/laravel-splade";
 import pinia from "./store/store";
 
-
 const el = document.getElementById("app");
 
 const app   = createApp({

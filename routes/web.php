@@ -36,5 +36,6 @@ Route::middleware(['splade'])->group(function () {
         Route::get('/login', 'ShowLoginForm')->name('auth.login');
         Route::get('/register', 'ShowRegisterForm')->name('auth.register');
 
+        
     });
 });

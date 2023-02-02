@@ -3,66 +3,121 @@
 @section('auth-form')
     
     <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-md space-y-8">
-        <div>
-            <img class="mx-auto h-12 w-auto" src="{{ Vite::asset('resources/images/red_logo.png') }}" alt="Your Company">
+		<div class="w-full max-w-md space-y-8">
+			<div>
+				<img class="mx-auto h-12 w-auto" src="{{ Vite::asset('resources/images/red_logo.png') }}" alt="Your Company">
 
-            <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+				<h2 class="mt-6 text-center text-4xl font-bold tracking-tight text-gray-900">
+					@lang('auth.register')
+				</h2>
 
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Or
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">start your 14-day free trial</a>
-            </p>
-        </div>
+			</div>
 
-      <x-form class="mt-8 space-y-6" action="{{ route('auth.register') }}" method="post">
-        
-        <x-slot:footer>
-            <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <!-- Heroicon name: mini/lock-closed -->
-                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
-                </svg>
-            </span>
-            Sign in
-            </button>
-        </x-slot>
+		<x-form class="mt-8 space-y-6 bg-white p-8 rounded-xl relative" action="{{ route('auth.register') }}" method="post">
+			
+			<div class="w-full h-full absolute z-10 bg-white left-0 top-0 rounded-xl flex items-center" v-if="form.processing || form.wasSuccessful">
+				<div class="flex flex-col w-full justify-center">
+					<x-preloader color="pl-primary" border="pl-border-4x" size="pl-size-l"></x-preloader>
+					<h2 class="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900">
+						@lang ('auth.loading')
+					</h2>
+				</div>
+			</div>
 
-        <div class="-space-y-px rounded-md shadow-sm">
-            <InputComponent>
-                <template #header>Username</template>
-                <template #front-icon><svg width="100%" height="100%" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg></template>
-                <input id="email-address" name="email" type="email" autocomplete="email" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address">
-                
-            </InputComponent>
+			<x-slot:footer>
+				<button type="submit" :disabled="!form.terms_policies" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+					@lang('auth.sign_up')
+				</button>
+			</x-slot>
 
-            <div>
-              <label for="email-address" class="sr-only">Email address</label>
-              <input id="email-address" name="email" type="email" autocomplete="email" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address">
-            </div>
-            <div>
-              <label for="password" class="sr-only">Password</label>
-              <input id="password" name="password" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password">
-            </div>
-          </div>
-    
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-              <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
-            </div>
-    
-            <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
-            </div>
-          </div>
+			<div class="flex flex-col">
+				
+				<InputComponent v-model:value="form.username" type="text" :inputData="{
+					'name' : 'username',
+					'front_icon' : true,
+					'isHeader' : true,
+					'placeholder' : '{{ trans('auth.username') }}',
+					'validate' : ['Required', 'String'],
+				}" >
+					<template #front-icon><svg width="100%" height="100%" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg></template>
 
-      </x-form>
+					<template #errors="{ errorsType }">
+						<div class="text-sm flex" v-if="errorsType.includes('String')">
+							@lang('validation.alpha_num', ['attribute' => strtolower(trans('auth.username') ), ])
+						</div>
+					</template>
+				</InputComponent>
 
-      
-    </div>
-  </div>
+				<InputComponent v-model:value="form.email" type="text" :inputData="{
+					'name' : 'email',
+					'front_icon' : true,
+					'isHeader' : true,
+					'placeholder' : '{{ trans('auth.email') }}',
+					'validate' : ['Required', 'Email'],
+				}" >
+					<template #front-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" /><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" /></svg></template>
+					<template #errors="{ errorsType }">
+						<div class="text-sm flex" v-if="errorsType.includes('Email')">
+							@lang('validation.email', ['attribute' => strtolower(trans('auth.email') ), ])
+						</div>
+					</template>
+				</InputComponent>
+			
+				<InputComponent v-model:value="form.password" type="password" :inputData="{
+					'name' : 'password',
+					'front_icon' : true,
+					'isHeader' : true,
+					'placeholder' : '{{ trans_choice('auth.password', 0) }}',
+					'validate' : ['Required', 'Password'],
+				}">
+					<template #front-icon><svg viewBox="0 0 24 24" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></g></svg></template>
+					<template #errors="{ errorsType }">
+						<div class="text-sm flex" v-if="errorsType.includes('Password-symbols')">
+							@lang('validation.password.symbols', ['attribute' => strtolower(trans_choice('auth.password', 0) ), ])
+						</div>
+						<div class="text-sm flex" v-if="errorsType.includes('Password-mixed')">
+							@lang('validation.password.mixed', ['attribute' => strtolower(trans_choice('auth.password', 0) ), ])
+						</div>
+						<div class="text-sm flex" v-if="errorsType.includes('Password-numbers')">
+							@lang('validation.password.numbers', ['attribute' => strtolower(trans_choice('auth.password', 0) ), ])
+						</div>
+						<div class="text-sm flex" v-if="errorsType.includes('Password-length')">
+							@lang('validation.between.string', ['attribute' => strtolower(trans_choice('auth.password', 0) ), 'min' => 8, 'max' => 20 ])
+						</div>
+					</template>
+				</InputComponent>
+
+				<InputComponent v-model:value="form.confirm_password" :confirm="form.password" type="password" :inputData="{
+					'name' : 'confirm_password',
+					'front_icon' : true,
+					'isHeader' : true,
+					'placeholder' : '{{ trans_choice('auth.password', 1) }}',
+					validate : ['Required', 'Confirm'],
+				}">
+					<template #front-icon><svg viewBox="0 0 24 24" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></g></svg></template>
+					<template #errors="{ errorsType }">
+						<div class="text-sm flex" v-if="errorsType.includes('Confirm')">
+							@lang('validation.confirmed', ['attribute' => strtolower(trans_choice('auth.password', 0) ), ])
+						</div>
+					</template>
+				</InputComponent>
+
+			</div>
+		
+			<div class="flex items-center justify-between">
+				<div class="flex items-center">
+					<input id="terms_policies" name="terms_policies" v-model="form.terms_policies" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+					<label for="terms_policies" class="ml-2 block text-sm text-gray-900">
+						@lang('auth.terms_policies', ['terms' => '<Link href="/terms">'. trans('auth.terms') .'</Link>', 'policies' => '<Link href="/policies">'. trans('auth.policies') .'</Link>' ])
+					</label>
+				</div>
+			</div>
+
+		</x-form>
+
+		
+	</div>
+</div>
   
 
 @endsection
