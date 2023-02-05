@@ -13,16 +13,8 @@
 
 			</div>
 
-		<x-form class="mt-8 space-y-6 bg-white p-8 rounded-xl relative" action="{{ route('auth.register') }}" method="post">
+		<x-form class="mt-8 space-y-6 bg-white p-8 rounded-xl relative" action="{{ url('/register') }}" method="post">
 			
-			<div class="w-full h-full absolute z-10 bg-white left-0 top-0 rounded-xl flex items-center" v-if="form.processing || form.wasSuccessful">
-				<div class="flex flex-col w-full justify-center">
-					<x-preloader color="pl-primary" border="pl-border-4x" size="pl-size-l"></x-preloader>
-					<h2 class="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900">
-						@lang ('auth.loading')
-					</h2>
-				</div>
-			</div>
 
 			<x-slot:footer>
 				<button type="submit" :disabled="!form.terms_policies" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -87,8 +79,8 @@
 					</template>
 				</InputComponent>
 
-				<InputComponent v-model:value="form.confirm_password" :confirm="form.password" type="password" :inputData="{
-					'name' : 'confirm_password',
+				<InputComponent v-model:value="form.password_confirmation" :confirm="form.password" type="password" :inputData="{
+					'name' : 'password_confirmation',
 					'front_icon' : true,
 					'isHeader' : true,
 					'placeholder' : '{{ trans_choice('auth.password', 1) }}',

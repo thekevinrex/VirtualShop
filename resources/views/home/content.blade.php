@@ -1,5 +1,9 @@
-@extends ("layaut.container")
+@extends ("layouts.container")
 
 @section('content')
-sdasda    
+asdas
+@auth
+{{ Auth::viaRemember() }}
+@endauth
+
 @endsection

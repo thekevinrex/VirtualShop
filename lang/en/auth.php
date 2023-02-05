@@ -32,4 +32,9 @@ return [
     'terms' => 'Terms',
     'policies' => 'Policies',
     'terms_policies' => 'I aggre with the :terms and :policies of use',
+    'forgot_password' => 'Forgot Password',
+    'confirm_password' => 'Confirm Password',
+    'confirm_your_password' => 'Confirm your password',
+    'resend_email' => 'Resend Email',
+    'verify_your_email' => 'Verify your email address'
 ];

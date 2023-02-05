@@ -2,93 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\ConfirmController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetController;
+use App\Http\Controllers\Auth\VerifyController;
 
 class AuthController extends Controller
 {
 
-    public function showLoginForm () {
-        return view('auth.loginForm');
-    }
-
-    public function showRegisterForm () {
-        return view('auth.registerForm');
+    use LoginController, RegisterController, ConfirmController, ResetController, VerifyController;
+    
+    /**
+     * 
+     * Return the maximun attempts for the throttle Login rate limiter
+     * 
+     * @return int
+     */
+    protected function maxAttempts () {
+        return 3;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 
+     * Return the decay minutes for the throttle Login rate limiter
+     * 
+     * @return int
      */
-    public function index()
-    {
-        //
+    protected function decayMinutes () {
+        return 1;
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
+    
 }
