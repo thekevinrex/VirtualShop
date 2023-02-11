@@ -13,37 +13,27 @@ use ProtoneMedia\Splade\Facades\Splade;
 class RedirectOnVerified implements ShouldBroadcast
 {
 
-
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
+    public $user;
     /**
      * Handle the event.
      *
-     * @param  Illuminate\Auth\Events\Verified  $event
+     * @param  \Illuminate\Auth\Events\Verified  $event
      * @return void
      */
     public function handle(Verified $event)
     {
-        
+        $this->user = $event->user;
     }
 
     public function broadcastOn()
     {
-        return new PrivateChannel('verified.' . $this->user->getKey());
+        return new PrivateChannel('verified.13');
     }
 
-    public function broadcastWith()
-    {
-        return [
-            Splade::redirectOnEvent()->route('home'),
-        ];
-    }
+    // public function broadcastWith()
+    // {
+    //     return [
+    //         Splade::redirectOnEvent()->route('home'),
+    //     ];
+    // }
 }
