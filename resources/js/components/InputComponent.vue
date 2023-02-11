@@ -19,6 +19,8 @@
                     <input v-if="type == 'text'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="text" required="isRequired" class="h-10 w-full appearance-none rounded-none border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder" />
 
                     <input v-if="type == 'password'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="password" required="isRequired" class="h-10 w-full appearance-none rounded-none border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder" />
+
+                    <textarea  v-if="type == 'textarea'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" required="isRequired" class="h-28 w-full appearance-none rounded-none border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder"></textarea>
                     
                 </div>
 

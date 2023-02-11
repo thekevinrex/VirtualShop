@@ -38,7 +38,9 @@
     {{ $slot }}
 
     @isset($footer)
-        {{ $footer }}
+        <div {{ $footer->attributes->merge(['class' => 'flex']) }}>
+            {{ $footer }}
+        </div>
     @endisset
     
 </x-splade-form>

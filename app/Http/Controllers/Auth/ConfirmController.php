@@ -35,7 +35,7 @@ trait ConfirmController
         if (Hash::check($request->password, $request->user()->password)) {
             $request->session()->put('auth.password_confirmed_at', time());
             $this->clearLoginAttempts($request);
-            return redirect()->intended('/');
+            return redirect()->intended($this->redirectLoginTo());
         }
 
         $this->incrementLoginAttempts($request);

@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,17 +19,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['splade'])->group(function () {
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
     
-    Route::middleware(['guest'])->group(function (){
-
-        
-
+    Route::get('/', [HomeController::class, 'index'])->name('home');    
+    
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::get('/docs', fn() => view('docs'))->name('docs');
     });
 
-    Route::get('/docs', fn () => view('docs'))->name('docs');
-
-    // Auth::routes();
+    Route::prefix('/admin')->group(function () {
+        Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+            Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
+        }
+        );
+    });
 
     // Registers routes to support password confirmation in Form and Link components...
     Route::spladePasswordConfirmation();
@@ -39,6 +41,8 @@ Route::middleware(['splade'])->group(function () {
 
     // Registers routes to support async File Uploads with Filepond...
     Route::spladeUploads();
+
+    Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
 
     Route::controller(AuthController::class)->group(function () {
 
@@ -55,20 +59,21 @@ Route::middleware(['splade'])->group(function () {
 
             Route::get('/reset-password/{token}', 'ShowResetPasswordForm')->name('password.reset');
             Route::post('/reset-password', 'resetPassword')->name('password.update');
-            
+
         });
-        
+
         Route::middleware('auth')->group(function () {
 
-            Route::get('/logout', 'logout')->name('logout');
+            Route::post('/logout', 'logout')->name('logout');
 
-            Route::get('/password-confirm', 'showPasswordConfirmForm')->name ('password.confirm');
+            Route::get('/password-confirm', 'showPasswordConfirmForm')->name('password.confirm');
             Route::post('/password-confirm', 'passwordConfirm');
 
-            Route::get('/verify-email', 'showResendVerificationEmail')->name ('verification.notice');
+            Route::get('/verify-email', 'showResendVerificationEmail')->name('verification.notice');
             Route::get('/verify-email/verify/{id}/{hash}', 'verify')->middleware(['signed'])->name('verification.verify');
             Route::post('/verify-emails', 'resend')->name('verification.send');
         });
-        
-    });
+
+    }
+    );
 });

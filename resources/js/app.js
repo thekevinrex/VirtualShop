@@ -1,7 +1,7 @@
 import "./bootstrap";
 import "../css/app.css";
 import "@protonemedia/laravel-splade/dist/style.css";
-
+import 'tw-elements';
 import.meta.glob([
     '../images/**',
 ]);

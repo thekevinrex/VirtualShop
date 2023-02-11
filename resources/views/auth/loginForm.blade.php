@@ -4,21 +4,24 @@
 
 <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
-        <div>
+        <div class="flex flex-col justify-center">
             <img class="mx-auto h-12 w-auto" src="{{ Vite::asset('resources/images/red_logo.png') }}" alt="Your Company">
 
             <h2 class="mt-6 text-center text-4xl font-bold tracking-tight text-gray-900">
                 @lang('auth.login')
             </h2>
-
         </div>
 
         <x-form class="mt-8 space-y-6 bg-white p-8 rounded-xl relative" action="{{ url('/login') }}" method="post">
             
-            <x-slot:footer>
+            <x-slot:footer class="flex-col justify-center">
                 <button type="submit" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     @lang('auth.sign_in')
                 </button>
+                <span class="text-center mt-2">
+                    @lang('auth.or')
+                    <Link href="{{ route('auth.register') }}">@lang('auth.sign_up')</Link>
+                </span>
             </x-slot>
 
             <div class="flex flex-col">

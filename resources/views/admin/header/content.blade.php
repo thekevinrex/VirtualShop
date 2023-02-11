@@ -7,13 +7,7 @@
 
         <div class="flex flex-row items-end space-x-3">
             
-            @auth()
-                @include('header.auth')
-            @endauth
-
-            @guest
-                @include('header.guest')    
-            @endguest
+            @include('admin.header.bottons')
             
         </div>
     </div>

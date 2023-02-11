@@ -7,6 +7,7 @@ module.exports = {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
+        './node_modules/tw-elements/dist/js/**/*.js',
     ],
 
     theme: {
@@ -15,6 +16,10 @@ module.exports = {
                 'primary' : {
                     DEFAULT : '#065fd4',
                     300 : '#065fd44d',
+                    500 : '#065fd4a3',
+                    700 : '#065fd4cc',
+                    900: '#065fd4ee',
+                    'strong' : '#0625d4',
                 },
                 'purple' : {
                     DEFAULT : '#583469',
@@ -26,6 +31,7 @@ module.exports = {
 
     plugins: [
         require("@tailwindcss/forms"),
-        require("@tailwindcss/typography")
+        require("@tailwindcss/typography"),
+        require('tw-elements/dist/plugin'),
     ],
 };

@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetController;
 use App\Http\Controllers\Auth\VerifyController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -31,6 +33,18 @@ class AuthController extends Controller
      */
     protected function decayMinutes () {
         return 1;
+    }
+
+    public function redirectLoginTo () {
+        return '/';
+    }
+
+    public function guard () {
+        return Auth::guard();
+    }
+
+    public function broker () {
+        return Password::broker('users');
     }
     
 }

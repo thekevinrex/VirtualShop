@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 
@@ -53,7 +53,7 @@ trait ResetController
         
         $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink(
+        $status = $this->broker()->sendResetLink(
             $request->only('email')
         );
 
@@ -84,7 +84,7 @@ trait ResetController
             'password_confirmation' => 'required|same:password',
         ]);
 
-        $status = Password::reset(
+        $status = $this->broker()->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $this->resetPasswordSuccess($user, $password);
@@ -92,7 +92,7 @@ trait ResetController
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('home')->with('status', __($status))
+            ? redirect($this->redirectLoginTo())->with('status', __($status))
             : throw ValidationException::withMessages([
                 'email' => [__($status)],
             ]);
@@ -102,20 +102,20 @@ trait ResetController
      * 
      * Force the updated password to the user data, and update the database
      * 
-     * @params \App\Models\User $user|\String $password
+     * @param \App\Models\User $user|\String $password
      * 
      */
     private function resetPasswordSuccess ($user, $password) {
     
         $user->forceFill([
-            'password' => Hash::make($password)
+            'password' => ($password)
         ])->setRememberToken(Str::random(60));
 
         $user->save();
 
         event(new PasswordReset($user));
 
-        Auth::guard()->login($user);
+        $this->guard()->login($user);
     }
 
 }

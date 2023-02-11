@@ -13,8 +13,13 @@
 
         </div>
 
-        <x-splade-event private channel="verified-{{ Auth::user()->getKey() }}" listen="RedirectOnVerified" />
+        <x-splade-event private channel="verified.{{ Auth::user()->getKey() }}" listen="RedirectOnVerified">
+            <p v-if="subscribed">Subscribed!</p>
 
+            <div v-for="event in events">
+                <p v-text="event.user.id" />
+            </div>
+        </x-splade-event>
 
         <x-splade-state>
             <div class="flex flex-col bg-green-700 rounded-md" v-if="state.hasFlash('message')">
@@ -32,12 +37,20 @@
                 {{ __('If you did not receive the email') }},
             </div>
             
-            <form action="{{ route('verification.send') }}" method="post">
-                @csrf
-                <button type="submit" class="relative flex justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    @lang('auth.resend_email')
-                </button>
-            </form>
+            <div class="flex flex-row justify-between"> 
+                <x-form action="{{ route('verification.send') }}" method="post">
+                    <button type="submit" class="relative flex justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        @lang('auth.resend_email')
+                    </button>
+                </x-form>
+
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="relative flex justify-center rounded-md border border-transparent disabled:bg-gray-300 bg-gray-500 py-2 px-4 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                        @lang('auth.logout')
+                    </button>
+                </form>
+            </div>
         </div>
         
 

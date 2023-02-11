@@ -24,7 +24,7 @@ trait LoginController
      * Handle a request to attempt to login a user
      * 
      * @param \App\Http\Requests\LoginRequest $request
-     * @throw \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      * @return \Illuminate\Http\RedirectResponse
      */
     public function login(LoginRequest $request)
@@ -35,7 +35,7 @@ trait LoginController
             return $this->sendFailLoginAttempts ($request);
         }
 
-        if(Auth::guard()->attempt(
+        if($this->guard()->attempt(
             $credentials, $request->boolean('remember_me')
         )) {
             if ($request->hasSession()) {
@@ -45,7 +45,7 @@ trait LoginController
             $request->session()->regenerate();
             $this->clearLoginAttempts($request);
 
-            return redirect()->intended('/');
+            return redirect()->intended($this->redirectLoginTo());
         }
 
         $this->incrementLoginAttempts($request);
@@ -64,12 +64,12 @@ trait LoginController
      */
     public function logout(Request $request)
     {
-        Auth::logout();
+        $this->guard()->logout();
     
-        $request->session()->invalidate();
+        // $request->session()->flush();
+        // $request->session()->regenerateToken();
     
-        $request->session()->regenerateToken();
-    
-        return redirect('/');
+        return redirect($this->redirectLoginTo());
     }
+
 }

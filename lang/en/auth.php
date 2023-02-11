@@ -23,11 +23,12 @@ return [
 
     'sign_up' => 'Sign up',
     'sign_in' => 'Sign in',
+    'logout' => 'Logout',
     'register' => 'Register a new account',
     'login' => 'Login into your account',
     'name' => 'Name',
     'password' => '{0}Password|{1}Confirm Password|{2}Actual Password',
-
+    'or' => 'Or',
     'loading' => 'Loading...',
     'terms' => 'Terms',
     'policies' => 'Policies',
@@ -36,5 +37,8 @@ return [
     'confirm_password' => 'Confirm Password',
     'confirm_your_password' => 'Confirm your password',
     'resend_email' => 'Resend Email',
-    'verify_your_email' => 'Verify your email address'
+    'verify_your_email' => 'Verify your email address',
+
+    'register_seller_info' => 'Register your account to start selling rigth now',
+    'start_up_seller' => 'Start Selling',
 ];

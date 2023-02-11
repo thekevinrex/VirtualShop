@@ -15,10 +15,14 @@
 
         <x-form class="mt-8 space-y-6 bg-white p-8 rounded-xl relative" action="{{ url('/forgot-password') }}" method="post">
             
-            <x-slot:footer>
+            <x-slot:footer class="flex-col">
                 <button type="submit" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     @lang('passwords.send_reset_email')
                 </button>
+                <span class="text-center mt-2">
+					@lang('auth.or')
+					<Link href="{{ route('auth.login') }}">@lang('auth.sign_in')</Link>
+				</span>
             </x-slot>
 
             <div class="flex flex-col">

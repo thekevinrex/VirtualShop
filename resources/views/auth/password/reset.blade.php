@@ -8,7 +8,7 @@
             <img class="mx-auto h-12 w-auto" src="{{ Vite::asset('resources/images/red_logo.png') }}" alt="Your Company">
 
             <h2 class="mt-6 text-center text-4xl font-bold tracking-tight text-gray-900">
-                @lang('password.reset_password')
+                @lang('passwords.reset_password')
             </h2>
 
         </div>
