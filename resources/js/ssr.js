@@ -7,5 +7,5 @@ startServer(createServer, renderToString, (props) => {
     return createSSRApp({
         render: renderSpladeApp(props)
     })
-        .use(SpladePlugin);
+        .use(SpladePlugin)
 });
