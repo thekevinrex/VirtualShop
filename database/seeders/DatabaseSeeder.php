@@ -20,5 +20,53 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        \App\Models\Provincia::create(
+            ['name' => 'Sancti Spiritus'],
+        );
+        \App\Models\Provincia::create(
+            ['name' => 'La Habana'],
+        );
+        \App\Models\Provincia::create(
+            ['name' => 'Matanzas'],
+        );
+
+        \App\Models\Municipio::create([
+            'name' => 'Sancti Spiritus',
+            'price' => '10',
+            'provincia_id' => 1
+        ]);
+        \App\Models\Municipio::create([
+            'name' => 'Trinidad',
+            'price' => '20',
+            'provincia_id' => 1
+        ]);
+        \App\Models\Municipio::create([
+            'name' => 'Lawton',
+            'price' => '50',
+            'provincia_id' => 2
+        ]);
+        \App\Models\Municipio::create([
+            'name' => 'Vedado',
+            'price' => '100',
+            'provincia_id' => 2
+        ]);
+        \App\Models\Municipio::create([
+            'name' => 'Bahia',
+            'price' => '5',
+            'provincia_id' => 2
+        ]);
+        \App\Models\Municipio::create([
+            'name' => 'Lisa',
+            'price' => '100',
+            'provincia_id' => 2
+        ]);
+        \App\Models\Municipio::create([
+            'name' => 'Matanzas',
+            'price' => '100',
+            'provincia_id' => 3
+        ]);
+
+        
     }
 }
