@@ -14,6 +14,6 @@ class Provincia extends Model
     ];
 
     public function municipios () {
-        return $this->hasMany(\App\Models\Municipio::class);
+        return $this->hasMany('App\Models\Municipio');
     }
 }

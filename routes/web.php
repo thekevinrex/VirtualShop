@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UploadController;
@@ -43,6 +44,7 @@ Route::middleware(['splade'])->group(function () {
     Route::spladeUploads();
 
     Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
+    Route::post('/municipio/get', [AddressController::class, 'getMunicipios'])->name('municipios.get');
 
     Route::controller(AuthController::class)->group(function () {
 

@@ -36,7 +36,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->string('payment_method')->nullable();
-            $table->json('payment_options')->nullable();
+            $table->string('payment_option')->nullable();
 
             $table->timestamps();
         });

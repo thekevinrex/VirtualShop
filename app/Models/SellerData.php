@@ -17,6 +17,8 @@ class SellerData extends Model
         'plan',
         'telephone',
         'telegram',
+        'payment_method',
+        'payment_option',
     ];
 
     protected $hidden = [

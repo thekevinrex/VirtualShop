@@ -42,7 +42,7 @@ class UploadController extends Controller
             return response()->json(['failed' => 'File uploaded successfully.'])->setStatusCode('422');
         }
 
-        $this->saveDb ($filename);
+        // $this->saveDb ($filename);
         return $filename;
         
     }

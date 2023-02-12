@@ -35,9 +35,9 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('location');
-            $table->text('aditional');
+            $table->text('aditional')->nullable();
 
-            $table->json('aviable_days');
+            $table->json('aviable_days')->nullable();
             $table->enum('default', [0, 1])->default(0);
 
             $table->timestamps();

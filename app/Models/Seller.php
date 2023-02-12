@@ -39,7 +39,11 @@ class Seller extends Authenticatable implements MustVerifyEmail
     }
 
     public function avatar () {
-        return $this->morphOne(App\Models\Image::class, 'imageable');
+        return $this->morphOne('App\Models\Image', 'imageable');
+    }
+    
+    public function addres () {
+        return $this->morphOne('App\Models\Addres', 'addresable');
     }
 
     public function setPasswordAttribute($value ){

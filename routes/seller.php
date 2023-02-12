@@ -12,6 +12,7 @@ Route::middleware(['splade'])->group(function () {
     Route::get('/pricing', [SellerHomeController::class, 'pricing'])->name('pricing');
 
     Route::get('/start-up/{plan}', [SellerHomeController::class, 'start'])->middleware(['auth:seller', 'verified:seller.verification.notice'])->name('start-up');
+    Route::post('/start-up', [SellerHomeController::class, 'startUp'])->middleware(['auth:seller', 'verified:seller.verification.notice'])->name('start-up.perform');
 
     Route::middleware(['auth:seller', 'verified:seller.verification.notice', 'seller'])->group(function () {
 
