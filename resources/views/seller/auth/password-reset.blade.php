@@ -2,11 +2,11 @@
 
 @section('auth-form')
 
-<h1 class="font-bold text-3xl">
+<h1 class="font-bold text-3xl dark:text-white">
     @lang('passwords.reset_password')
 </h1>
 
-<x-form class="mt-4 space-y-6 bg-white relative" action="{{ url('/seller-panel/reset-password') }}" method="post" :default="['email' => $email, 'token' => $token]">
+<x-form class="mt-4 space-y-6 bg-white relative dark:bg-dark" action="{{ url('/seller-panel/reset-password') }}" method="post" :default="['email' => $email, 'token' => $token]">
             
     <x-slot:footer>
         <button type="submit" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">

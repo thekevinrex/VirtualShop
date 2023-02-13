@@ -2,17 +2,17 @@
 
 @section('auth-form')
 
-<h1 class="font-bold text-3xl">
+<h1 class="font-bold text-3xl dark:text-white">
     @lang('auth.register')
 </h1>
 
-<p>
+<p class="dark:text-white">
     @lang('auth.register_seller_info')
 </p>
 
-<x-form class="mt-8 space-y-6 bg-white relative" action="{{ url('/seller-panel/register') }}" method="post">
+<x-form class="mt-8 space-y-6 bg-white dark:bg-dark relative" action="{{ url('/seller-panel/register') }}" method="post">
 
-    <x-slot:footer class="flex-col">
+    <x-slot:footer class="flex-col dark:text-white">
         <button type="submit" :disabled="!form.terms_policies" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             @lang('auth.sign_up')
         </button>
@@ -83,7 +83,7 @@
     <div class="flex items-center justify-between">
         <div class="flex items-center">
             <input id="terms_policies" name="terms_policies" v-model="form.terms_policies" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-            <label for="terms_policies" class="ml-2 block text-sm text-gray-900">
+            <label for="terms_policies" class="ml-2 block text-sm text-gray-900 dark:text-white">
                 @lang('auth.terms_policies', ['terms' => '<Link href="/terms">'. trans('auth.terms') .'</Link>', 'policies' => '<Link href="/policies">'. trans('auth.policies') .'</Link>' ])
             </label>
         </div>

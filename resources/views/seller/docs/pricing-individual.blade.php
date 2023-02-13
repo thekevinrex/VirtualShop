@@ -1,4 +1,4 @@
-<div class="bg-white {{ (isset($simple) && $simple )? '' : 'w-[400px]'  }} m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4">
+<div class="bg-white {{ (isset($simple) && $simple )? '' : 'w-[400px]'  }} m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 dark:bg-dark dark:text-white dark:border-neutral-700">
 
     <span class="font-semibold text-blue-600 text-sm">
         Individual
@@ -48,7 +48,7 @@
 
     </div>
 
-    @if (!isset ($simple) || !$simple)
+    @if ( (!isset ($simple) || !$simple) && Auth::guard('seller')->check() && Auth::guard('seller')->user()->data == null )
         <Link href="{{ route('seller.start-up', 'individual') }}" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-gray-300 bg-gray-600 py-2 px-4 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
             Start with individual plan
         </Link>

@@ -1,4 +1,4 @@
-<div class="bg-white {{ (isset($simple) && $simple )? '' : 'w-[400px]'  }} m-5 rounded-xl border border-gray-300 p-8 space-y-4">
+<div class="bg-white {{ (isset($simple) && $simple )? '' : 'w-[400px]'  }} m-5 rounded-xl border border-gray-300 p-8 space-y-4 dark:bg-dark dark:border-neutral-700 dark:text-white">
 
     <span class="font-semibold text-blue-600 text-sm">
         Profesional
@@ -72,7 +72,8 @@
 
         
     </div>
-    @if (!isset ($simple) || !$simple)
+    
+    @if ( (!isset ($simple) || !$simple) && Auth::guard('seller')->check() && Auth::guard('seller')->user()->data == null )
         <Link href="{{ route('seller.start-up', 'profesional') }}" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             Start with profesional plan
         </Link>

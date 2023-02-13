@@ -1,4 +1,4 @@
-@props(['id', 'type' => 'botton', 'bg' => 'bg-white focus:bg-gray-300', 'border' => 'border border-gray-200'])
+@props(['id', 'type' => 'botton', 'bg' => 'bg-white focus:bg-gray-300', 'border' => 'border border-gray-200 dark:border-neutral-700'])
 
 @if($type && $type == 'dropdown')
 <div class="dropdown relative">
@@ -14,7 +14,7 @@
 </div>
 @else
 <Link {{ $attributes->merge(['class' => "w-auto px-3 h-10 shadow-md rounded-md  flex items-center justify-center $bg $border", 'href' => '#']) }}  data-mdb-ripple="true" data-mdb-ripple-color="dark">
-    <div class="font-medium text-md">
+    <div class="font-medium text-base">
         {{ $slot }}
     </div>
 </Link>        

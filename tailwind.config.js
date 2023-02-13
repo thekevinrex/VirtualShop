@@ -24,10 +24,15 @@ module.exports = {
                 'purple' : {
                     DEFAULT : '#583469',
                     300 : '#3f3162',
+                },
+                'dark': {
+                    DEFAULT : '#1a1a1a',
                 }
             },
         },
     },
+
+    darkMode: ['class'],
 
     plugins: [
         require("@tailwindcss/forms"),

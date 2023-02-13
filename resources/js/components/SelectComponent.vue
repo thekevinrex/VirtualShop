@@ -1,6 +1,6 @@
 <template lang="">
 
-    <div :id="id" class="border rounded-md flex bg-white w-full mb-5 last:mb-0" :class="[borderClass]">
+    <div :id="id" class="border rounded-md flex bg-white dark:bg-neutral-700 dark:border-neutral-700 w-full mb-5 last:mb-0" :class="[borderClass]">
         <div class="flex flex-col items-start w-full relative">
             
             <div class="flex py-1 pt-2 px-4" v-if="inputData.isHeader">
@@ -28,9 +28,9 @@
 
                 </div>
             
-                <ul class=" dropdown-menu min-w-max w-full absolute hidden bg-white text-base z-50 float-left py-3 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none left-auto right-0" aria-labelledby="id" >
+                <ul class=" dropdown-menu min-w-max w-full absolute hidden bg-white dark:bg-dark text-base z-50 float-left py-3 list-none text-left rounded-lg shadow-2xl mt-1 m-0 bg-clip-padding border-none left-auto right-0" aria-labelledby="id" >
                     <li v-for="i in data">
-                        <div @click="updateValue(i.id)" class="dropdown-item cursor-pointer py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
+                        <div @click="updateValue(i.id)" class="dropdown-item cursor-pointer py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 dark:text-white dark:hover:bg-neutral-800 hover:bg-gray-100">
                             {{ i.name }}
                         </div>
                     </li>

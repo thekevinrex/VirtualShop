@@ -1,14 +1,14 @@
 <template lang="">
-    <div :id="id" class="border rounded-md flex bg-white w-full mb-5 last:mb-0" :class="[borderClass]">
+    <div :id="id" class="border dark:border-neutral-500 rounded-md flex bg-white dark:bg-neutral-700 w-full mb-5 last:mb-0" :class="[borderClass]">
         <div class="flex flex-col items-start w-full relative">
             
-            <div class="flex py-1 pt-2 px-4" v-if="inputData.isHeader">
+            <div class="flex py-1 pt-2 px-4 dark:text-white" v-if="inputData.isHeader">
                 <div class="text-xs">
                     {{ inputData.placeholder }}
                 </div>
             </div>
 
-            <div class="flex flex-row w-full shadow-md">
+            <div class="flex flex-row w-full shadow-md dark:text-white dark:fill-white">
 
                 <div class="flex-none h-10 w-10 p-1" v-if="inputData.front_icon">
                     <slot name="front-icon"></slot>
@@ -16,11 +16,11 @@
 
                 <div class="w-full flex-initial">
 
-                    <input v-if="type == 'text'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="text" :required="isRequired" class="h-10 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder" />
+                    <input v-if="type == 'text'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="text" :required="isRequired" class="dark:bg-neutral-700 dark:text-gray-200 h-10 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder" />
 
-                    <input v-if="type == 'password'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="password" :required="isRequired" class="h-10 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder" />
+                    <input v-if="type == 'password'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="password" :required="isRequired" class="dark:bg-neutral-700 dark:text-gray-200 h-10 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder" />
 
-                    <textarea  v-if="type == 'textarea'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" :required="isRequired" class="h-28 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder"></textarea>
+                    <textarea  v-if="type == 'textarea'" :value="value" @input="updateInput" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" :required="isRequired" class="dark:bg-neutral-700 dark:text-gray-200 h-28 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" :placeholder="inputData.placeholder"></textarea>
                     
                 </div>
 

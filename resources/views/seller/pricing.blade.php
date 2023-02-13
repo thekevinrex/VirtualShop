@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="flex w-full relative h-auto bg-blue-200">
+<div class="flex w-full relative h-auto bg-blue-200 dark:bg-indigo-800 dark:text-white">
 
     <div class="max-w-3/5 flex flex-col p-20">
         
@@ -19,9 +19,9 @@
 
 </div>
 
-<div class="flex flex-row flex-wrap w-full justify-center relative h-auto min-h-[350px] bg-blue-200">
+<div class="flex flex-row flex-wrap w-full justify-center relative h-auto min-h-[350px] bg-blue-200 dark:bg-indigo-800 dark:text-white">
 
-    <div class="bg-white w-[280px] m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 z-10">
+    <div class="bg-white dark:bg-dark dark:border-neutral-700 w-[280px] m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 z-10">
         <h1 class="text-xl font-bold">
             Plan de ventas
         </h1>
@@ -31,7 +31,7 @@
         </p>
     </div>
 
-    <div class="bg-white w-[280px] m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 z-10">
+    <div class="bg-white dark:bg-dark dark:border-neutral-700 w-[280px] m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 z-10">
         <h1 class="text-xl font-bold">
             Categoria del producto
         </h1>
@@ -41,7 +41,7 @@
         </p>
     </div>
 
-    <div class="bg-white w-[280px] m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 z-10">
+    <div class="bg-white dark:bg-dark dark:border-neutral-700 w-[280px] m-5 rounded-xl border flex flex-col border-gray-300 p-8 space-y-4 z-10">
         <h1 class="text-xl font-bold">
             Tarifa de gestion logistica
         </h1>
@@ -51,21 +51,21 @@
         </p>
     </div>
 
-    <svg alt="" class="absolute bottom-0 left-0 right-0 w-full z-0" height="354px" preserveAspectRatio="none" role="presentation" version="1.1" viewBox="0 0 1440 354" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M0,351.933506 C116,262.863915 341.333333,211.08769 676,196.604829 C1010.66667,182.121969 1265.33333,116.587026 1440,0 L1440,354 L0,353.994109 L0,351.933506 Z" fill="#fff"></path></g></svg>
+    <svg alt="" class="absolute bottom-0 left-0 right-0 w-full z-0" height="354px" preserveAspectRatio="none" role="presentation" version="1.1" viewBox="0 0 1440 354" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M0,351.933506 C116,262.863915 341.333333,211.08769 676,196.604829 C1010.66667,182.121969 1265.33333,116.587026 1440,0 L1440,354 L0,353.994109 L0,351.933506 Z" class="fill-white dark:fill-dark"></path></g></svg>
 </div>
 
 
 <div class="w-full flex flex-col relative items-center justify-center">
 
-    <svg alt="" class="-scale-x-100 w-full" height="278px" preserveAspectRatio="none" role="presentation" version="1.1" viewBox="0 0 1440 278" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M0,260.670469 C268,291.980818 533.333333,258.847538 796,161.270627 C1058.66667,63.6937169 1273.33333,9.93684108 1440,0 L1440,278 L0,278 L0,260.670469 Z" class="fill-green-300" transform="translate(720.000000, 139.000000) scale(-1, 1) translate(-720.000000, -139.000000) "></path></g></svg>
+    <svg alt="" class="-scale-x-100 w-full" height="278px" preserveAspectRatio="none" role="presentation" version="1.1" viewBox="0 0 1440 278" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M0,260.670469 C268,291.980818 533.333333,258.847538 796,161.270627 C1058.66667,63.6937169 1273.33333,9.93684108 1440,0 L1440,278 L0,278 L0,260.670469 Z" class="fill-green-300 dark:fill-green-900" transform="translate(720.000000, 139.000000) scale(-1, 1) translate(-720.000000, -139.000000) "></path></g></svg>
 
-    <div class="flex basis-96 w-full h-96 bg-green-300">
+    <div class="flex basis-96 w-full h-96 bg-green-300 dark:bg-green-900">
         
 
         {{-- <img src="{{ Vite::asset('resources/images/back.jpg') }}" alt="Pricing back image" class="flex-none w-full h-full"> --}}
     </div>
 
-    <div class="w-3/5 h-auto -mt-72">
+    <div class="w-3/5 h-auto -mt-72 dark:text-white">
         @include('seller.docs.pricing-plans')
     </div>
 

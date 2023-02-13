@@ -1,7 +1,7 @@
 @extends('seller.auth.content')
 
 @section('auth-form')
-<div class="tracking-tight">
+<div class="tracking-tight dark:text-white">
     {{ __('Before proceeding, please check your email for a verification link.') }}
     {{ __('If you did not receive the email') }},
 </div>

@@ -87,10 +87,12 @@ class SellerAuthController extends Controller
 
     public function redirectLoginTo () {
         if($this->guard()->check()){
-            if ($this->guard()->user()->hasVerifiedEmail())
-                return '/seller-panel';
-            else
+            if (!$this->guard()->user()->hasVerifiedEmail())
                 return '/seller-panel/verify-email';
+            else if ($this->guard()->user()->isNotStartUp())
+                return '/seller-panel/pricing';
+            else
+                return '/seller-panel/dashboard';
         } else 
             return '/seller-panel/login';
     }

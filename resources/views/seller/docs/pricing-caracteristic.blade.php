@@ -1,6 +1,6 @@
 <hr>
 
-<table class="w-full table-auto overflow-y-hidden overflow-x-hidden mb-10 mt-10 ">
+<table class="w-full table-auto overflow-y-hidden overflow-x-hidden mb-10 mt-10 dark:text-white dark:fill-white">
 
     <thead>
         <tr>
@@ -69,7 +69,7 @@
             </th>
 
             <th class="px-10">
-                <div class="border border-gray-300 bg-white rounded-lg flex flex-col w-full">
+                <div class="border border-gray-300 bg-white rounded-lg flex dark:bg-dark dark:border-neutral-700 flex-col w-full">
                     <div class="flex justify-center items-center h-10 w-full"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" /></svg></div>
 
                     <div class="flex justify-center items-center h-10 w-full"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" /></svg></div>
@@ -84,7 +84,7 @@
             </th>
 
             <th class="px-10">
-                <div class="flex flex-col w-full border border-gray-300 bg-white rounded-lg">
+                <div class="flex flex-col w-full border border-gray-300 bg-white dark:bg-dark dark:border-neutral-700 rounded-lg">
                     <div class="flex justify-center items-center h-10 w-full"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" /></svg></div>
                     
                     <div class="flex justify-center items-center h-10 w-full"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" /></svg></div>
@@ -99,6 +99,7 @@
             </th>
         </tr>
 
+        @if ( Auth::guard('seller')->check() && Auth::guard('seller')->user()->data == null )
         <tr>
             <th></th>
 
@@ -114,6 +115,7 @@
                 </Link>
             </th>
         </tr>
+        @endif
     </tbody>
 
 </table>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartUpRequest;
 use App\Models\Provincia;
-use Illuminate\Http\Request;
+use App\Models\Seller;
 
 class SellerHomeController extends Controller
 {
@@ -20,6 +20,8 @@ class SellerHomeController extends Controller
 
     public function start ($plan) {
 
+        $this->authorize('startUp', Seller::class);
+
         if (!in_array($plan, array('individual', 'profesional'))){
             return redirect()->route('seller.pricing');
         }
@@ -32,6 +34,8 @@ class SellerHomeController extends Controller
 
     public function startUp (StartUpRequest $request) {
 
+        $this->authorize('startUp', Seller::class);
+        
         $safe = $request->validated();
 
         $avatar = [

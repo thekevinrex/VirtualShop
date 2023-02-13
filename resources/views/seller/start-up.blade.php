@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex flex-wrap flex-row w-full">
 
-        <div class="max-w-5xl lg:w-2/3 w-full flex flex-col p-20 relative pt-15">
+        <div class="max-w-5xl lg:w-2/3 w-full flex flex-col p-20 relative pt-15 dark:text-white">
             <x-form action="{{ route('seller.start-up.perform') }}" scroll-top method="post" :default="[ 'plan' => $plan ]" class="w-full">
 
                 <input type="hidden" name="plan" v-model="form.plan">

@@ -2,13 +2,13 @@
 
 @section('auth-form')
 
-<h1 class="font-bold text-3xl">
+<h1 class="font-bold text-3xl dark:text-white">
     @lang('auth.forgot_password')
 </h1>
 
-<x-form class="mt-4 space-y-6 bg-white relative" action="{{ url('/seller-panel/forgot-password') }}" method="post">
+<x-form class="mt-4 space-y-6 bg-white relative dark:bg-dark" action="{{ url('/seller-panel/forgot-password') }}" method="post">
             
-    <x-slot:footer class="flex-col">
+    <x-slot:footer class="flex-col dark:text-white">
         <button type="submit" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             @lang('passwords.send_reset_email')
         </button>

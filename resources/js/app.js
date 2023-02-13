@@ -13,7 +13,10 @@ import pinia from "./store/store";
 const el = document.getElementById("app");
 
 const app   = createApp({
-    render: renderSpladeApp({ el })
+    render: renderSpladeApp({ el }),
+    mounted() {
+        console.log();
+    }
 })
 .use(SpladePlugin, {
     "max_keep_alive": 10,

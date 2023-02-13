@@ -2,11 +2,11 @@
 
 @section('auth-form')
 
-<h1 class="font-bold text-3xl">
+<h1 class="font-bold text-3xl dark:text-white">
     @lang('auth.confirm_password')
 </h1>
 
-<x-form class="mt-4 space-y-6 bg-white relative" action="{{ url('/seller-panel/password-confirm') }}" method="post">
+<x-form class="mt-4 space-y-6 bg-white relative dark:bg-dark" action="{{ url('/seller-panel/password-confirm') }}" method="post">
             
     <x-slot:footer>
         <button type="submit" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -27,7 +27,7 @@
 
     </div>
     
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between dark:text-white">
         <div class="text-sm">
             <Link href="/seller-plan/forgot-password" class="font-medium text-indigo-600 hover:text-indigo-500">@lang('auth.forgot_password')</Link>
         </div>

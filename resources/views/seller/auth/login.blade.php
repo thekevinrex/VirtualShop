@@ -2,13 +2,13 @@
 
 @section('auth-form')
 
-<h1 class="font-bold text-3xl">
+<h1 class="font-bold text-3xl dark:text-white">
     @lang('auth.sign_in')
 </h1>
 
-<x-form class="mt-4 space-y-6 bg-white" action="{{ url('/seller-panel/login') }}" method="post">
+<x-form class="mt-4 space-y-6 bg-white dark:bg-dark" action="{{ url('/seller-panel/login') }}" method="post">
 
-    <x-slot:footer class="flex-col justify-center">
+    <x-slot:footer class="flex-col justify-center dark:text-white">
         <button type="submit" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             @lang('auth.sign_in')
         </button>
@@ -41,7 +41,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center">
                 <input id="remember-me" name="remember_me" v-model="form.remember_me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                <label for="remember-me" class="ml-2 block text-sm text-gray-900 dark:text-white">
                     @lang('auth.remember_me')
                 </label>
             </div>
