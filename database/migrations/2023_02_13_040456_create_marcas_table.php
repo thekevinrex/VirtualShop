@@ -13,17 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('marcas', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
-            $table->string('name_key');
-
             $table->text('des')->nullable();
-            $table->string('require')->nullable();
-            
-            $table->float('porcent');
-            $table->bigInteger('times_used')->default(0);
 
             $table->timestamps();
         });
@@ -36,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('marcas');
     }
 };

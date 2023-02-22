@@ -1,34 +1,50 @@
-@extends('seller.layaut.docsContainer')
+@extends('seller.layauts.docsContainer')
 
 @section('content')
     <div class="flex flex-wrap flex-row w-full">
 
         <div class="max-w-5xl lg:w-2/3 w-full flex flex-col p-20 relative pt-15 dark:text-white">
-            <x-form action="{{ route('seller.start-up.perform') }}" scroll-top method="post" :default="[ 'plan' => $plan ]" class="w-full">
+            <x-form action="{{ route('seller.start-up.perform') }}" scroll-top method="post" :default="[ 'plan' => $plan, 'error' => [] ]" class="w-full">
 
                 <input type="hidden" name="plan" v-model="form.plan">
 
-                <div class="w-full mt-5">
+                <section aria-labelledby="personal-information-heading" aria-describedby="personal-information-details" class="w-full mt-5">
 
-                    <h1 class="text-3xl font-bold">
+                    <h1 id="personal-information-heading" class="text-3xl font-bold">
                         Personal Information
                     </h1>
 
-                    <p class="mb-5">
+                    <p class="mb-5" id="personal-information-details">
                         Tu informacion personal. Tambien es utilizada para mostrarla en tu tienda
                     </p>
 
-                    <InputComponent v-model:value="form.name" type="text" :inputData="{
+                    <InputComponent v-model:value="form.name" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'name',
                         'isHeader' : true,
                         'placeholder' : '{{ trans('auth.name') }}',
-                    }" ></InputComponent>
+                        'ariaDescribedby' : 'personal-name-details',
+                        'validate' : ['Required'],
+                    }" >
+                        <template #description>
+                            <p id="personal-name-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
+                                This is your public seller name
+                            </p>
+                        </template>
+                    </InputComponent>
+                    
 
                     <InputComponent v-model:value="form.abaut_me" type="textarea" :inputData="{
                         'name' : 'abaut_me',
                         'isHeader' : true,
                         'placeholder' : '{{ 'Abaut me' }}',
-                    }" ></InputComponent>
+                        'ariaDescribedby' : 'personal-abaut-details'
+                    }" >
+                        <template #description>
+                            <p id="personal-abaut-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
+                                Write a text abaut you for yours seller know abaut you
+                            </p>
+                        </template>
+                    </InputComponent>
 
 
                     <UploadComponent v-model:value="form.avatar" :multiple="false" accept="image/*" name="avatar" id="image-avatar">
@@ -41,27 +57,39 @@
                                 </label>
                                 <div v-html="image" class="w-full h-full"></div>
                             </div>
+
+                            <p id="personal-avatar-details" class="mt-2 text-sm"> 
+                                Upload a image of you to yours seller know you
+                            </p>
                         </template>
                     </UploadComponent>
-                </div>
+                </section>
 
                 <hr class="my-10">
 
-                <div class="w-full">
+                <section aria-labelledby="contact-information-heading" aria-describedby="contact-information-details" class="w-full">
 
-                    <h1 class="text-3xl font-bold">
+                    <h1 id="contact-information-heading" class="text-3xl font-bold">
                         Contact Information
                     </h1>
 
-                    <p class="mb-5">
+                    <p id="contact-information-details" class="mb-5">
                         Tu informacion de contacto a parte de tu correo en case de una urgencia. Tambien es utilizada para mostrarla en tu tienda
                     </p>
 
-                    <InputComponent v-model:value="form.phone" type="text" :inputData="{
+                    <InputComponent v-model:value="form.phone" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'phone',
                         'isHeader' : true,
                         'placeholder' : '{{ 'Telephone' }}',
-                    }" ></InputComponent>
+                        'validate' : ['Required'],
+                        'ariaDescribedby' : 'contact-phone-details',
+                    }" >
+                        <template #description>
+                            <p id="contact-phone-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
+                                Write a text abaut you for yours seller know abaut you
+                            </p>
+                        </template>
+                    </InputComponent>
 
                     <InputComponent v-model:value="form.telegram" type="text" :inputData="{
                         'name' : 'telegram',
@@ -69,25 +97,33 @@
                         'placeholder' : '{{ 'Telegram' }}',
                     }" ></InputComponent>
 
-                </div>
+                </section>
                 
                 <hr class="my-10">
 
-                <div class="w-full">
+                <section aria-describedby="address-information-details" aria-labelledby="address-information-heading" class="w-full">
 
-                    <h1 class="text-3xl font-bold">
+                    <h1 id="address-information-heading" class="text-3xl font-bold">
                         Address Information
                     </h1>
 
-                    <p class="mb-5">
+                    <p class="mb-5" id="address-information-details">
                         Tu direccion de contacto. Usada en caso de que utilices los servicios de logistica y para calcular los precios de logistica
                     </p>
 
-                    <InputComponent v-model:value="form.address_name" type="text" :inputData="{
+                    <InputComponent v-model:value="form.address_name" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'address_name',
                         'isHeader' : true,
                         'placeholder' : '{{ 'Nomgre de la direccion' }}',
-                    }" ></InputComponent>
+                        'validate' : ['Required'],
+                        'ariaDescribedby' : 'address-name-details',
+                    }" >
+                        <template #description>
+                            <p id="address-name-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
+                                This is the name that it will addres you when picking the products
+                            </p>
+                        </template>
+                    </InputComponent>
 
                     <SelectComponent v-model:value="form.provincia" :initialData="{{ $provincias }}" :inputData="{
                         'name' : 'provincia',
@@ -105,44 +141,58 @@
                         <template #loader><x-preloader color="pl-grey" border="pl-border-2x" size="pl-size-xs"></x-preloader></template>
                     </SelectComponent>
 
-                    <InputComponent v-model:value="form.address_location" type="text" :inputData="{
+                    <InputComponent v-model:value="form.address_location" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'address_location',
                         'isHeader' : true,
                         'placeholder' : '{{ 'Direccion exacta' }}',
-                    }" ></InputComponent>
+                        'validate' : ['Required'],
+                    }" >
+                        <template #description>
+                            <p id="address-location-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
+                                Provide your exact address
+                            </p>
+                        </template>
+                    </InputComponent>
 
                     <InputComponent v-model:value="form.address_preferencia" type="textarea" :inputData="{
                         'name' : 'address_preferencia',
                         'isHeader' : true,
                         'placeholder' : '{{ 'Preferencias de la direccion' }}',
                     }" ></InputComponent>
-                </div>
+                </section>
 
                 <hr class="my-10">
 
-                <div class="w-full">
+                <section aria-labelledby="payment-information-heading" aria-describedby="payment-information-details" class="w-full">
 
-                    <h1 class="text-3xl font-bold">
+                    <h1 id="payment-information-heading" class="text-3xl font-bold">
                         Payment Information
                     </h1>
 
-                    <p class="mb-5">
+                    <p class="mb-5" id="payment-information-details">
                         El sitio trabaja con QvaPay un intermediario de pago para transacciones mas limpias. Para porder redireccionar las ventas de los productos a ti tienes que prover tu link de pago del sitio QvaPay
                     </p>
 
-                    <InputComponent v-model:value="form.qvapay" type="text" :inputData="{
+                    <InputComponent v-model:value="form.qvapay" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'qvapay',
                         'isHeader' : true,
                         'placeholder' : '{{ 'Qvapay link payment' }}',
-                    }" ></InputComponent>
+                        'validate': ['Required'],
+                    }" >
+                        <template #description>
+                            <p id="address-name-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
+                                This is the link necesary for that the payment reach you, verify that this is correct, whorever out system will veriry eather
+                            </p>
+                        </template>
+                    </InputComponent>
 
 
-                </div>
+                </section>
 
                 <hr class="my-10">
 
                 <div class="w-full flex justify-end">
-                    <button type="submit" class="rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 font-bold focus:ring-indigo-500 focus:ring-offset-2" data-mdb-ripple="true" data-mdb-ripple-color="ligth">
+                    <button type="submit" :disabled="form.error.filter(e => {return e.error}).length > 0" class="rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 font-bold focus:ring-indigo-500 focus:ring-offset-2" data-mdb-ripple="true" data-mdb-ripple-color="ligth">
                         Register as {{ $plan }}
                     </button>
                 </div>

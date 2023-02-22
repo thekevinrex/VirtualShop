@@ -10,14 +10,27 @@ use App\Models\Seller;
 class SellerHomeController extends Controller
 {
 
+    /**
+     * Show the documentation seller page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index () {
         return view('seller.docs');
     }
 
+    /**
+     * Show the pricing page of the seller panel application
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function pricing() {
         return view('seller.pricing');
     }
 
+    /**
+     * Show the start up form for the seller panel and verify if the user is authorize to doit
+     * @param mixed $plan
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse|mixed
+     */
     public function start ($plan) {
 
         $this->authorize('startUp', Seller::class);
@@ -32,6 +45,11 @@ class SellerHomeController extends Controller
             ->with(compact(['plan', 'provincias']));
     }
 
+    /**
+     * Handle a request to start up a seller
+     * @param StartUpRequest $request
+     * @return \Illuminate\Http\RedirectResponse|mixed
+     */
     public function startUp (StartUpRequest $request) {
 
         $this->authorize('startUp', Seller::class);

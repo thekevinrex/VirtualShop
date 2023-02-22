@@ -12,6 +12,9 @@
         @apply h-full;
     }
 
+    .h-modal {
+        height: calc(100vh - 100px);
+    }
 }
 
 @layer components {

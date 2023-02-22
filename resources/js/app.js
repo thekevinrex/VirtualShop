@@ -12,18 +12,19 @@ import pinia from "./store/store";
 
 const el = document.getElementById("app");
 
-const app   = createApp({
+const app = createApp({
     render: renderSpladeApp({ el }),
     mounted() {
-        console.log();
-    }
+        
+    },
 })
 .use(SpladePlugin, {
     "max_keep_alive": 10,
     "transform_anchors": false,
     "progress_bar": true
 })
-.use(pinia);
+    .use(pinia);
+
 
 Object.entries(import.meta.globEager('./components/*.vue')).forEach(([path, definition]) => {
     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);

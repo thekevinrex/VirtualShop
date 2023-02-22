@@ -10,10 +10,10 @@
     @lang('auth.register_seller_info')
 </p>
 
-<x-form class="mt-8 space-y-6 bg-white dark:bg-dark relative" action="{{ url('/seller-panel/register') }}" method="post">
+<x-form class="mt-8 space-y-6 bg-white dark:bg-dark relative" default="{ error : [] }" action="{{ url('/seller-panel/register') }}" method="post">
 
     <x-slot:footer class="flex-col dark:text-white">
-        <button type="submit" :disabled="!form.terms_policies" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <button type="submit" :disabled="!form.terms_policies || form.error.filter(e=> {return e.error}).length > 0" class="relative flex w-full justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             @lang('auth.sign_up')
         </button>
         <span class="text-center mt-2">
@@ -24,7 +24,7 @@
 
     <div class="flex flex-col">
         
-        <InputComponent v-model:value="form.email" type="text" :inputData="{
+        <InputComponent v-model:validation="form.error" v-model:value="form.email" type="text" :inputData="{
             'name' : 'email',
             'front_icon' : true,
             'isHeader' : true,
@@ -39,7 +39,7 @@
             </template>
         </InputComponent>
 
-        <InputComponent v-model:value="form.password" type="password" :inputData="{
+        <InputComponent v-model:validation="form.error" v-model:value="form.password" type="password" :inputData="{
             'name' : 'password',
             'front_icon' : true,
             'isHeader' : true,
@@ -63,7 +63,7 @@
             </template>
         </InputComponent>
 
-        <InputComponent v-model:value="form.password_confirmation" :confirm="form.password" type="password" :inputData="{
+        <InputComponent v-model:validation="form.error" v-model:value="form.password_confirmation" :confirm="form.password" type="password" :inputData="{
             'name' : 'password_confirmation',
             'front_icon' : true,
             'isHeader' : true,

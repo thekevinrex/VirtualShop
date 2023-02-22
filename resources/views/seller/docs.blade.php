@@ -1,6 +1,5 @@
-@extends('seller.layaut.docsContainer')
+@extends('seller.layauts.docsContainer')
 
 @section('content')
-    sadas
 
 @endsection

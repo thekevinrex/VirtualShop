@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('variantes', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('name_key');
+            $table->unsignedBigInteger('variante_cate_id');
 
-            $table->text('des')->nullable();
-            $table->string('require')->nullable();
-            
-            $table->float('porcent');
-            $table->bigInteger('times_used')->default(0);
+            $table->foreign('variante_cate_id')
+                ->references('id')
+                ->on('variante_cates')
+                ->onDelete('cascade');
+
+            $table->string('name');
+            $table->text('description')->nullable();
 
             $table->timestamps();
         });
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('variantes');
     }
 };

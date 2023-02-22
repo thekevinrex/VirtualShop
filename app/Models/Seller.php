@@ -46,6 +46,10 @@ class Seller extends Authenticatable implements MustVerifyEmail
         return $this->morphOne('App\Models\Addres', 'addresable');
     }
 
+    public function products () {
+        return $this->hasMany('App\Models\Product');
+    }
+
     public function setPasswordAttribute($value ){
         $this->attributes['password'] = bcrypt($value);
     }

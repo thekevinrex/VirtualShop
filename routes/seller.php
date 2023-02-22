@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Seller\SellerAuthController;
 use App\Http\Controllers\Seller\SellerDashboardController;
 use App\Http\Controllers\Seller\SellerHomeController;
@@ -16,10 +17,15 @@ Route::middleware(['splade'])->group(function () {
 
     Route::middleware(['auth:seller', 'verified:seller.verification.notice', 'seller'])->group(function () {
 
-
         Route::get('/dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/product', [ProductController::class, 'index'])->name('products');
+        Route::get('/product/add', [ProductController::class, 'create'])->name('products.create');
     }
     );
+
+    Route::post('/categories/get', [ProductController::class, 'getRequiredCategoryData'])->name('categories.get');
+    Route::post('/modelos/get', [ProductController::class, 'getModelos'])->name('modelos.get');
 
     Route::controller(SellerAuthController::class)->middleware(['guest:seller'])->group(function () {
         Route::get('/login', 'ShowLoginForm')->name('auth.login');

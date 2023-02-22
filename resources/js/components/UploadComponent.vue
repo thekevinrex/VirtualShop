@@ -1,40 +1,94 @@
 <template lang="">
-    <div>
-        <div v-if="isError" class="w-full py-4 px-8 text-base bg-red-500">asdas</div>
+    <div :key="key">
+        
+        <slot :image="image" :images="images" :deleteImage="deleteImage" :data="data"></slot>
 
-        <slot :image="image"></slot>
+        <input  class="hidden" aria-label="Upload the selected/s images to the app" aria-hidden="true" :multiple="isMultiple" type="file" :accept="accept" :name="name" :id="id" @change="change">
 
-        <input  class="hidden" :multiple="isMultiple" type="file" :accept="accept" :name="name" :id="id" @change="change">
+        <div class="flex flex-col bg-red-700 rounded-md mb-5 w-full py-1 px-3 my-1 mx-1" v-if="isError">
+            <div class="text-sm text-white">
+                {{ error }}
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
+
 export default {
-    emits : ['update:value'],
+    emits : ['update:value', 'fieldData'],
     props: {
-        value: String,
+        value: [String, Array],
         name: String,
         id: String,
         accept: String,
+        required: Boolean,
         multiple : [Boolean, String],
     },
     data() {
         return {
+            key : uuidv4 (),
             file: '',
             files: [],
+
             image: '',
+            images: [],
+
             error: '',
+            data : {},
         }
     },
-    computed: {
-        isError: function () {
-            return false;
-        },
-        isMultiple: function () {
-            return Boolean(this.multiple);
+
+    created() {
+
+        if (this.isMultiple) {
+            if (typeof this.value != undefined)
+                this.images = this.value;
+        } else {
+            if (typeof this.value != undefined && this.value.path != '') {
+                this.image = '<img src="' + this.value.path + '" class="w-full h-full">';
+            }
         }
+
+        var _this = this;
+        this.data = {
+            error: false,
+            image: '',
+            images: [],
+            deleted: false,
+            key : this.key,
+            validate: function () {
+                _this.validate();
+            },
+        };
+
+        this.$emit('fieldData', this.data);
+
+    },
+
+    computed: {
+        isError: function () { return this.error != ''; },
+        isMultiple: function () { return Boolean(this.multiple); },
+        isRequired : function () { return (this.required) }
     },
     methods: {
+
+        validate: function () {
+
+            if (!this.isRequired)
+                return false;
+
+            this.data.error = false;
+            if (this.isMultiple) {
+                if (this.images.length == 0)
+                    this.data.error = true;
+            } else {
+                if (this.image == '')
+                    this.data.error = true;
+            }
+        },
+
         change: function (e) {
 
             if (e.target.value == '')
@@ -52,6 +106,7 @@ export default {
 
             this.upload();
         },
+
         upload: function() {
 
             let fd = new FormData();
@@ -72,18 +127,48 @@ export default {
                     'content-type': 'multipart/form-data'
                 }
             }
+
+            this.error = '';
             var _this = this;
+
             axios.post('/upload', fd, config)
                 .then(function (res) {
                     _this.saveChanges(res.data);
                 })
                 .catch(function (err) {
-                    console.log(err);
+                    _this.handleTheResponseError(err);
                 });
         },
         saveChanges: function (res) {
-            this.$emit('update:value', res.image);
-            this.image = '<img src="'+ res.path +'" class="w-full h-full">';
+
+            if (this.isMultiple) {
+                var files = res.map((element) => { return element });
+
+                this.images = [
+                    files,
+                    ...this.images,
+                ].flat();
+
+                this.data.images = this.images.map((element) => { return element.image });
+                this.$emit('update:value', this.images.map((element) => { return element.image }));
+
+            } else {
+                this.data.image = res;
+                this.$emit('update:value', res);
+                this.image = '<img src="' + res.path + '" class="w-full h-full">';
+            }
+
+            this.validate();
+        },
+
+        deleteImage: function (image) {
+
+            this.images = this.images.filter((element) => { return element.image != image });
+            this.$emit('update:value', this.images.map((element) => { return element.image }));
+        },
+
+        handleTheResponseError: function (res) {
+            this.error = res.response.data.message;
         }
     }
     

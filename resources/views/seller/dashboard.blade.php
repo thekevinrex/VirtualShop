@@ -1,4 +1,4 @@
-@extends('seller.layaut.container')
+@extends('seller.layauts.container')
 
 @section('content')
     sdas

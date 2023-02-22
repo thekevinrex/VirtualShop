@@ -1,5 +1,6 @@
 <div class="w-full">
-    <header>
+    <nav role="navigation">
+
         <div class="fixed top-0 left-0 h-14 right-0 z-50">
             <div class="w-full h-14 flex items-center bg-white dark:bg-dark dark:border-neutral-700 border-b border-gray-200 flex-row px-4 justify-between">
         
@@ -19,8 +20,6 @@
 
                 <div class="flex flex-row justify-end space-x-3 items-center">
                     
-                    <darkModeComponent></darkModeComponent>
-
                     @auth('seller')
                         @includeWhen(Auth::guard('seller')->user()->isNotStartUp(), 'seller.header.auth-start-up')
                         @includeWhen(!Auth::guard('seller')->user()->isNotStartUp(), 'seller.header.auth')
@@ -30,9 +29,13 @@
                         @include('seller.header.guest')    
                     @endguest
                     
+                    <div class="py-1 pl-4 border-l dark:border-neutral-700">
+                        <darkModeComponent></darkModeComponent>
+                    </div>
                 </div>
             </div>
         </div>
+        
         <div class="fixed top-14 left-0 h-14 right-0 z-50 lg:hidden bg-white dark:bg-dark dark:border-neutral-700 border-b border-gray-200">
             <div class=" flex flex-row">
                     
@@ -44,9 +47,10 @@
 
             </div>
         </div>
-    </header>
 
-    <main class="w-full mt-14">
+    </nav>
+
+    <main role="main" class="w-full lg:mt-14 mt-28">
         @yield('content')
     </main>
 </div>

@@ -18,16 +18,29 @@ class UploadController extends Controller
 
     public function upload(Request $request) {
 
+        
         $validator = Validator::make(
             $this->getValidationData ($request),
             $this->getValidationRules($request));
 
         if ($validator->fails()){
-            return response()->json(['failed' => 'File uploaded successfully.'])->setStatusCode('422');
+            return response()->json(['message' => "Verify the uploaded file is a valid " . $request->only('type')], 422);
         }
 
         if ($request->boolean('multiple')) {
-            
+
+            $files = array();
+
+            foreach ($request->file('file') as $fileToUpload) {
+                $filename = $this->store($fileToUpload);
+
+                $files[] = array(
+                    'image' => $filename,
+                    'path' => Storage::url($filename),
+                );
+            }
+
+            return response()->json($files, 200);
         } else {
             $filename = $this->store($request->file('file'));
             return response()->json(['image' => $filename, 'path' => Storage::url($filename)], 200);
@@ -39,7 +52,7 @@ class UploadController extends Controller
         $filename = $file->store('/', 'public');
 
         if (!$filename) {
-            return response()->json(['failed' => 'File uploaded successfully.'])->setStatusCode('422');
+            return response()->json(['message' => "There was a error traiting uploading the file"], 422);
         }
 
         // $this->saveDb ($filename);

@@ -1,4 +1,4 @@
-@props(['bg' => 'bg-white focus:bg-gray-300', 'border' => 'border border-gray-200', 'route'])
+@props(['bg' => 'bg-white focus:bg-gray-300 dark:bg-dark dark:text-white', 'border' => 'border border-gray-200 dark:border-neutral-700', 'route'])
 
 <form action="{{ $route }}" method="post">
     @csrf

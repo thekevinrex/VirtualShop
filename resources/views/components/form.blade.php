@@ -25,7 +25,7 @@
     
 
     <x-splade-state>
-        <div class="flex flex-col bg-green-700 rounded-md" v-if="state.hasFlash('status')">
+        <div class="flex flex-col w-full bg-green-700 rounded-md" v-if="state.hasFlash('status')">
             <div class="w-full py-1 px-3 my-1 mx-1">
                 <div class="text-sm text-white">
                     @{{ state.flash.status }}
