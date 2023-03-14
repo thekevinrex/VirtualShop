@@ -20,5 +20,7 @@
 @endsection
 
 @section('content')
-    asda
+    @foreach ($products as $item)
+        <Link href="{{ route('seller.products.inventory', $item) }}">{{ $item->name }}</Link>
+    @endforeach
 @endsection

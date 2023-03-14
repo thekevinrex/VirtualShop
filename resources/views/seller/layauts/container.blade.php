@@ -1,7 +1,7 @@
 <div class="w-full flex flex-row">
     <pageComponent v-slot="page">
         
-        <div v-if="page.isSidebarOpen" class="w-full max-w-[300px] max-h-screen overflow-y-auto border-gray-300 overflow-x-hidden h-screen bg-white border-r flex-none flex flex-col dark:bg-dark dark:border-neutral-700 z-50" :class=" (page.isSidebarFixed) ? 'fixed left-0 top-14' : 'fixed max-lg:left-0 max-lg:top-14 lg:sticky-top'">
+        <div v-if="page.isSidebarOpen" class="w-full max-w-[300px] max-h-screen overflow-y-auto border-gray-300 overflow-x-hidden h-screen bg-white border-r flex-none flex flex-col dark:bg-dark dark:border-neutral-700 z-20" :class=" (page.isSidebarFixed) ? 'fixed left-0 top-14' : 'fixed max-lg:left-0 max-lg:top-14 lg:sticky-top'">
 
             <div class="sticky-top w-full h-14 flex items-center px-4 justify-between">
                 @include('seller.header.icon')
@@ -17,13 +17,17 @@
                 </div>
             </div>
 
+            @isset($product)
+                @include('seller.sidebar.products')
+            @endisset
+
             @include('seller.sidebar.content')
         
         </div>
 
         <div class="flex flex-col w-full z-10">
             
-            <nav role="navigation" class="sticky-top w-full flex bg-white border-b border-gray-300 h-14 dark:bg-dark dark:border-neutral-700 z-50">
+            <nav role="navigation" class="sticky-top w-full flex bg-white border-b border-gray-300 h-14 dark:bg-dark dark:border-neutral-700 z-1024">
                 @include('seller.header.content')
             </nav>
 
@@ -34,5 +38,6 @@
             </main>
         </div>
 
+       <notifications></notifications>
     </pageComponent>
 </div>

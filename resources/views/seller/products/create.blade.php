@@ -2,9 +2,15 @@
 
 @section('content')
     
-    <addProductComponent fetchCategoryDataFrom="{{ route('seller.categories.get') }}" :provincias="{{ json_encode($provincias) }}">
+    <addProductComponent sendProductDataTo="{{ route('seller.products.store') }}" fetchCategoryDataFrom="{{ route('seller.categories.get') }}" :provincias="{{ json_encode($provincias) }}">
 
-        <template #header="{ updateTab, actualTab }">
+        <template #default="{ isLoading }">
+            <div v-if="isLoading">
+                <x-barpage-loader ></x-barpage-loader>
+            </div>
+        </template>
+
+        <template #header="{ updateTab, actualTab, isDisabled, updateProduct }">
 
             <div class="w-full h-12 px-5 flex flex-row justify-between items-center dark:text-white flex-none">
                 <h1 class="text-xl font-bold  ">
@@ -45,12 +51,15 @@
                 </div>
                 <div class="flex flex-row justify-end items-center">
                     
-                    asda
+                    <button type="button" @click="updateProduct" :disabled="isDisabled" class="rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 font-bold focus:ring-indigo-500 focus:ring-offset-2" data-mdb-ripple="true" data-mdb-ripple-color="ligth">
+                        @lang ('product.save')
+                    </button>
+
                 </div>
             </div>
         </template>
 
-        <template #info="{ info, marcas, listening, addInfo, deleteInfo, fetch_video, loading, required, fieldsData }">
+        <template #info="{ info, price, marcas, listening, addInfo, deleteInfo, fetch_video, loading, required, fieldsData }">
             @include('seller.products.fields.info')
         </template>
 

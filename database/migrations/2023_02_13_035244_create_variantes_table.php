@@ -16,11 +16,17 @@ return new class extends Migration
         Schema::create('variantes', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('variante_cate_id');
+            $table->unsignedBigInteger('variante_cate_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
 
             $table->foreign('variante_cate_id')
                 ->references('id')
                 ->on('variante_cates')
+                ->onDelete('cascade');
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
                 ->onDelete('cascade');
 
             $table->string('name');

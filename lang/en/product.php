@@ -96,5 +96,15 @@ return [
     'pay_for_qvapay' => 'Payment for Qvapay',
     'pay_for_qvapay_help' => 'Intermediario QvaPay',
 
+    'save' => 'Save product',
+
+    'inventory' => 'Inventary',
+    'url' => 'URL',
+
+    'inventory_total' => 'Total inventary',
+    'new' => 'New',
+    'used' => 'Used',
+    'admin_inventory' => 'Admin inventory',
+    'add_inventory' => 'Add inventory'
 ];
 ?>

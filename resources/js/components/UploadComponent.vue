@@ -15,11 +15,14 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import { useMainStore } from '../store/mainStore.js';
+import { prepateAxiosErrorToDisplay } from '../functions/axios.js';
+import { mapActions } from 'pinia';
 
 export default {
     emits : ['update:value', 'fieldData'],
     props: {
-        value: [String, Array],
+        value: [String, Array, Object],
         name: String,
         id: String,
         accept: String,
@@ -41,12 +44,12 @@ export default {
     },
 
     created() {
-
+        
         if (this.isMultiple) {
-            if (typeof this.value != undefined)
+            if (this.value != undefined)
                 this.images = this.value;
         } else {
-            if (typeof this.value != undefined && this.value.path != '') {
+            if (this.value.path != undefined && this.value.path != '') {
                 this.image = '<img src="' + this.value.path + '" class="w-full h-full">';
             }
         }
@@ -67,12 +70,18 @@ export default {
 
     },
 
+    unmounted() {
+        this.data.deleted = true;
+    },
+
     computed: {
         isError: function () { return this.error != ''; },
         isMultiple: function () { return Boolean(this.multiple); },
         isRequired : function () { return (this.required) }
     },
     methods: {
+
+        ...mapActions(useMainStore, ['addNewPageNotification']),
 
         validate: function () {
 
@@ -149,8 +158,8 @@ export default {
                     ...this.images,
                 ].flat();
 
-                this.data.images = this.images.map((element) => { return element.image });
-                this.$emit('update:value', this.images.map((element) => { return element.image }));
+                // this.data.images = this.images.map((element) => { return element.image });
+                this.$emit('update:value', this.images);
 
             } else {
                 this.data.image = res;
@@ -169,6 +178,12 @@ export default {
 
         handleTheResponseError: function (res) {
             this.error = res.response.data.message;
+
+            this.addNewPageNotification({
+                message: prepateAxiosErrorToDisplay(err),
+                type: 'error',
+                autoDismiss: true,
+            });
         }
     }
     

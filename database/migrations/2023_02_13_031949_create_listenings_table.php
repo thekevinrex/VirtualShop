@@ -33,15 +33,13 @@ return new class extends Migration
                 ->on('modelos')
                 ->onDelete('set null');
 
-            $table->string('detail_modelo')->nullable();
-
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('sub_category_id')->nullable();
 
             $table->foreign('category_id')
                 ->references('id')
-                ->on('categories')
-                ->onDelete('set null');
+                ->on('categories');
+
+            $table->unsignedBigInteger('sub_category_id')->nullable();
 
             $table->timestamps();
         });

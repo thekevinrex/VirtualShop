@@ -45,6 +45,9 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import { useMainStore } from '../store/mainStore.js';
+import { prepateAxiosErrorToDisplay } from '../functions/axios.js';
+import { mapActions } from 'pinia';
 
 export default {
 
@@ -139,6 +142,9 @@ export default {
         }
     },
     methods: {
+
+        ...mapActions(useMainStore, ['addNewPageNotification']),
+
         validateInput: function () {
             if (this.isRequired) {
                 this.error = false;
@@ -185,7 +191,11 @@ export default {
                 })
                 .catch(function (err) {
                     _this.loading = false;
-                    console.log(err);
+                    _this.addNewPageNotification({
+                        message: prepateAxiosErrorToDisplay(err),
+                        type: 'error',
+                        autoDismiss: true,
+                    });
                 });
                 
         },

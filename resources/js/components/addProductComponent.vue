@@ -2,14 +2,16 @@
     
     <div class="bg-white w-full flex flex-col dark:bg-dark">
         
-        <div class="sticky-top top-14 z-10 bg-white dark:bg-dark w-full flex-col">
-            <slot name="header" :actualTab="actualTab" :updateTab="updateTab"></slot>
+        <slot :isLoading="isLoading"></slot>
+
+        <div class="sticky-top top-14 z-50 bg-white dark:bg-dark w-full flex-col">
+            <slot name="header" :updateProduct="updateProduct" :isDisabled="isDisableUpdateProduct"  :actualTab="actualTab" :updateTab="updateTab"></slot>
         </div>
-        {{fieldsData}}
+        
         <div class="flex flex-wrap flex-row w-full">
             
             <div v-if="actualTab == 'info'" class="flex flex-row flex-wrap w-full dark:text-white">
-                <slot name="info" :info="info" :listening="listening" :marcas="marcas" :addInfo="addInfo" :deleteInfo="deleteInfo" :fetch_video="fetch_video" :loading="loadingCategory" :required="required" :fieldsData="getFieldsData"></slot>
+                <slot name="info" :price="price" :info="info" :listening="listening" :marcas="marcas" :addInfo="addInfo" :deleteInfo="deleteInfo" :fetch_video="fetch_video" :loading="loadingCategory" :required="required" :fieldsData="getFieldsData"></slot>
             </div>
 
             <div v-if="actualTab == 'variantes'"  class="flex flex-row flex-wrap w-full dark:text-white">
@@ -27,13 +29,17 @@
 
 <script>
 
+import { mapActions } from 'pinia';
+import { useMainStore } from '../store/mainStore';
 import { isArray } from '@vue/shared';
 import { v4 as uuidv4 } from 'uuid';
+import { prepateAxiosErrorToDisplay } from '../functions/axios.js';
 
 export default {
 
     props: {
         fetchCategoryDataFrom: String,
+        sendProductDataTo: String,
         provincias : [String, Array],
     },
     
@@ -66,11 +72,12 @@ export default {
             variantes: {
                 cates: [],
                 variantes: [],
+                mainVariante : uuidv4(),
             },
 
             selectedCate : 0,
-
             loadingCategory: false,
+            isLoading : false,
 
             marcas: [],
             required: [],
@@ -78,7 +85,7 @@ export default {
 
             fieldsData : [],
 
-            actualTab : 'variantes',
+            actualTab : 'info',
         };
     },
 
@@ -99,7 +106,16 @@ export default {
             
         });
         
-        this.addVarianteCate();
+        this.variantes.variantes.push({
+            id: uuidv4(),
+            cate: this.variantes.mainVariante,
+
+            image: '',
+            images: [],
+            name: 'Main variante',
+            des : '',
+        });
+
     },
 
     watch: {
@@ -111,10 +127,24 @@ export default {
     },
 
     computed: {
+
+        isDisableUpdateProduct: function () {
+
+            if (this.fieldsData.filter(e => { return e.error }).length > 0) {
+                return true;
+            }
+
+            return false;
+        }
         
     },
 
     methods: {
+        ...mapActions(useMainStore, ['addNewPageNotification']),
+
+        /**
+         * Used to verificate the required input, it is passed to every template and listen when each field input triggerit
+         */
         getFieldsData: function (data) {
             if (!this.fieldsData.find(e => { return e.key == data.key })) {
                 this.fieldsData = [
@@ -123,14 +153,22 @@ export default {
                 ];
             }
         },
+
+        /**
+         * When a new variante is created it call this method, that will permutate all the variantes
+         */
         generateCrossCateVsVarianteModel: function () {
 
-            let mainCateVariante = this.variantes.cates.find((element) => { return element.with_image });
+            if (this.variantes.cates.length == 0) {
+                this.price.mergedVariantes = [];
+                return false;
+            }
 
             let variantes = [];
 
             this.variantes.cates.forEach((element) => {
-                variantes.push(this.variantes.variantes
+                variantes.push(
+                    this.variantes.variantes
                     .filter(e => { return e.cate == element.id })
                     .map(e => { return e.id })
                 );
@@ -150,6 +188,10 @@ export default {
             });
 
         },
+
+        /**
+         * A recursive method to permutate the variants
+         */
         mergeCateWithVariante: function (arr, total) {
 
             let returnArr = [];
@@ -166,7 +208,6 @@ export default {
                     let b = this.mergeCateWithVariante(arr.slice(i + 1), total - 1);
                     t.forEach(element => {
                         b.forEach(ele => {
-                            
                             returnArr.push([
                                 element,
                                 ele,
@@ -179,6 +220,9 @@ export default {
             return returnArr;  
         },
 
+        /**
+         * it update the tabs and validate the current tab
+         */
         updateTab: function (newTab) {
 
             if (!['money', 'variantes', 'info'].includes(newTab))
@@ -187,8 +231,8 @@ export default {
             this.fieldsData = this.fieldsData.filter(e => { return !e.deleted });
 
             this.fieldsData.forEach(e => {
-                    if (typeof e.validate() == 'function')
-                        e.validate();
+                if (typeof e.validate() == 'function')
+                    e.validate();
             });
 
             if (this.fieldsData.filter(e => { return e.error }).length > 0) {
@@ -210,6 +254,9 @@ export default {
             this.info.details = this.info.details.filter((element) => { return element.id != id });
         },
 
+        /**
+         * when a new category is selected it will fetch all the brands, and requierement related to the category
+         */
         fetchRequiredDataFromCategory: function (value) {
 
             this.loadingCategory = true;
@@ -225,7 +272,11 @@ export default {
                 })
                 .catch(function (err) {
                     _this.loadingCategory = false;
-                    console.log(err);
+                    _this.addNewPageNotification({
+                        message: prepateAxiosErrorToDisplay(err),
+                        type: 'error',
+                        autoDismiss: true,
+                    });
                 });
                 
         },
@@ -282,9 +333,6 @@ export default {
 
         deleteVarianteCate: function (id) {
 
-            if (this.variantes.cates.length == 1)
-                return false;
-
             var with_image = this.variantes.cates.some((element) => { return element.id == id && element.with_image });
 
             this.variantes.cates = this.variantes.cates.filter((element) => { return element.id != id });
@@ -316,6 +364,53 @@ export default {
             this.variantes.variantes = this.variantes.variantes.filter((element) => { return element.id != id });
         },
 
+
+        updateProduct: function () {
+
+            this.fieldsData = this.fieldsData.filter(e => { return !e.deleted });
+
+            this.fieldsData.forEach(e => {
+                if (typeof e.validate() == 'function')
+                    e.validate();
+            });
+
+            if (this.fieldsData.filter(e => { return e.error }).length > 0) {
+                return false;
+            }
+
+            let fd = {
+                ...this.info,
+                ...this.listening,
+                ...this.variantes,
+                ...this.price,
+            };
+
+            let _this = this;
+            _this.isLoading = true;
+
+            axios.put(this.sendProductDataTo, fd)
+                .then(function (res) {
+                    _this.isLoading = false;
+                    _this.addNewPageNotification({
+                        message: res.data.successMessage,
+                        type: 'success',
+                        autoDismiss: false,
+                    });
+                    _this.redirectToProduct(res.data.redirect);
+                })
+                .catch(function (err) {
+                    _this.isLoading = false;
+                    _this.addNewPageNotification({
+                        message: prepateAxiosErrorToDisplay(err),
+                        type: 'error',
+                        autoDismiss: true,
+                    });
+                });
+        },
+
+        redirectToProduct: function (to) {
+            this.$splade.visit(to);
+        }
     }
 
 }

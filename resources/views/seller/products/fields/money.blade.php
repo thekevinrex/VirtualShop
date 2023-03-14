@@ -22,9 +22,9 @@
         
     </section>
 
-    <hr class="my-5">
+    <hr class="my-5" v-if="price.mergedVariantes.length > 0">
 
-    <section class="w-full">
+    <section v-if="price.mergedVariantes.length > 0" class="w-full">
 
         <h1 id="product-merge-heading" class="text-lg font-semibold">
             @lang('product.merge_variante')
@@ -88,7 +88,7 @@
             </div>
             <div class="flex flex-row items-center px-1">
                 <div class="w-10 h-10 flex items-center justify-center flex-none">
-                    <input type="radio" v-model="price.delivery" name="delirery_option" id="delivery-myself" value="myself">
+                    <input type="radio" v-model="price.delivery" name="delirery_option" id="delivery-myself" value="manual">
                 </div>
 
                 <label for="delivery-myself" class="flex flex-col w-full">

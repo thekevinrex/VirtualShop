@@ -29,6 +29,9 @@ module.exports = {
                     DEFAULT : '#1a1a1a',
                 }
             },
+            zIndex: {
+                1024: '1024',
+            }
         },
     },
 

@@ -26,7 +26,7 @@ class StartUpRequest extends FormRequest
         return [
             'name' => 'required|string',
             'abaut_me' => '',
-            'avatar' => 'required|string',
+            'avatar.image' => 'required|string',
 
             'phone' => 'required|int|digits:8|unique:seller_data,telephone',
             'telegram' => 'unique:seller_data,telegram',

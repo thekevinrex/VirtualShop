@@ -21,7 +21,8 @@ class UploadController extends Controller
         
         $validator = Validator::make(
             $this->getValidationData ($request),
-            $this->getValidationRules($request));
+            $this->getValidationRules($request)
+        );
 
         if ($validator->fails()){
             return response()->json(['message' => "Verify the uploaded file is a valid " . $request->only('type')], 422);

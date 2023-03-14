@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Seller\InventoryController;
 use App\Http\Controllers\Seller\SellerAuthController;
 use App\Http\Controllers\Seller\SellerDashboardController;
 use App\Http\Controllers\Seller\SellerHomeController;
@@ -21,6 +22,17 @@ Route::middleware(['splade'])->group(function () {
 
         Route::get('/product', [ProductController::class, 'index'])->name('products');
         Route::get('/product/add', [ProductController::class, 'create'])->name('products.create');
+        Route::put('/product/add', [ProductController::class, 'store'])->name('products.store');
+
+        Route::get('/product/{product}/edit', [ProductController::class, 'show'])->name('products.edit');
+
+        Route::get('/product/{product}/inventory', [InventoryController::class, 'index'])->name('products.inventory');
+        Route::get('/product/{product}/inventary/add', [InventoryController::class, 'create'])->name('products.inventory.create');
+        Route::get('/product/{product}/inventory/{page}', [InventoryController::class, 'index']);
+
+        Route::put('/product/{product}/inventory/add', [InventoryController::class, 'store'])->name('products.inventory.store');
+
+        Route::get('/product/{product}/personalizar', [ProductController::class, 'show'])->name('products.personalizar');
     }
     );
 

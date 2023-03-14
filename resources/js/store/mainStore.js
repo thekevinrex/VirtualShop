@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { v4 as uuidv4 } from 'uuid';
 
 let theme = document.head.querySelector('meta[name="app-theme"]');
 
@@ -8,7 +9,8 @@ export const useMainStore = defineStore('MainStore',{
             sideBarOpen: ( localStorage.sideBarOpen != undefined? localStorage.sideBarOpen == 'true' : true),
             sideBarFixed: ( localStorage.sideBarFixed != undefined? localStorage.sideBarFixed == 'true' : true),
             theme : theme.attributes.content.value,
-            msg : 'Kevin',
+            msg: 'Kevin',
+            notifications : [],
         }
     },
     getters : {
@@ -45,7 +47,35 @@ export const useMainStore = defineStore('MainStore',{
             } else {
                 document.documentElement.classList.remove('dark')
             }
-        } 
+        },
+
+        addNewPageNotification: function (notification) {
+            
+            let id = uuidv4();
+            let _this = this;
+            let timeout = undefined;
+            if (notification.autoDismiss) {
+                timeout = setTimeout(function () {
+                    _this.deletePageNotification(id);
+                }, (1000 * (notification.timeout ? notification.timeout : 5)));
+            }
+
+            if (!notification.position) {
+                notification.position = 'left-bottom';
+            }
+
+            this.notifications.push({
+                ...notification,
+                id: id,
+                timeout : timeout,
+            });
+
+        },
+
+        deletePageNotification: function (id) {
+            clearTimeout(this.notifications.find((e) => { return e.id == id }).timeout);
+            this.notifications = this.notifications.filter((e) => { return e.id != id });
+        },
 
     },
 });

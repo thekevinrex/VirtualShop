@@ -4,6 +4,10 @@ import { useMainStore } from '../store/mainStore';
 
 export default {
 
+    components: {
+        
+    },
+
     data() {
         return {
             prueba : '',
@@ -38,7 +42,7 @@ export default {
             'isSidebarOpen': this.isSidebarOpen,
             'isSidebarFixed': this.isSidebarFixed,
             'toggleSidebarFixed': this.toggleSidebarFixed,
-            'toggleSidebar' : this.toggleSidebar,
+            'toggleSidebar': this.toggleSidebar,
         });
     }
     

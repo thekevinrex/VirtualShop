@@ -162,6 +162,30 @@
 <div class="flex flex-col w-1/3 p-6">
 
     @include('seller.products.fields.information')
+    
+    <section  class="">
+
+        <h1 id="product-price-heading" class="text-lg font-semibold">
+            @lang('product.product_price')
+        </h1>
+
+        <p class="mb-2" id="product-price-details">
+            @lang('product.product_price_help')
+        </p>
+        
+        <div class="flex max-w-[150px] w-full">
+            <InputComponent v-model:value="price.price" @field-data="fieldsData" type="text" :inputData="{
+                'name' : 'price',
+                'isHeader' : false,
+                'placeholder' : '{{ trans('product.product_price') }}',
+                'validate' : ['Required'],
+            }" >
+            </InputComponent>
+        </div>
+        
+    </section>
+
+    <hr class="my-5">
 
     <section class="mb-5" aria-labelledby="product-cate-heading" aria-describedby="product-cate-details">
         <h1 id="product-cate-heading" class="text-lg font-semibold">

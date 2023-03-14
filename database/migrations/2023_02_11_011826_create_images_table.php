@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-
+            $table->id();
             $table->string('url')->unique();
 
             $table->unsignedBigInteger('imageable_id')->nullable();
             $table->string('imageable_type')->nullable();
 
-            $table->primary(['imageable_id', 'imageable_type']);
+            // $table->primary(['imageable_id', 'imageable_type']);
 
             $table->timestamps();
         });

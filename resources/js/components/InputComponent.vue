@@ -140,9 +140,7 @@ export default {
         },
     },
     watch: {
-        // value: function (newValue, oldValue) {
-        //     this.fieldValue = newValue;  
-        // },
+        
         confirm (updateConfirm, oldConfirm) {
             if (this.isRequired && this.inputData.validate.includes('Confirm')) {
 

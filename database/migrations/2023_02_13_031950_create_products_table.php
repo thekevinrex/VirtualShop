@@ -34,28 +34,25 @@ return new class extends Migration
 
             $table->foreign('listening_id')
                 ->references('id')
-                ->on('listenings')
-                ->onDelete('set null');
+                ->on('listenings');
+                // ->onDelete('set null');
 
             $table->string('name');
-            $table->uuid();
             $table->string('slug')->unique();
-
             $table->longText('description')->nullable();
 
             $table->float('price')->nullable();
             $table->string('currency', 50);
             $table->enum('restricted_age', [0, 1]);
             $table->string('formato', 50)->default('compra');
-            $table->enum('allow_rating', [0, 1])->default(1);
+            $table->string('ratings');
 
             $table->enum('shipping', ['logistic', 'manual']);
             $table->json('shipping_aviable');
 
+            // 0 - verificando | 1 - verificado | 2 - need to be updated
             $table->enum('status', [0, 1, 2])->default(0);
-            $table->enum('active', [0, 1])->default(0);
-
-            $table->time('created');
+            $table->enum('active', [0, 1])->default(1);
 
             $table->timestamps();
         });

@@ -13,19 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('variante_cates', function (Blueprint $table) {
+        Schema::create('product_inventories', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('product_id');
-
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products')
-                ->onDelete('cascade');
+                ->on('products');
 
-            $table->string('cate_name');
-            $table->enum('with_images', [0, 1]);
-
+            $table->string('slug')->unique();
+            $table->float('price')->nullable();
+            $table->json('merged');
+            $table->bigInteger('aviable')->default(0);
+            $table->enum('active', [0, 1])->default(1);
 
             $table->timestamps();
         });
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variante_cates');
+        Schema::dropIfExists('product_inventories');
     }
 };

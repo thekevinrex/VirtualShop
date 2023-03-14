@@ -13,19 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('variante_cates', function (Blueprint $table) {
+        Schema::create('product_infos', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('product_id');
-
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products')
-                ->onDelete('cascade');
+                ->on('products');
 
-            $table->string('cate_name');
-            $table->enum('with_images', [0, 1]);
-
+            $table->string('key');
+            $table->string('value');
 
             $table->timestamps();
         });
@@ -38,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variante_cates');
+        Schema::dropIfExists('product_infos');
     }
 };

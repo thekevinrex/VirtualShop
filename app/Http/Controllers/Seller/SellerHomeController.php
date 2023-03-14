@@ -57,7 +57,7 @@ class SellerHomeController extends Controller
         $safe = $request->validated();
 
         $avatar = [
-            'url' => $safe['avatar'],
+            'url' => $safe['avatar']['image'],
         ];
     
         $sellerData = $request->safe()->only('name', 'abaut_me', 'telegram', 'plan');
