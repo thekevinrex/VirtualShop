@@ -5,7 +5,7 @@
     </svg>
 </x-header.link>
 
-<x-header.link href="{{ route('auth.login') }}">
+<x-header.link away href="{{ '/shop/login' }}">
     <div class="flex space-x-1 flex-row">
         <div class="flex">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -13,7 +13,7 @@
             </svg>
         </div>
         <div class="flex">
-            @lang('auth.sign_in')
+            {{__('Sign in')}}
         </div>
     </div>
 </x-header.link>
@@ -26,7 +26,7 @@
             </svg>
         </div>
         <div class="flex">
-            @lang('auth.sign_up')
+            {{__('Sign up')}}
         </div>
     </div>
 </x-header.link>

@@ -11,6 +11,7 @@ class Image extends Model
 
     protected $fillable = [
         'url',
+        'is_primary',
     ];
 
     public function imagrable () {

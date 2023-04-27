@@ -16,12 +16,28 @@ return new class extends Migration
         Schema::create('sellers', function (Blueprint $table) {
 
             $table->id();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->unsignedBigInteger('user_id');
 
-            $table->enum('active', [0, 1])->default(0);
-            $table->rememberToken();
+            $table->string('name');
+            $table->longText('abaut_me')->nullable();
+
+            $table->string('telephone')->unique()->nullable();
+            $table->string('telegram')->unique()->nullable();
+
+
+            $table->string('plan');
+            $table->timestamp('plan_verified_at')->nullable();
+            $table->time('plan_expire_in')->nullable();
+            $table->unsignedBigInteger('plan_transaction_id')->nullable();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->string('payment_method')->nullable();
+            $table->string('payment_option')->nullable();
+
             $table->timestamps();
         });
     }

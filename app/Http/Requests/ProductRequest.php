@@ -29,11 +29,11 @@ class ProductRequest extends FormRequest
             'restric_age' => 'boolean',
             'ratings' => '',
             'category' => 'int|exists:categories,id',
-            'marca' => 'int|exclude_if:marca,0|exists:marcas,id',
             'modelo' => 'int|exclude_if:modelo,0|exists:modelos,id',
 
             'details.*.key' => 'string|required|max:100',
             'details.*.value' => 'string|required|max:255',
+            'details.*.id' => '',
 
             'cates.*.value' => 'string|required|max:255',
             'cates.*.with_image' => 'boolean',

@@ -28,8 +28,8 @@ class StartUpRequest extends FormRequest
             'abaut_me' => '',
             'avatar.image' => 'required|string',
 
-            'phone' => 'required|int|digits:8|unique:seller_data,telephone',
-            'telegram' => 'unique:seller_data,telegram',
+            'phone' => 'required|int|digits:8|unique:sellers,telephone',
+            'telegram' => 'nullable|unique:sellers,telegram',
 
             'address_name' => 'required|string',
             'address_location' => 'required|string',

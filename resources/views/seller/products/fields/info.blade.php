@@ -163,7 +163,7 @@
 
     @include('seller.products.fields.information')
     
-    <section  class="">
+    <section aria-describedby="product-price-details" aria-labelledby="product-price-heading">
 
         <h1 id="product-price-heading" class="text-lg font-semibold">
             @lang('product.product_price')
@@ -188,6 +188,7 @@
     <hr class="my-5">
 
     <section class="mb-5" aria-labelledby="product-cate-heading" aria-describedby="product-cate-details">
+
         <h1 id="product-cate-heading" class="text-lg font-semibold">
             @lang('product.product_category')
         </h1>
@@ -208,10 +209,11 @@
     </section>
     
     <div v-if="required.includes('restricted')" class="bg-indigo-500 rounded-lg p-6 mb-5 text-white">
-        Esta categoria de producto está restringida. Despues de publicar el producto estara inactivo hasta que se verifique que no tiene ningun problema
+        @lang('product.product_required')
     </div>
 
     <section v-if="required.includes('marca')" class="mb-5" aria-labelledby="product-marca-heading" aria-describedby="product-marca-details">
+
         <h1 id="product-marca-heading" class="text-lg font-semibold">
             @lang('product.product_brand')
         </h1>
@@ -220,11 +222,12 @@
             @lang('product.product_brand_help')
         </p>
 
-        <SelectComponent v-model:value="listening.marca" :initialData="{{ $marcas }}" :inputData="{
+        <SelectComponent v-model:value="listening.marca" @field-data="fieldsData" :initialData="{{ $marcas }}" :inputData="{
             'name' : 'marca',
             'isHeader' : true,
             'placeholder' : '{{ trans('product.product_brand') }}',
             'defaultMessage' : '{{ trans('product.chose_brand') }}',
+            'required' : true,
         }"></SelectComponent>
     </section>
     
@@ -237,11 +240,12 @@
             @lang('product.product_modelo_help')
         </p>
 
-        <SelectComponent v-model:value="listening.modelo" :fetchDataWithValue="listening.marca" fetchDataFrom="{{ route('seller.modelos.get') }}" initialData="fetch" :inputData="{
+        <SelectComponent v-model:value="listening.modelo" @field-data="fieldsData" :fetchDataWithValue="listening.marca" fetchDataFrom="{{ route('seller.modelos.get') }}" initialData="fetch" :inputData="{
             'name' : 'modelo',
             'isHeader' : true,
             'placeholder' : '{{ trans('product.product_modelo') }}',
             'defaultMessage' : '{{ trans('product.chose_modelo') }}',
+            'required' : true,
         }">
             <template #loader><x-preloader color="pl-grey" border="pl-border-2x" size="pl-size-xs"></x-preloader></template>
         </SelectComponent>

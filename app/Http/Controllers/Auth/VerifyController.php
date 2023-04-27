@@ -16,7 +16,14 @@ trait VerifyController
      */
 
      public function showResendVerificationEmail () {
+
+        $this->authorize('viewVerificationPages');
+
         return view('auth.verify-email');
+     }
+
+     public function showVerificationSuccess () {
+        return view('auth.verification-success');
      }
 
     /**
@@ -29,7 +36,7 @@ trait VerifyController
     public function verify(EmailVerificationRequest $request) {
         $request->fulfill();
 
-        return redirect()->intended('')->with('message', 'The email verification was a success');
+        return redirect()->route('verification.success');
     }
 
     public function resend (Request $request) {

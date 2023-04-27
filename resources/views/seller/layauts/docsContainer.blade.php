@@ -1,3 +1,5 @@
+@inject('sellerService', 'App\Services\SellerService')
+
 <div class="w-full">
     <nav role="navigation">
 
@@ -8,11 +10,11 @@
                     @include('seller.header.icon')
                 </div>
                 
-                <div class=" flex flex-row justify-center max-lg:hidden">
+                <div class="flex flex-row justify-center max-lg:hidden">
                     
                     <Link href="{{ route('seller.pricing') }}" @class(['h-14 px-5 flex items-center border-b-4', 'border-b-blue-600' => (Route::is('seller.pricing')) ]) data-mdb-ripple="true" data-mdb-ripple-color="dark">
                         <div class="font-medium text-base dark:text-white">
-                            Pricing
+                            {{__('Pricing')}}
                         </div>
                     </Link>
 
@@ -20,12 +22,12 @@
 
                 <div class="flex flex-row justify-end space-x-3 items-center">
                     
-                    @auth('seller')
-                        @includeWhen(Auth::guard('seller')->user()->isNotStartUp(), 'seller.header.auth-start-up')
-                        @includeWhen(!Auth::guard('seller')->user()->isNotStartUp(), 'seller.header.auth')
+                    @auth()
+                        @includeWhen(!$sellerService->isStartUp(), 'seller.header.auth-start-up')
+                        @includeWhen($sellerService->isStartUp(), 'seller.header.auth')
                     @endauth
                     
-                    @guest('seller')
+                    @guest()
                         @include('seller.header.guest')    
                     @endguest
                     
@@ -41,7 +43,7 @@
                     
                 <Link href="{{ route('seller.pricing') }}" @class(['h-14 px-5 flex items-center border-b-4', 'border-b-blue-600' => (Route::is('seller.pricing')) ]) data-mdb-ripple="true" data-mdb-ripple-color="dark">
                     <div class="font-medium text-base dark:text-white">
-                        Pricing
+                        {{__('Pricing')}}
                     </div>
                 </Link>
 
@@ -53,4 +55,7 @@
     <main role="main" class="w-full lg:mt-14 mt-28">
         @yield('content')
     </main>
+
+    <notifications></notifications>
+    
 </div>

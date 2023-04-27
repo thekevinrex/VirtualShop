@@ -15,10 +15,15 @@ class ProductInventory extends Model
         'product_id',
         'merged',
         'price',
+        'active',
     ];
 
     public function product () {
         return $this->belongsTo('App\Models\Product');
+    }
+
+    public function cantInventory () {
+        return $this->hasMany('App\Models\ProductInventoryCant');
     }
 
     public function setSlugAttribute ($value) {
@@ -35,5 +40,9 @@ class ProductInventory extends Model
         }
 
         $this->attributes['slug'] = $slug;
+    }
+
+    public function getRouteKeyName(){
+        return 'slug';
     }
 }

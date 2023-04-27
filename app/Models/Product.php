@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -30,6 +33,8 @@ class Product extends Model
         'active',
         'slug',
     ];
+
+    protected $appends = ['image', 'state'];
 
     public function seller() {
         return $this->belongsTo('App\Models\Seller');
@@ -55,17 +60,71 @@ class Product extends Model
     public function variante () {
         return $this->hasOne('App\Models\Variante');
     }
+    
+    public function modules () {
+        return $this->hasMany('App\Models\ProductModule');
+    }
 
-    public function setSlugAttribute ($value) {
-        $slug = Str::slug($value, '-');
+    protected function Image(): Attribute
+    {
+        $image = '';
 
-        $count = Product::where('name', $value)->count();
+        if (count ($this->cates) > 0 ){
+            $cate = $this->cates->where(function ($value) {
+                return $value['with_images'];
+            });
 
-        if ($count > 0) {
-            $slug = $slug . '-' . $count;
+            $image = $cate[0]->variantes[0]->image;
+        } else {
+            $image = $this->variante->image;
         }
 
-        $this->attributes['slug'] = $slug;
+        return new Attribute(
+            get: fn () => $image,
+        );
+    }
+
+    protected function State (): Attribute
+    {
+        $state = trans('product.verificando');
+
+        if ($this->status == 1) {
+            $state = trans('product.verificado');
+        }
+
+        if ($this->status == 2) {
+            $state = trans('product.need_update');
+        }
+
+        if ($this->active == 0) {
+            $state = trans('product.unaviable');
+        }
+
+        if ($this->trashed()) {
+            $state = trans('product.deleted');
+        }
+
+        return new Attribute(
+            get: fn() => $state,
+        );
+    }
+    
+    protected function Slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => ($value),
+            set: function ($value) {
+                $slug = Str::slug($value, '-');
+
+                $count = Product::where('name', $value)->count();
+
+                if ($count > 0) {
+                    $slug = $slug . '-' . $count;
+                }
+
+                return $slug;   
+            },
+        );
     }
 
     public function getRouteKeyName() {

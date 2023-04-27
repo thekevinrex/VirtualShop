@@ -129,7 +129,7 @@ return [
          */
         'passphrase' => env('LARAVEL_WEBSOCKETS_SSL_PASSPHRASE', null),
     ],
-
+    
     /*
      * Channel Manager
      * This class handles how channel persistence is handled.

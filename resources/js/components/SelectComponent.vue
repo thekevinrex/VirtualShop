@@ -1,6 +1,6 @@
 <template lang="">
 
-    <div :key="key" class="border rounded-md flex bg-white dark:bg-neutral-700 dark:border-neutral-700 w-full mb-5 last:mb-0" :class="[borderClass]">
+    <div :key="key" class="border rounded-md flex bg-white dark:bg-neutral-700 w-full mb-5 last:mb-0" :class="[borderClass]">
         <div class="flex flex-col items-start w-full relative">
             
             <label :for="id" class="flex py-1 pt-2 px-4" v-if="inputData.isHeader">
@@ -108,6 +108,7 @@ export default {
             },
         };
 
+        this.showSelectedValue(this.selectValue);
         this.$emit('fieldData', this.selectData);
     },
 
@@ -116,7 +117,7 @@ export default {
     },
 
     computed: {
-        borderClass: function () { return (this.isError ? 'border-red-600' : 'border-gray-300') },
+        borderClass: function () { return (this.isError ? 'border-red-600' : 'border-gray-300 dark:border-neutral-700') },
         isRequired: function () {return (this.inputData.required? true : false)},
         isError: function () { return this.error },
         isLoading: function () { return this.loading || (this.setLoading) }

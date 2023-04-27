@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_infos', function (Blueprint $table) {
+        Schema::create('product_informations', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('product_id');
+
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products');
+                ->on('products')
+                ->onDelete('cascade');
 
             $table->string('key');
             $table->string('value');
@@ -35,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_infos');
+        Schema::dropIfExists('product_informations');
     }
 };

@@ -2,48 +2,43 @@
 
 namespace App\Models;
 
-use App\Notifications\SendPasswordResetNotificationToSeller;
-use App\Notifications\VerifyEmailForSellers;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class Seller extends Authenticatable implements MustVerifyEmail
+class Seller extends Model
 {
-    use HasFactory, HasApiTokens, Notifiable;
+    use HasFactory;
 
-    protected $guard = 'seller';
-    
     protected $fillable = [
-        'email',
-        'password',
+        'name',
+        'abaut_me',
+        'plan',
+        'telephone',
+        'telegram',
+        'payment_method',
+        'payment_option',
     ];
 
     protected $hidden = [
-        'password',
-        'remember_token',
+        'plan_transaction_id',
+        'payment_options',
+        'payment_method',
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'plan_verified_at' => 'datetime',
     ];
 
-    public function data() {
-        return $this->hasOne('App\Models\SellerData');
-    }
-
-    public function isNotStartUp () {
-        return !$this->data;
+    public function user () {
+        return $this->belongsTo('App\Models\User');
     }
 
     public function avatar () {
         return $this->morphOne('App\Models\Image', 'imageable');
     }
     
-    public function addres () {
-        return $this->morphOne('App\Models\Addres', 'addresable');
+    public function address () {
+        return $this->morphOne('App\Models\Address', 'addresable');
     }
 
     public function products () {
@@ -54,11 +49,4 @@ class Seller extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function sendEmailVerificationNotification() {
-        $this->notify(new VerifyEmailForSellers);
-    }
-
-    public function sendPasswordResetNotification ($token) {
-        $this->notify(new SendPasswordResetNotificationToSeller($token));
-    }
 }

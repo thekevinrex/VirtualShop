@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
+
             $table->id();
 
             $table->unsignedBigInteger('seller_id');
@@ -23,19 +24,19 @@ return new class extends Migration
                 ->on('sellers')
                 ->onDelete('cascade');
 
-            $table->unsignedBigInteger('by_seller_id')->nullable();
+            // $table->unsignedBigInteger('by_seller_id')->nullable();
 
-            $table->foreign('by_seller_id')
-                ->references('id')
-                ->on('sellers')
-                ->onDelete('cascade');
+            // $table->foreign('by_seller_id')
+            //     ->references('id')
+            //     ->on('sellers')
+            //     ->onDelete('cascade');
 
-            $table->unsignedBigInteger('listening_id'); // proporciona cate_id, sub_cate_id, marca, modelo, detail_modelo
+            $table->unsignedBigInteger('listening_id'); // proporciona cate_id, marca, modelo, detail_modelo
 
             $table->foreign('listening_id')
                 ->references('id')
-                ->on('listenings');
-                // ->onDelete('set null');
+                ->on('listenings')
+                ->onDelete('cascade');
 
             $table->string('name');
             $table->string('slug')->unique();
@@ -43,7 +44,7 @@ return new class extends Migration
 
             $table->float('price')->nullable();
             $table->string('currency', 50);
-            $table->enum('restricted_age', [0, 1]);
+            $table->boolean('restricted_age');
             $table->string('formato', 50)->default('compra');
             $table->string('ratings');
 
@@ -54,6 +55,7 @@ return new class extends Migration
             $table->enum('status', [0, 1, 2])->default(0);
             $table->enum('active', [0, 1])->default(1);
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

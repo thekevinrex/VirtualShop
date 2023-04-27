@@ -17,15 +17,16 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('product_id');
+            
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products');
+                ->on('products')
+                ->onDelete('cascade');
 
             $table->string('slug')->unique();
             $table->float('price')->nullable();
             $table->json('merged');
-            $table->bigInteger('aviable')->default(0);
-            $table->enum('active', [0, 1])->default(1);
+            $table->boolean('active')->default(true);
 
             $table->timestamps();
         });

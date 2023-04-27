@@ -27,6 +27,10 @@ module.exports = {
                 },
                 'dark': {
                     DEFAULT : '#1a1a1a',
+                },
+
+                'warning': {
+                    DEFAULT : '#FF9800'
                 }
             },
             zIndex: {

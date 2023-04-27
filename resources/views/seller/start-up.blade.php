@@ -11,23 +11,23 @@
                 <section aria-labelledby="personal-information-heading" aria-describedby="personal-information-details" class="w-full mt-5">
 
                     <h1 id="personal-information-heading" class="text-3xl font-bold">
-                        Personal Information
+                        {{__('Personal Information')}}
                     </h1>
 
                     <p class="mb-5" id="personal-information-details">
-                        Tu informacion personal. Tambien es utilizada para mostrarla en tu tienda
+                        {{__('Your personal information. Also is used to show in your shop')}}
                     </p>
 
                     <InputComponent v-model:value="form.name" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'name',
                         'isHeader' : true,
-                        'placeholder' : '{{ trans('auth.name') }}',
+                        'placeholder' : '{{ __('Seller name') }}',
                         'ariaDescribedby' : 'personal-name-details',
                         'validate' : ['Required'],
                     }" >
                         <template #description>
                             <p id="personal-name-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
-                                This is your public seller name
+                                {{__('This is your public seller name')}}
                             </p>
                         </template>
                     </InputComponent>
@@ -36,12 +36,12 @@
                     <InputComponent v-model:value="form.abaut_me" type="textarea" :inputData="{
                         'name' : 'abaut_me',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Abaut me' }}',
+                        'placeholder' : '{{ __('Abaut me') }}',
                         'ariaDescribedby' : 'personal-abaut-details'
                     }" >
                         <template #description>
                             <p id="personal-abaut-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
-                                Write a text abaut you for yours seller know abaut you
+                                {{__('Write a text abaut you for yours seller know you')}}
                             </p>
                         </template>
                     </InputComponent>
@@ -59,7 +59,7 @@
                             </div>
 
                             <p id="personal-avatar-details" class="mt-2 text-sm"> 
-                                Upload a image of you to yours seller know you
+                                {{  __('Upload a profile photo for your shop. This is gone to be a public photo') }}
                             </p>
                         </template>
                     </UploadComponent>
@@ -70,31 +70,25 @@
                 <section aria-labelledby="contact-information-heading" aria-describedby="contact-information-details" class="w-full">
 
                     <h1 id="contact-information-heading" class="text-3xl font-bold">
-                        Contact Information
+                        {{__('Contact Information')}}
                     </h1>
 
                     <p id="contact-information-details" class="mb-5">
-                        Tu informacion de contacto a parte de tu correo en case de una urgencia. Tambien es utilizada para mostrarla en tu tienda
+                        {{__('Your contact information beside your email address in case of an emergency.Is also used to show in your shop')}}
                     </p>
 
                     <InputComponent v-model:value="form.phone" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'phone',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Telephone' }}',
+                        'placeholder' : '{{ __('Telephone') }}',
                         'validate' : ['Required'],
-                        'ariaDescribedby' : 'contact-phone-details',
                     }" >
-                        <template #description>
-                            <p id="contact-phone-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
-                                Write a text abaut you for yours seller know abaut you
-                            </p>
-                        </template>
                     </InputComponent>
 
                     <InputComponent v-model:value="form.telegram" type="text" :inputData="{
                         'name' : 'telegram',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Telegram' }}',
+                        'placeholder' : '{{ __('Telegram') }}',
                     }" ></InputComponent>
 
                 </section>
@@ -104,23 +98,23 @@
                 <section aria-describedby="address-information-details" aria-labelledby="address-information-heading" class="w-full">
 
                     <h1 id="address-information-heading" class="text-3xl font-bold">
-                        Address Information
+                        {{__('Address Information')}}
                     </h1>
 
                     <p class="mb-5" id="address-information-details">
-                        Tu direccion de contacto. Usada en caso de que utilices los servicios de logistica y para calcular los precios de logistica
+                        {{  __('Your address direction. Used in case that you use the logistic services and to calculate the cost of the logistic')}}
                     </p>
 
                     <InputComponent v-model:value="form.address_name" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'address_name',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Nomgre de la direccion' }}',
+                        'placeholder' : '{{ __('Address name') }}',
                         'validate' : ['Required'],
                         'ariaDescribedby' : 'address-name-details',
                     }" >
                         <template #description>
                             <p id="address-name-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
-                                This is the name that it will addres you when picking the products
+                                {{__('This is the name that it will addres you when picking the products')}}
                             </p>
                         </template>
                     </InputComponent>
@@ -128,15 +122,15 @@
                     <SelectComponent v-model:value="form.provincia" :initialData="{{ $provincias }}" :inputData="{
                         'name' : 'provincia',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Provincia' }}',
-                        'defaultMessage' : 'Chose your province',
+                        'placeholder' : '{{ __('Province') }}',
+                        'defaultMessage' : '{{__('Chose your province')}}',
                     }"></SelectComponent>
 
                     <SelectComponent v-model:value="form.municipio" :fetchDataWithValue="form.provincia" fetchDataFrom="{{ route('municipios.get') }}" data="fetch" :inputData="{
                         'name' : 'municipio',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Municipio' }}',
-                        'defaultMessage' : 'Chose your municipe',
+                        'placeholder' : '{{ __('Municipality') }}',
+                        'defaultMessage' : '{{ __('Chose your municipality')}}',
                     }">
                         <template #loader><x-preloader color="pl-grey" border="pl-border-2x" size="pl-size-xs"></x-preloader></template>
                     </SelectComponent>
@@ -144,12 +138,12 @@
                     <InputComponent v-model:value="form.address_location" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'address_location',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Direccion exacta' }}',
+                        'placeholder' : '{{ __('Exact address') }}',
                         'validate' : ['Required'],
                     }" >
                         <template #description>
                             <p id="address-location-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
-                                Provide your exact address
+                                {{__('Provide your exact address')}}
                             </p>
                         </template>
                     </InputComponent>
@@ -157,7 +151,7 @@
                     <InputComponent v-model:value="form.address_preferencia" type="textarea" :inputData="{
                         'name' : 'address_preferencia',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Preferencias de la direccion' }}',
+                        'placeholder' : '{{ 'Address preferences' }}',
                     }" ></InputComponent>
                 </section>
 
@@ -166,22 +160,22 @@
                 <section aria-labelledby="payment-information-heading" aria-describedby="payment-information-details" class="w-full">
 
                     <h1 id="payment-information-heading" class="text-3xl font-bold">
-                        Payment Information
+                        {{__('Payment Information')}}
                     </h1>
 
                     <p class="mb-5" id="payment-information-details">
-                        El sitio trabaja con QvaPay un intermediario de pago para transacciones mas limpias. Para porder redireccionar las ventas de los productos a ti tienes que prover tu link de pago del sitio QvaPay
+                        {{ __('El sitio trabaja con QvaPay un intermediario de pago para transacciones mas limpias. Para porder redireccionar las ventas de los productos a ti tienes que prover tu link de pago del sitio QvaPay') }}
                     </p>
 
                     <InputComponent v-model:value="form.qvapay" v-model:validation="form.error" type="text" :inputData="{
                         'name' : 'qvapay',
                         'isHeader' : true,
-                        'placeholder' : '{{ 'Qvapay link payment' }}',
+                        'placeholder' : '{{ __('Qvapay link payment') }}',
                         'validate': ['Required'],
                     }" >
                         <template #description>
                             <p id="address-name-details" class="-mt-4 flex flex-col mb-5 text-sm"> 
-                                This is the link necesary for that the payment reach you, verify that this is correct, whorever out system will veriry eather
+                                {{__('This is the link necesary for that the payment reach you, verify that this is correct, whorever out system will veriry eather')}}
                             </p>
                         </template>
                     </InputComponent>
@@ -193,7 +187,7 @@
 
                 <div class="w-full flex justify-end">
                     <button type="submit" :disabled="form.error.filter(e => {return e.error}).length > 0" class="rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 font-bold focus:ring-indigo-500 focus:ring-offset-2" data-mdb-ripple="true" data-mdb-ripple-color="ligth">
-                        Register as {{ $plan }}
+                        {{ __('Register as :plan', ['plan' => $plan]) }}
                     </button>
                 </div>
 

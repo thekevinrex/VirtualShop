@@ -105,6 +105,53 @@ return [
     'new' => 'New',
     'used' => 'Used',
     'admin_inventory' => 'Admin inventory',
-    'add_inventory' => 'Add inventory'
+    'admin_inventory_help' => 'In this section you control how many units of each product variant do you want to sell',
+    'add_inventory' => 'Add inventory',
+
+    'delete_product_q' => 'Are you sure that you want to delete the product?',
+    'delete_product_q_help' => 'Are you sure?. This action can`t be undone',
+    'delete' => 'Delete',
+
+    'price' => 'Price',
+    'name' => 'Name',
+    'category' => 'Category',
+    'actions' => 'Actions',
+
+    'verificando' => 'Verificating',
+    'verificado' => 'Verificated',
+    'need_update' => 'Need to be updated',
+    'unaviable' => 'Unaviable',
+
+    'product_required' => 'This category is retricted. After the product is publish it will be unaviable until, we verify that the product has no problem',
+    'no_inventory' => 'Still you have not added any product inventory',
+
+    'inventory_added' => 'Inventory cuantity added correctly',
+    'inventory_updated' => 'Inventory updated correctly',
+    'inventory_deleted' => 'Inventory deleted correctly',
+    'inventory_cant' => 'Inventory cuantity',
+    'inventory_cant_help' => 'Write the amount of units that you want to add',
+    'add_inventory_variante' => 'Merged variantes',
+    'add_inventory_variante_help' => 'Select the merged variante that you want to add the inventory',
+
+    'cant' => 'Cuantity',
+    'total' => 'Total',
+    'aviable' => 'Aviable',
+
+    'edit_product' => 'Edit product',
+    'listening_data' => 'Listening data',
+
+    'perso' => 'Personalice',
+    'perso_help' => '',
+
+    'perso_modules' => 'Personalization modules',
+    'perso_modules_help' => 'Personalize the product page, trow text, images, videos and any other element to help impulse and increase the trafic and sels. It help the sellers to show the history or any other caracteristic of the product',
+    'perso_modules_select_help' => 'Select the module that you want to add, each module has his own elements',
+    'module' => 'Module',
+
+    'title' => 'Title',
+    'image' => 'Images|Image',
+    'des' => 'Description',
+    'right' => 'Right',
+    'left' => 'Left',
 ];
 ?>

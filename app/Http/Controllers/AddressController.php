@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Provincia;
+use App\Models\Province;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -14,10 +14,10 @@ class AddressController extends Controller
             'id' => 'required|int',
         ]);
 
-        $provincia = Provincia::find($request->only('id'))->first();
+        $provincia = Province::with('municipalities')->find($request->only('id'))->first();
 
-        $municipios = $provincia->municipios;
-
+        $municipios = $provincia->municipalities;
+        
         return response()->json(['data' => $municipios], 200);
     }
 }

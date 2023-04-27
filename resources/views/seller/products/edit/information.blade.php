@@ -5,7 +5,7 @@
 
     <div class="flex flex-row justify-between">
         <span>@lang('product.id')</span>
-        <span>1234</span>
+        <span>{{ $product->id }}</span>
     </div>
 
     <div class="flex flex-row justify-between">
@@ -20,6 +20,6 @@
 
     <div class="flex flex-row justify-between">
         <span>@lang('product.state')</span>
-        <span>@lang('product.borrador')</span>
+        <span>{{ $product->state }}</span>
     </div>
 </div>

@@ -33,12 +33,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::middleware(['web'])
                 ->group(base_path('routes/web.php'));
 
             Route::prefix('/seller-panel')
                 ->name('seller.')
-                ->middleware('web')
+                ->middleware(['web', 'splade'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/seller.php'));
         });

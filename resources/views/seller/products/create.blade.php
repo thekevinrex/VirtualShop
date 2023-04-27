@@ -13,8 +13,18 @@
         <template #header="{ updateTab, actualTab, isDisabled, updateProduct }">
 
             <div class="w-full h-12 px-5 flex flex-row justify-between items-center dark:text-white flex-none">
-                <h1 class="text-xl font-bold  ">
-                    @lang('product.add')
+                <h1 class="font-bold text-2xl h-12 py-2 px-5 flex flex-row w-full items-center">
+
+                    <div class="w-10 h-10 rounded-full overflow-hidden flex justify-center items-center shrink-0">
+                        <Link href="{{ route('seller.products') }}" class="w-full h-full flex justify-center items-center" data-mdb-ripple="true" data-mdb-ripple-color="dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M2.515 10.674a1.875 1.875 0 000 2.652L8.89 19.7c.352.351.829.549 1.326.549H19.5a3 3 0 003-3V6.75a3 3 0 00-3-3h-9.284c-.497 0-.974.198-1.326.55l-6.375 6.374zM12.53 9.22a.75.75 0 10-1.06 1.06L13.19 12l-1.72 1.72a.75.75 0 101.06 1.06l1.72-1.72 1.72 1.72a.75.75 0 101.06-1.06L15.31 12l1.72-1.72a.75.75 0 10-1.06-1.06l-1.72 1.72-1.72-1.72z" clip-rule="evenodd" />
+                            </svg>              
+                        </Link>
+                    </div>
+                    <span>
+                        @lang('product.add')
+                    </span>
                 </h1>
             </div>
 

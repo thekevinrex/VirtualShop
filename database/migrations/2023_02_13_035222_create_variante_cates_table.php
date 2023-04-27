@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('variante_cates', function (Blueprint $table) {
+        Schema::create('product_cates', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('product_id');
@@ -23,8 +23,8 @@ return new class extends Migration
                 ->on('products')
                 ->onDelete('cascade');
 
-            $table->string('cate_name');
-            $table->enum('with_images', [0, 1]);
+            $table->string('name');
+            $table->boolean('with_images');
 
 
             $table->timestamps();
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variante_cates');
+        Schema::dropIfExists('product_cates');
     }
 };

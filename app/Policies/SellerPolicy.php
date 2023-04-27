@@ -2,15 +2,17 @@
 
 namespace App\Policies;
 
-use App\Models\Seller;
+use App\Models\User;
+use App\Services\SellerService;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SellerPolicy
 {
     use HandlesAuthorization;
 
-    public function startUp (Seller $seller) {
-        if ($seller->data === null)
+    public function startUp (User $user) {
+
+        if (!SellerService::isStartUp())
             return true;
 
         return false;

@@ -13,32 +13,32 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('address', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
+
+            $table->id();
 
             $table->unsignedBigInteger('addresable_id');
             $table->string('addresable_type');
 
-            $table->primary(['addresable_id', 'addresable_type']);
+            $table->unsignedBigInteger('province_id');
+            $table->unsignedBigInteger('municipality_id');
 
-            $table->unsignedBigInteger('provincia_id');
-            $table->unsignedBigInteger('municipio_id');
-
-            $table->foreign('provincia_id')
+            $table->foreign('province_id')
                 ->references('id')
-                ->on('provincias')
+                ->on('provinces')
                 ->onDelete('cascade');
 
-            $table->foreign('municipio_id')
+            $table->foreign('municipality_id')
                 ->references('id')
-                ->on('municipios')
+                ->on('municipalities')
                 ->onDelete('cascade');
 
             $table->string('name');
             $table->string('location');
-            $table->text('aditional')->nullable();
+            $table->text('preferences')->nullable();
 
             $table->json('aviable_days')->nullable();
-            $table->enum('default', [0, 1])->default(0);
+            $table->boolean('default')->default(false);
 
             $table->timestamps();
         });
@@ -51,6 +51,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addres');
+        Schema::dropIfExists('addresses');
     }
 };

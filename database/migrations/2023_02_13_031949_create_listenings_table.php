@@ -14,32 +14,25 @@ return new class extends Migration
     public function up()
     {
         Schema::create('listenings', function (Blueprint $table) {
+
             $table->id();
+            $table->uuid()->unique();
+            
+            $table->string('name');
+            $table->string('name_secondary')->nullable();
 
-            $table->string('first_name');
-            $table->string('second_name')->nullable();
-
-            $table->unsignedBigInteger('marca_id')->nullable();
-
-            $table->foreign('marca_id')
-                ->references('id')
-                ->on('marcas')
-                ->onDelete('set null');
-
-            $table->unsignedBigInteger('modelo_id')->nullable();
-
-            $table->foreign('modelo_id')
-                ->references('id')
-                ->on('modelos')
-                ->onDelete('set null');
-
+            $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('category_id');
+            
+            $table->foreign('model_id')
+                ->references('id')
+                ->on('brand_models')
+                ->onDelete('set null');
 
             $table->foreign('category_id')
                 ->references('id')
-                ->on('categories');
-
-            $table->unsignedBigInteger('sub_category_id')->nullable();
+                ->on('categories')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

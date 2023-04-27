@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartUpRequest;
-use App\Models\Provincia;
+use App\Models\Province;
 use App\Models\Seller;
 
 class SellerHomeController extends Controller
@@ -39,7 +39,7 @@ class SellerHomeController extends Controller
             return redirect()->route('seller.pricing');
         }
 
-        $provincias = Provincia::all();
+        $provincias = Province::all();
 
         return view('seller.start-up')
             ->with(compact(['plan', 'provincias']));
@@ -67,16 +67,17 @@ class SellerHomeController extends Controller
         $sellerData['payment_option'] = $safe['qvapay'];
 
         $addressData = [
-            'provincia_id' => $safe['provincia'],
-            'municipio_id' => $safe['municipio'],
+            'province_id' => $safe['provincia'],
+            'municipality_id' => $safe['municipio'],
             'name' => $safe['address_name'],
             'location' => $safe['address_location'],
-            'aditional' => $safe['address_preferencia'],
+            'preferences' => $safe['address_preferencia'],
         ];
+
+        $seller = $request->user()->seller()->create($sellerData);
         
-        $request->user()->data()->create($sellerData);
-        $request->user()->addres()->create($addressData);
-        $request->user()->avatar()->create($avatar);
+        $seller->address()->create($addressData);
+        $seller->avatar()->create($avatar);
 
         return redirect()->route('seller.dashboard');
     }

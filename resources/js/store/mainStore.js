@@ -8,7 +8,7 @@ export const useMainStore = defineStore('MainStore',{
         return {
             sideBarOpen: ( localStorage.sideBarOpen != undefined? localStorage.sideBarOpen == 'true' : true),
             sideBarFixed: ( localStorage.sideBarFixed != undefined? localStorage.sideBarFixed == 'true' : true),
-            theme : theme.attributes.content.value,
+            theme : ( !localStorage.theme? theme.attributes.content.value : localStorage.theme),
             msg: 'Kevin',
             notifications : [],
         }
@@ -37,7 +37,7 @@ export const useMainStore = defineStore('MainStore',{
 
         updateTheme: function (value) {
             this.theme = value;
-
+            localStorage.theme = value;
             this.setTheme();
         },
 

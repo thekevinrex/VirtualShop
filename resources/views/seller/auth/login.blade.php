@@ -14,7 +14,7 @@
         </button>
         <span class="text-center mt-2">
             @lang('auth.or')
-            <Link href="{{ route('seller.auth.register') }}">@lang('auth.sign_up')</Link>
+            <Link href="{{ route('auth.register') }}">@lang('auth.sign_up')</Link>
         </span>
     </x-slot>
 

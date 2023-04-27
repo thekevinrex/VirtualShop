@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('modelos', function (Blueprint $table) {
+        Schema::create('brand_models', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('marca_id');
+            $table->unsignedBigInteger('brand_id');
+
             $table->string('name');
             $table->string('detail')->nullable();
 
-            $table->foreign('marca_id')
+            $table->foreign('brand_id')
                 ->references('id')
-                ->on('marcas')
+                ->on('brands')
                 ->onDelete('cascade');
 
             $table->timestamps();
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modelos');
+        Schema::dropIfExists('brand_models');
     }
 };

@@ -57,16 +57,16 @@ export default {
 
             price: {
                 mergedVariantes: [],
-                price: 0,
+                price: 0 + "",
                 delivery: 'logistic',
                 delivery_data: [],
                 currency: 'USD'
             },
             
             listening: {
-                category: 0,
-                marca: 0,
-                modelo: 0,
+                category: "",
+                marca: "",
+                modelo: "",
             },
 
             variantes: {
@@ -388,7 +388,7 @@ export default {
             let _this = this;
             _this.isLoading = true;
 
-            axios.put(this.sendProductDataTo, fd)
+            axios.post(this.sendProductDataTo, fd)
                 .then(function (res) {
                     _this.isLoading = false;
                     _this.addNewPageNotification({

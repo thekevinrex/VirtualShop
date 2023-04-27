@@ -46,6 +46,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function seller () {
+        return $this->hasOne('App\Models\Seller');
+    }
+
     public function isAdmin()
     {
         return $this->is_admin;

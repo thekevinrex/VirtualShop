@@ -23,10 +23,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if($guard == 'seller'){
-                    return redirect('/seller-panel');
-                } else
-                    return redirect(RouteServiceProvider::HOME);
+                return redirect(($request->routeIs('seller.*'))? 'seller-panel/' : RouteServiceProvider::HOME);
             }
         }
 

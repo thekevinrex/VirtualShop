@@ -66,8 +66,8 @@ trait LoginController
     {
         $this->guard()->logout();
     
-        // $request->session()->flush();
-        // $request->session()->regenerateToken();
+        $request->session()->flush();
+        $request->session()->regenerateToken();
     
         return redirect($this->redirectLoginTo());
     }

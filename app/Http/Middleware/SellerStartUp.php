@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\SellerService;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,8 @@ class SellerStartUp
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user()->data) {
-            return redirect()->route('seller.start-up');
+        if (!SellerService::isStartUp()) {
+            return redirect()->route('seller.pricing');
         } else 
             return $next($request);
     }

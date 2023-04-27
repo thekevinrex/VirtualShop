@@ -1,6 +1,6 @@
 <div class="flex flex-col w-2/3 p-6">
 
-    <section  class="">
+    <section aria-describedby="product-price-details" aria-labelledby="product-price-heading">
 
         <h1 id="product-price-heading" class="text-lg font-semibold">
             @lang('product.product_price')
@@ -24,7 +24,7 @@
 
     <hr class="my-5" v-if="price.mergedVariantes.length > 0">
 
-    <section v-if="price.mergedVariantes.length > 0" class="w-full">
+    <section v-if="price.mergedVariantes.length > 0" aria-describedby="product-merge-details" aria-labelledby="product-merge-heading" class="w-full">
 
         <h1 id="product-merge-heading" class="text-lg font-semibold">
             @lang('product.merge_variante')
@@ -41,7 +41,14 @@
                 <div class="flex space-x-3 w-full overflow-x-auto overflow-y-auto px-2">
                     <div class="flex flex-row" v-for="(idV, key) in merge.merged">
                         <div class="border py-2 px-4 rounded-md flex flex-col">
-                            <span class="text-sm font-semibold">@{{ variantes.cates.find(element => {return variantes.variantes.find(element => {return element.id == idV}).cate == element.id }).value }}</span>
+                            <span class="text-sm font-semibold">
+                                @{{ 
+                                    variantes.cates
+                                        .find(element => {return variantes.variantes
+                                        .find(element => {return element.id == idV}).cate == element.id })
+                                    .value 
+                                }}
+                            </span>
                             @{{ variantes.variantes.find(element => {return element.id == idV}).name }}
                         </div>
                         <span v-if="key < merge.merged.length - 1" class="flex items-center ml-3 font-bold text-xl">+</span>
@@ -115,7 +122,7 @@
                     </div>
                     <label class="w-full text-lg font-bold" :for="'delivery-' + muni.id">@{{ provincias.find(e => {return e.id == delivery.id}).municipios.find((e) => {return e.id == muni.id}).name }}</label>
 
-                    <div class="flex max-w-[100px] flex-none w-full" v-if="price.delivery=='myself'">
+                    <div class="flex max-w-[100px] flex-none w-full" v-if="price.delivery=='manual'">
                         <span class="flex items-center mr-1 font-bold text-xl">=</span>
                         <InputComponent v-model:value="muni.price" type="text" :inputData="{
                             'name' : 'price_merge',

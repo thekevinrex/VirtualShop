@@ -3,7 +3,7 @@
         @include('header.content')
     </header>
 
-    <main class="py-4 mt-14">
+    <main class="mt-14">
         @yield('content')
     </main>
 </div>

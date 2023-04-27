@@ -3,7 +3,6 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -19,21 +18,30 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 |
 */
 
+/**
+ * This allows the vue application run without problem, making that laravel routes dont intercept the vue routes
+ */
+Route::get('/shop/{vue_router?}', function () {
+    return view('app');
+})->where('vue_router', '[\/\w\.-]*');
+
 Route::middleware(['splade'])->group(function () {
 
-    
-    Route::get('/', [HomeController::class, 'index'])->name('home');    
-    
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/docs', fn() => view('docs'))->name('docs');
-    });
+    }
+    );
 
     Route::prefix('/admin')->group(function () {
-        Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-            Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
-        }
+        Route::middleware(['auth', 'verified', 'admin'])->group(
+            function () {
+                Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
+            }
         );
-    });
+    }
+    );
 
     // Registers routes to support password confirmation in Form and Link components...
     Route::spladePasswordConfirmation();
@@ -47,36 +55,41 @@ Route::middleware(['splade'])->group(function () {
     Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
     Route::post('/municipio/get', [AddressController::class, 'getMunicipios'])->name('municipios.get');
 
-    Route::controller(AuthController::class)->group(function () {
+    Route::controller(AuthController::class)->group(
+        function () {
 
-        Route::middleware('guest')->group(function () {
+            Route::middleware('guest')->group(function () {
 
-            Route::get('/login', 'ShowLoginForm')->name('auth.login');
-            Route::post('/login', 'login');
+                Route::get('/login', 'ShowLoginForm')->name('auth.login');
+                Route::post('/login', 'login');
 
-            Route::get('/register', 'ShowRegisterForm')->name('auth.register');
-            Route::post('/register', 'register');
+                Route::get('/register', 'ShowRegisterForm')->name('auth.register');
+                Route::post('/register', 'register');
 
-            Route::get('/forgot-password', 'ShowForgotPasswordForm')->name('password.request');
-            Route::post('/forgot-password', 'SendResetEmailToken')->name('password.email');
+                Route::get('/forgot-password', 'ShowForgotPasswordForm')->name('password.request');
+                Route::post('/forgot-password', 'SendResetEmailToken')->name('password.email');
 
-            Route::get('/reset-password/{token}', 'ShowResetPasswordForm')->name('password.reset');
-            Route::post('/reset-password', 'resetPassword')->name('password.update');
+                Route::get('/reset-password/{token}', 'ShowResetPasswordForm')->name('password.reset');
+                Route::post('/reset-password', 'resetPassword')->name('password.update');
 
-        });
+            }
+            );
 
-        Route::middleware('auth')->group(function () {
+            Route::middleware('auth')->group(function () {
 
-            Route::post('/logout', 'logout')->name('logout');
+                Route::post('/logout', 'logout')->name('logout');
 
-            Route::get('/password-confirm', 'showPasswordConfirmForm')->name('password.confirm');
-            Route::post('/password-confirm', 'passwordConfirm');
+                Route::get('/password-confirm', 'showPasswordConfirmForm')->name('password.confirm');
+                Route::post('/password-confirm', 'passwordConfirm');
 
-            Route::get('/verify-email', 'showResendVerificationEmail')->name('verification.notice');
-            Route::get('/verify-email/verify/{id}/{hash}', 'verify')->middleware(['signed'])->name('verification.verify');
-            Route::post('/verify-emails', 'resend')->name('verification.send');
-        });
+                Route::get('/verify-email', 'showResendVerificationEmail')->name('verification.notice');
+                Route::get('/verify-email/verify/{id}/{hash}', 'verify')->middleware(['signed'])->name('verification.verify');
+                Route::post('/verify-emails', 'resend')->name('verification.send');
+                Route::get('/verify-email/success', 'showVerificationSuccess')->name('verification.success');
+            }
+            );
 
-    }
+        }
     );
+
 });
