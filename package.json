@@ -24,6 +24,7 @@
         "@headlessui/vue": "^1.7.9",
         "pinia": "^2.0.29",
         "tw-elements": "^1.0.0-alpha13",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.0",
+        "vue-router": "^4.0.13"
     }
 }
