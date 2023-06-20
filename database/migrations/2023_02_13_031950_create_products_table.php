@@ -16,22 +16,19 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
 
             $table->id();
-
             $table->unsignedBigInteger('seller_id');
+            $table->unsignedBigInteger('by_seller_id')->nullable();
+            $table->unsignedBigInteger('listening_id'); // proporciona cate_id, marca, modelo, detail_modelo
 
             $table->foreign('seller_id')
                 ->references('id')
                 ->on('sellers')
                 ->onDelete('cascade');
 
-            // $table->unsignedBigInteger('by_seller_id')->nullable();
-
-            // $table->foreign('by_seller_id')
-            //     ->references('id')
-            //     ->on('sellers')
-            //     ->onDelete('cascade');
-
-            $table->unsignedBigInteger('listening_id'); // proporciona cate_id, marca, modelo, detail_modelo
+            $table->foreign('by_seller_id')
+                ->references('id')
+                ->on('sellers')
+                ->onDelete('set null');
 
             $table->foreign('listening_id')
                 ->references('id')

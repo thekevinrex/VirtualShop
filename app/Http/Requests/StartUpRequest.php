@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Services\SellerService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StartUpRequest extends FormRequest
 {
@@ -13,7 +15,11 @@ class StartUpRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if (Auth::check() && Auth::user()->hasVerifiedEmail() && !SellerService::isStartUp()){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -28,7 +34,7 @@ class StartUpRequest extends FormRequest
             'abaut_me' => '',
             'avatar.image' => 'required|string',
 
-            'phone' => 'required|int|digits:8|unique:sellers,telephone',
+            'telephone' => 'required|int|digits:8|unique:sellers,telephone',
             'telegram' => 'nullable|unique:sellers,telegram',
 
             'address_name' => 'required|string',
@@ -38,7 +44,7 @@ class StartUpRequest extends FormRequest
             'provincia' => 'required|int',
             'municipio' => 'required|int',
 
-            'qvapay' => 'required|string',
+            'payment_option' => 'required|string',
 
             'plan' => 'required|string',
         ];

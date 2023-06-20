@@ -10,14 +10,30 @@ export default {
 
     props: {
         sendProductDataTo: String,
-        provincias: Object,
+        provinces: Array,
         product: Object,
+        seller_id: Number,
     },
 
     data() {
         return {
-            info: {},
-            price: {},
+            info: {
+                name: '',
+                description: '',
+                restricted_age: true,
+                ratings: '',
+
+                details: [],
+                videos: [],
+            },
+            price: {
+                mergedVariants  : [],
+                price            : '0',
+                shipping         : 'logistic',
+                shipping_aviable : [],
+                currency: 'USD',
+                payments: [],
+            },
 
             isLoading : false,
             fetch_video: '',
@@ -27,15 +43,15 @@ export default {
 
     beforeMount() {
 
-        this.info = {
-            name: this.product.name,
-            description: this.product.description,
-            restric_age: this.product.restric_age,
-            ratings: this.product.ratings,
-            
-            details: [],
-            videos: [],
-        };
+        this.info = Object.assign(
+            this.info,
+            {
+                name: this.product.name,
+                description: this.product.description,
+                restric_age: this.product.restric_age,
+                ratings: this.product.ratings,
+            }
+        );
 
         this.info.details = this.product.details.map(e => {
             return {
@@ -44,28 +60,29 @@ export default {
             };
         });
 
-        this.price = {
-            price: this.product.price + "",
-            delivery: this.product.shipping,
-            delivery_data: [],
-            mergedVariantes : [],
-            currency: this.product.currency,
-        };
+        this.price = Object.assign(
+            this.price,
+            {
+                price: this.product.price + "",
+                shipping: this.product.shipping,
+                currency: this.product.currency,
+            }
+        );
 
         if (this.product.inventories.length > 0) {
-            this.price.mergedVariantes = this.product.inventories.map((e) => {
+            this.price.mergedVariants = this.product.inventories.map((e) => {
                 return {
                     ...e,
                     id : uuidv4(),
                 }
             });
         }
-        
-        this.provincias.forEach(element => {
-            this.price.delivery_data.push({
+
+        this.provinces.forEach(element => {
+            this.price.shipping_aviable.push({
                 id: element.id,
-                municipios: element.municipios.map((e) => {
-                    if (Object.values(this.product.shipping_aviable).find(ship => { return ship.id == e.id }) != undefined) {
+                municipalities: element.municipalities.map((e) => {
+                    if (Object.values(this.product.shipping_aviable).some(ship => { return ship.id == e.id })) {
                         return Object.values(this.product.shipping_aviable).find(ship => { return ship.id == e.id });
                     } else
                         return {
@@ -129,6 +146,7 @@ export default {
             }
 
             let fd = {
+                'seller_id' : this.seller_id,
                 ...this.info,
                 ...this.price,
             };
@@ -170,7 +188,7 @@ export default {
             fieldsData: this.getFieldsData,
             addInfo: this.addInfo,
             deleteInfo: this.deleteInfo,
-            provincias: this.provincias,
+            provinces: this.provinces,
 
             isDisabled: this.isDisableUpdateProduct,
             updateProduct: this.updateProduct,

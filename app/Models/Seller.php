@@ -9,6 +9,8 @@ class Seller extends Model
 {
     use HasFactory;
 
+    protected $with = ['avatar'];
+    
     protected $fillable = [
         'name',
         'abaut_me',

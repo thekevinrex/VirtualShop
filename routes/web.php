@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 
@@ -26,6 +24,8 @@ Route::get('/shop/{vue_router?}', function () {
 })->where('vue_router', '[\/\w\.-]*');
 
 Route::middleware(['splade'])->group(function () {
+
+    Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -51,9 +51,6 @@ Route::middleware(['splade'])->group(function () {
 
     // Registers routes to support async File Uploads with Filepond...
     Route::spladeUploads();
-
-    Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
-    Route::post('/municipio/get', [AddressController::class, 'getMunicipios'])->name('municipios.get');
 
     Route::controller(AuthController::class)->group(
         function () {

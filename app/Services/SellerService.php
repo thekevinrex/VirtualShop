@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Services;
+
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SellerService {
 
@@ -11,6 +14,19 @@ class SellerService {
         }
 
         return true;
+    }
+
+    public function getAvatarUrl (User $user) {
+
+        if (!$user->seller) {
+            return false;
+        }
+
+        if (!$user->seller->avatar) {
+            return false;
+        }
+
+        return Storage::url($user->seller->avatar->url);
     }
 }
 

@@ -35,7 +35,10 @@
             
             <div class="flex flex-row justify-between"> 
                 <x-splade-form action="{{ route('verification.send') }}" method="post">
-                    <button type="submit" class="relative flex justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <button type="submit" class="relative flex justify-center rounded-md border border-transparent disabled:bg-indigo-300 bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 space-x-2">
+                        <x-preloader v-if="form.processing" size="pl-size-xx" color="pl-white" wraper="none"></x-preloader>
+                        <div>
+                        </div>
                         {{__('Resend email')}}
                     </button>
                 </x-splade-form>

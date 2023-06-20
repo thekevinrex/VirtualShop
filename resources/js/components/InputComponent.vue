@@ -16,11 +16,71 @@
 
                 <div class="w-full flex-initial">
 
-                    <input v-if="type == 'text'" v-model="fieldValue" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="text" :id="id" :aria-labelledby="ariaLabelledby" :aria-describedby="inputData.ariaDescribedby" :required="isRequired" :placeholder="placeholder" class="dark:bg-neutral-700 dark:text-gray-200 h-10 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" />
+                    <input 
+                        v-if="type == 'text'" 
+                        v-model="fieldValue" 
+                        @blur="unFocusInput" 
+                        @focus="focusInput" 
+                        :name="inputData.name" 
+                        type="text" 
+                        :id="id" 
+                        :aria-labelledby="ariaLabelledby" 
+                        :aria-describedby="inputData.ariaDescribedby" 
+                        :required="isRequired" 
+                        :placeholder="placeholder" 
+                        class="
+                            dark:bg-neutral-700 dark:text-gray-200 
+                            h-10 w-full 
+                            appearance-none rounded-md 
+                            border-none px-3 py-2 
+                            text-gray-900 
+                            focus:outline-none focus:border-none focus:shadow-none focus:ring-0 
+                            sm:text-sm" 
+                    />
 
-                    <input v-if="type == 'password'" v-model="fieldValue" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" type="password" :id="id" :aria-labelledby="ariaLabelledby" :aria-describedby="inputData.ariaDescribedby" :required="isRequired" :placeholder="placeholder" class="dark:bg-neutral-700 dark:text-gray-200 h-10 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm" />
+                    <input 
+                        v-if="type == 'password'" 
+                        v-model="fieldValue" 
+                        @blur="unFocusInput" 
+                        @focus="focusInput" 
+                        :name="inputData.name" 
+                        type="password" 
+                        :id="id" 
+                        :aria-labelledby="ariaLabelledby" 
+                        :aria-describedby="inputData.ariaDescribedby" 
+                        :required="isRequired" 
+                        :placeholder="placeholder" 
+                        class="
+                            dark:bg-neutral-700 dark:text-gray-200 
+                            h-10 w-full appearance-none 
+                            rounded-md border-none 
+                            px-3 py-2 
+                            text-gray-900 
+                            focus:outline-none focus:border-none focus:shadow-none focus:ring-0 
+                            sm:text-sm" 
+                    />
 
-                    <textarea  v-if="type == 'textarea'" v-model="fieldValue" @blur="unFocusInput" @focus="focusInput" :name="inputData.name" :id="id" :aria-labelledby="ariaLabelledby" :aria-describedby="inputData.ariaDescribedby" :required="isRequired" :placeholder="placeholder" class="dark:bg-neutral-700 dark:text-gray-200 h-28 w-full appearance-none rounded-md border-none px-3 py-2 text-gray-900 focus:outline-none focus:border-none focus:shadow-none focus:ring-0 sm:text-sm"></textarea>
+                    <textarea 
+                        v-if="type == 'textarea'" 
+                        v-model="fieldValue" 
+                        @blur="unFocusInput" 
+                        @focus="focusInput" 
+                        :name="inputData.name" 
+                        :id="id" 
+                        :aria-labelledby="ariaLabelledby" 
+                        :aria-describedby="inputData.ariaDescribedby" 
+                        :required="isRequired" 
+                        :placeholder="placeholder" 
+                        class="
+                            dark:bg-neutral-700 dark:text-gray-200 
+                            h-28 w-full 
+                            appearance-none rounded-md 
+                            border-none 
+                            px-3 py-2 
+                            text-gray-900 
+                            focus:outline-none focus:border-none focus:shadow-none focus:ring-0 
+                            sm:text-sm">
+                    </textarea>
                     
                 </div>
 
@@ -30,10 +90,17 @@
         </div>
 
     </div>
+
     <slot name="description"></slot>
     
-    <div class="-mt-4 flex flex-col mb-5 last:mb-0 font-semibold text-red-500" v-if="DisplayErrors">
-        <slot name="errors" :errorsType="errorType"></slot>
+    <div 
+        class="-mt-4 flex flex-col mb-5 last:mb-0 font-semibold text-red-500" 
+        v-if="DisplayErrors"
+    >
+        <slot 
+            name="errors" 
+            :errorsType="errorType">
+        </slot>
     </div>
 
 </template>
@@ -46,7 +113,8 @@ import { validateFieldData } from '../functions/validate';
 export default {
     emits: ['update:value', 'update:formData', 'update:validation', 'fieldData'],
     
-    props : {
+    props: {
+        initialValue: String,
         inputData : Object,
         type : String,
         value : [String, Number],
@@ -54,6 +122,7 @@ export default {
         formData: [String, Object],
         validation: Array,
     },
+
     data () {
         return {
             key : uuidv4 (),
@@ -67,7 +136,7 @@ export default {
             placeholder :'',
         }
     },
-    created () {
+    mounted () {
         
         if (this.inputData == undefined){
             this.inputData = {
@@ -102,8 +171,12 @@ export default {
             this.placeholder = this.inputData.placeholder;
         }
 
-        if (typeof this.value != undefined) {
+        if (typeof this.value != undefined && this.value != '')
             this.fieldValue = this.value;
+        else {
+            if (this.initialValue != undefined) {
+                this.fieldValue = this.initialValue;
+            }
         }
 
         this.$emit('fieldData', this.data);
@@ -111,8 +184,16 @@ export default {
     unmounted() {
         this.data.deleted = true;
     },
-    computed : {
-        borderClass () { return this.isFocused ? 'border-primary' : (this.isError? 'border-red-600' : 'border-gray-300 dark:border-neutral-500') },
+    computed: {
+        
+        borderClass() {
+            return this.isFocused
+                ? 'border-primary'
+                : (this.isError
+                    ? 'border-red-600'
+                    : 'border-gray-300 dark:border-neutral-500'
+                );
+        },
         isError : { 
             get () {
                 return this.error;
@@ -124,12 +205,19 @@ export default {
                 this.data.error = newValue.error;
                 this.data.errorType = newValue.errorType;
             }
-         },
+        },
+
         isFocused () { return (this.focused && !this.isError) },
-        isRequired () { return (this.inputData.validate != undefined)? this.inputData.validate.includes('Required') : false },
-        DisplayErrors () {
+        isRequired() {
+            return (this.inputData.validate != undefined)
+                ? this.inputData.validate.includes('Required')
+                : false;
+        },
+        DisplayErrors() {
+            
             if (this.isError) {
-                if (this.errorType.length == 1 && this.errorType.includes ('Required')) {
+
+                if (this.errorType.length == 1 && this.errorType.includes('Required')) {
                     return false;
                 }
 

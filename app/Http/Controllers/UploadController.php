@@ -53,7 +53,7 @@ class UploadController extends Controller
         $filename = $file->store('/', 'public');
 
         if (!$filename) {
-            return response()->json(['message' => "There was a error traiting uploading the file"], 422);
+            return response()->json(['message' => "There was a error traying uploading the file"], 422);
         }
 
         // $this->saveDb ($filename);

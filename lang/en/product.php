@@ -93,6 +93,7 @@ return [
 
     'product_payment' => 'Payment methods',
     'product_payment_help' => 'Elige el metodo para transferir el dinero ganado de las ventas. Esto tambien representa los diferentes metodos que tienen los compradores para pagar',
+    
     'pay_for_qvapay' => 'Payment for Qvapay',
     'pay_for_qvapay_help' => 'Intermediario QvaPay',
 

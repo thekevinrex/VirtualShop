@@ -15,7 +15,7 @@ class BrandModel extends Model
         'detail',
     ];
 
-    public function brands () {
+    public function brand () {
         return $this->belongsTo('App\Models\Brand');
     }
 }

@@ -1,57 +1,53 @@
 <div class="flex flex-col w-2/3 p-6">
 
-    <section aria-describedby="product-price-details" aria-labelledby="product-price-heading">
+    @include('seller.products.fields.price')
 
-        <h1 id="product-price-heading" class="text-lg font-semibold">
-            @lang('product.product_price')
-        </h1>
+    <hr class="my-5" v-if="price.mergedVariants.length > 0">
 
-        <p class="mb-2" id="product-price-details">
-            @lang('product.product_price_help')
-        </p>
-        
-        <div class="flex max-w-[150px] w-full">
-            <InputComponent v-model:value="price.price" @field-data="fieldsData" type="text" :inputData="{
-                'name' : 'price',
-                'isHeader' : false,
-                'placeholder' : '{{ trans('product.product_price') }}',
-                'validate' : ['Required'],
-            }" >
-            </InputComponent>
-        </div>
-        
-    </section>
-
-    <hr class="my-5" v-if="price.mergedVariantes.length > 0">
-
-    <section v-if="price.mergedVariantes.length > 0" aria-describedby="product-merge-details" aria-labelledby="product-merge-heading" class="w-full">
-
+    <section 
+        v-if="price.mergedVariants.length > 0" 
+        aria-describedby="product-merge-details" 
+        aria-labelledby="product-merge-heading"
+        class="w-full"
+    >
         <h1 id="product-merge-heading" class="text-lg font-semibold">
-            @lang('product.merge_variante')
+            {{__('Product merged variants')}}
         </h1>
 
         <p class="mb-2" id="product-merge-details">
-            @lang('product.merge_variante_help')
+            {{__('In this section you can add a diferent price to each of the merged variants')}}
+            {{__('The merged variants are a mix of all the categories and variants')}}
         </p>
 
         <div class="flex flex-col w-full space-y-3">
             
-            <div class="flex flex-row items-center w-full" :key="merge.id" v-for="merge in price.mergedVariantes">
+            <div 
+                class="flex flex-row items-center w-full" 
+                :key="merge.id" 
+                v-for="merge in price.mergedVariants">
 
                 <div class="flex space-x-3 w-full overflow-x-auto overflow-y-auto px-2">
-                    <div class="flex flex-row" v-for="(idV, key) in merge.merged">
+                    <div 
+                        class="flex flex-row" 
+                        v-for="(idV, key) in merge.merged">
                         <div class="border py-2 px-4 rounded-md flex flex-col">
                             <span class="text-sm font-semibold">
                                 @{{ 
-                                    variantes.cates
-                                        .find(element => {return variantes.variantes
+                                    variantsData.cates
+                                        .find(element => {return variantsData.variants
                                         .find(element => {return element.id == idV}).cate == element.id })
                                     .value 
                                 }}
                             </span>
-                            @{{ variantes.variantes.find(element => {return element.id == idV}).name }}
+                            @{{ variantsData.variants.find(element => {return element.id == idV}).name }}
                         </div>
-                        <span v-if="key < merge.merged.length - 1" class="flex items-center ml-3 font-bold text-xl">+</span>
+
+                        <span 
+                            v-if="key < merge.merged.length - 1" 
+                            class="flex items-center ml-3 font-bold text-xl"
+                        >
+                            +
+                        </span>
                     </div>
                 </div>
 
@@ -60,7 +56,7 @@
                     <InputComponent v-model:value="merge.price" type="text" :inputData="{
                         'name' : 'price_merge',
                         'isHeader' : false,
-                        'placeholder' : '{{ trans('product.merge_variante_price') }}',
+                        'placeholder' : '{{ trans('Price') }}',
                     }" >
                     </InputComponent>
                 </div>
@@ -73,35 +69,51 @@
     <section aria-labelledby="delivery-options-heading" aria-describedby="delivery-options-details">
 
         <h1 id="delivery-options-heading" class="text-lg font-semibold">
-            @lang('product.delivery_option')
+            {{__('Shipping options')}}
         </h1>
 
         <p class="mb-2" id="delivery-options-details">
-            @lang('product.delivery_option_help')
+            {{__('Select a shipping option to deliver your product to the buyers')}}
         </p>
 
         <div class="flex flex-col space-y-3">
             
             <div class="flex flex-row items-center px-1">
                 <div class="w-10 h-10 flex items-center justify-center flex-none">
-                    <input type="radio" v-model="price.delivery" name="delirery_option" id="delivery-logistic" value="logistic">
+                    <input 
+                        type="radio" 
+                        v-model="price.shipping" 
+                        name="delirery_option" 
+                        id="delivery-logistic" 
+                        value="logistic"
+                    >
                 </div>
                 <label for="delivery-logistic" class="flex flex-col w-full">
-                    <span class="font-bold text-xl">@lang('product.logistic_service')</span>
+                    <span class="font-bold text-xl">
+                        {{__('Logistic service')}}
+                    </span>
                     <p>
-                        @lang('product.logistic_service_help')
+                        {{__('You let us handle of keep and deliver the buyed products')}}
                     </p>
                 </label>
             </div>
             <div class="flex flex-row items-center px-1">
                 <div class="w-10 h-10 flex items-center justify-center flex-none">
-                    <input type="radio" v-model="price.delivery" name="delirery_option" id="delivery-myself" value="manual">
+                    <input 
+                        type="radio" 
+                        v-model="price.shipping" 
+                        name="delirery_option" 
+                        id="delivery-myself" 
+                        value="manual"
+                    >
                 </div>
 
                 <label for="delivery-myself" class="flex flex-col w-full">
-                    <span class="font-bold text-xl">@lang('product.doit_myself')</span>
+                    <span class="font-bold text-xl">
+                        {{__('Doit yourself')}}
+                    </span>
                     <p>
-                        @lang('product.doit_myself_help')
+                        {{__('You are in charge of keep and deliver your products in the buyer address')}}
                     </p>
                 </label>
             </div>
@@ -109,30 +121,55 @@
 
         <hr class="my-5">
 
-        <div class="flex flex-col w-full" :key="delivery.id" v-for="delivery in price.delivery_data">
+        <div class="flex flex-col w-full" 
+            :key="delivery.id" 
+            v-for="delivery in price.shipping_aviable">
 
             <h3 class="text-lg">
-                @{{ provincias.find(e => {return e.id == delivery.id}).name }}
+                @{{ provinces.find(e => {return e.id == delivery.id}).name }}
             </h3>
 
             <div class="flex flex-col px-2 py-1 space-y-1">
-                <div class="w-full py-1 flex flex-row items-center" :key="muni.id" v-for="muni in delivery.municipios">
+                <div 
+                    class="w-full py-1 flex flex-row items-center" 
+                    :key="muni.id" 
+                    v-for="muni in delivery.municipalities"
+                >
                     <div class="w-10 h-10 flex-none flex items-center justify-center">
-                        <input type="checkbox" class="rounded" :id="'delivery-' + muni.id" v-model="muni.value">
+                        <input 
+                            type="checkbox" 
+                            class="rounded" 
+                            :id="'delivery-' + muni.id" 
+                            v-model="muni.value"
+                        >
                     </div>
-                    <label class="w-full text-lg font-bold" :for="'delivery-' + muni.id">@{{ provincias.find(e => {return e.id == delivery.id}).municipios.find((e) => {return e.id == muni.id}).name }}</label>
+                    <label 
+                        class="w-full text-lg font-bold" 
+                        :for="'delivery-' + muni.id"
+                    >
+                        @{{ 
+                            provinces
+                                .find(e => {return e.id == delivery.id}).municipalities
+                                .find((e) => {return e.id == muni.id}).name 
+                        }}
+                    </label>
 
-                    <div class="flex max-w-[100px] flex-none w-full" v-if="price.delivery=='manual'">
+                    <div 
+                        class="flex max-w-[100px] flex-none w-full" 
+                        v-if="price.shipping=='manual'"
+                    >
                         <span class="flex items-center mr-1 font-bold text-xl">=</span>
+
                         <InputComponent v-model:value="muni.price" type="text" :inputData="{
                             'name' : 'price_merge',
                             'isHeader' : false,
-                            'placeholder' : '{{ trans('product.merge_variante_price') }}',
+                            'placeholder' : '{{ trans('Price') }}',
                         }" >
                         </InputComponent>
                     </div>
 
                 </div>
+
             </div>
         </div>
 
@@ -146,52 +183,72 @@
 
     <section class="mb-5" aria-labelledby="product-currency-heading" aria-describedby="product-currency-details">
         <h1 id="product-currency-heading" class="text-lg font-semibold">
-            @lang('product.product_currency')
+            {{__('Product currency')}}
         </h1>
 
         <p id="product-currency-details">
-            @lang('product.product_currency_help')
+            {{__('Select the product currency in wish the payment is going to be made')}}
         </p>
 
-        <SelectComponent v-model:value="price.currency" :initialData="{{ json_encode(array(
-            [
-                'id' => 'USD',
-                'name' => 'USD'
-            ]
-        )) }}" :inputData="{
+        <SelectComponent v-model:value="price.currency" :initialData="{{ json_encode($currencies) }}" :inputData="{
             'name' : 'currency',
             'isHeader' : true,
-            'placeholder' : '{{ trans('product.product_currency') }}',
-            'defaultMessage' : '{{ trans('product.chose_currency') }}',
+            'placeholder' : '{{ trans('Product currency') }}',
+            'defaultMessage' : '{{ trans('Chose the product currency') }}',
         }">
         </SelectComponent>
     </section>
 
-    <hr class="my-5">
-
-    calc recomended price
+    @include('seller.products.fields.recomended_price')
 
     <hr class="my-5">
     
     <section class="flex flex-col" aria-labelledby="product-payment-heading" aria-describedby="product-payment-details">
         
         <h1 id="product-payment-heading" class="text-lg font-semibold">
-            @lang('product.product_payment')
+            {{__('Product payment')}}
         </h1>
 
         <p id="product-payment-details">
-            @lang('product.product_payment_help')
+            {{__('Choses the methods of payment in which the buyers can pay your product.')}}
         </p>
 
-        <div class="flex space-x-2 mt-5 items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 flex-none dark:fill-white">
-                <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" />
-            </svg>
-            <span class="flex flex-col">
-                <span class="text-lg font-semibold">@lang('product.pay_for_qvapay')</span>
-                <p>@lang('product.pay_for_qvapay_help')</p>
-            </span>
+        <div class="flex flex-col w-full mt-5 space-y-2">
+            <div 
+                class="flex space-x-2 items-center"
+                v-for="payment in price.payments"
+            >
+                <div class="w-10 h-10 flex-none flex items-center justify-center">
+                    <input 
+                        type="checkbox" 
+                        class="rounded" 
+                        :id="'payment-'+payment.key"
+                        v-model="payment.value"
+                    >
+                </div>
+                
+                <label 
+                    class="flex flex-col" 
+                    :for="'payment-'+payment.key"
+                >
+                    <span class="text-lg font-semibold">
+                        @{{ 
+                            payments
+                                .find(e => {return e.key == payment.key}).name 
+                        }}
+                    </span>
+                    <p>
+                        @{{ 
+                            payments
+                                .find(e => {return e.key == payment.key}).help
+                        }}
+                    </p>
+                </label>
+
+            </div>
         </div>
+        
+        
     </section>
 
 </div>

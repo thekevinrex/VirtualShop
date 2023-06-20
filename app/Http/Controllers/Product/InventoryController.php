@@ -1,34 +1,41 @@
 <?php
 
-namespace App\Http\Controllers\Seller;
+namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductInventory;
 use App\Models\ProductInventoryCant;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Facades\Toast;
+use App\Services\InventoryService;
 
 class InventoryController extends Controller
 {
     
     public function index (Product $product, $page = null) {
 
+        $inventories = (new InventoryService())->getInventories($product);
+
         return view('seller.products.inventario', ['page' => $page])
-                    ->with(compact('product'));
+                    ->with(compact('product','inventories'));
 
     }
 
     public function create (Product $product) {
+
+        $inventories = (new InventoryService())->getInventories($product);
 
         $stateArray = [
             array('id' => 'new', 'name' => trans('product.new')),
             array('id' => 'used', 'name' => trans('product.used')),
         ];
 
-        return view('seller.products.edit.addInventory', ['states' => $stateArray])
-            ->with(compact('product'));
+        return view('seller.products.inventory.add', ['states' => $stateArray])
+            ->with(compact('product', 'inventories'));
     }
 
     public function store (Request $request, product $product) {
@@ -49,7 +56,7 @@ class InventoryController extends Controller
 
         $inventory->cantInventory()->create($request->all());
 
-        Toast::title(trans('product.inventory_added'))
+        Toast::title(trans('Inventory cuantity added correctly'))
             ->rightBottom()
             ->backdrop()
             ->autoDismiss(5);
@@ -61,7 +68,7 @@ class InventoryController extends Controller
 
         $inventory->update($request->all());
 
-        Toast::title(trans('product.inventory_updated'))
+        Toast::title(trans('Inventory updated correctly'))
             ->rightBottom()
             ->backdrop()
             ->autoDismiss(5);
@@ -71,32 +78,12 @@ class InventoryController extends Controller
 
         $inventory->delete();
 
-        Toast::title(trans('product.inventory_deleted'))
+        Toast::title(trans('Inventory deleted correctly'))
             ->rightBottom()
             ->backdrop()
             ->autoDismiss(5);
 
         return redirect()->back();
-    }
-
-
-    public static function calcTotalInventory (Product $product){
-
-        $response = [
-            'new' => 0,
-            'used' => 0,
-            'total' => 0,
-        ];
-
-        foreach($product->inventories as $inventory) {
-            foreach($inventory->cantInventory as $cant){
-                $response[$cant->state] += $cant->cant;
-            }
-        }
-
-        $response['total'] = $response['new'] + $response['used'];
-
-        return $response;
     }
 
 }

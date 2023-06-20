@@ -17,7 +17,7 @@ trait VerifyController
 
      public function showResendVerificationEmail () {
 
-        $this->authorize('viewVerificationPages');
+        $this->authorize('viewVerificationPages', User::class);
 
         return view('auth.verify-email');
      }
@@ -34,14 +34,20 @@ trait VerifyController
      * @return \Illuminate\Http\RedirectResponse
      */
     public function verify(EmailVerificationRequest $request) {
+
+        $this->authorize('viewVerificationPages', User::class);
+
         $request->fulfill();
 
         return redirect()->route('verification.success');
     }
 
     public function resend (Request $request) {
+
+        $this->authorize('viewVerificationPages', User::class);
+
         $request->user()->sendEmailVerificationNotification();
 
-        return back()->with('message', 'Verification link sent!');
+        return back()->with('message', trans('Verification link sent!') );
     }
 }

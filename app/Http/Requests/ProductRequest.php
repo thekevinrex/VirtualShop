@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductRequest extends FormRequest
 {
@@ -13,6 +14,10 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
+
+        if ($this->seller_id != Auth::user()->seller->id)
+            return false;
+
         return true;
     }
 
@@ -24,33 +29,37 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+
+            'seller_id' => 'required|int|exists:sellers,id',
+
             'name' => 'required|string|max:255',
             'description' => '',
-            'restric_age' => 'boolean',
+            'restricted_age' => 'boolean',
             'ratings' => '',
-            'category' => 'int|exists:categories,id',
-            'modelo' => 'int|exclude_if:modelo,0|exists:modelos,id',
+            'category_id' => 'int|exists:categories,id',
+            'brand_model_id' => 'int|exclude_if:brand_model_id,0|exists:brand_models,id',
 
             'details.*.key' => 'string|required|max:100',
             'details.*.value' => 'string|required|max:255',
             'details.*.id' => '',
 
             'cates.*.value' => 'string|required|max:255',
-            'cates.*.with_image' => 'boolean',
+            'cates.*.with_images' => 'boolean',
             'cates.*.id' => '',
 
-            'variantes.*.cate' => '',
-            'variantes.*.des' => '',
-            'variantes.*.name' => 'string|required|max:255',
-            'variantes.*.image.image' => '',
-            'variantes.*.images' => '',
-            'variantes.*.id' => '',
+            'variants.*.cate' => '',
+            'variants.*.des' => '',
+            'variants.*.name' => 'string|required|max:255',
+            'variants.*.image.image' => '',
+            'variants.*.images' => '',
+            'variants.*.id' => '',
 
             'price' => 'required|numeric',
             'currency' => '',
-            'mergedVariantes' => '',
-            'delivery' => '',
-            'delivery_data' => '',
+            'mergedVariants' => '',
+            'shipping' => '',
+            'shipping_aviable' => '',
+            'payments' => '',
         ];
     }
 }

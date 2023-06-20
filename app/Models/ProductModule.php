@@ -11,7 +11,7 @@ class ProductModule extends Model
 
     protected $fillable = [
         'title',
-        'des',
+        'description',
         'product_id',
         'order',
         'type',

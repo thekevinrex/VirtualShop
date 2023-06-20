@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Http\Controllers\Auth\ConfirmController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ResetController;
 use App\Http\Controllers\Controller;
-use App\Models\Seller;
 use App\Services\SellerService;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Password;
-use ProtoneMedia\Splade\Facades\Toast;
 
 class SellerAuthController extends Controller
 {

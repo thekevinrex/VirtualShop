@@ -51,7 +51,7 @@ import { mapActions } from 'pinia';
 
 export default {
 
-    emits: ['update:value', 'update:validation', 'fieldData'],
+    emits: ['update:value', 'update:validation', 'fieldData', 'fetchedData'],
     props: {
         initialData: [Array, String],
         inputData: Object,
@@ -100,12 +100,16 @@ export default {
         var _this = this;
         this.selectData = {
             key: this.key,
+            data: this.data,
             value: '',
             error: false,
             deleted: false,
             validate: function () {
                 _this.validateInput();
             },
+            setData: function (data) {
+                _this.setFetchData(data);
+            }
         };
 
         this.showSelectedValue(this.selectValue);
@@ -203,6 +207,8 @@ export default {
         setFetchData: function (data) {
             this.loading = false;
             this.data = data;
+
+            this.$emit('fetchedData', data);
         },
 
         emitValidationError: function () {

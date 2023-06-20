@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
             'key' => 'Electronics',
             'des' => 'Prueba categoria',
             'porcent' => 8,
-            'require' => 'marca|modelo',
+            'require' => 'brand|model',
         ]);
         \App\Models\Category::create([
             'key' => 'Products Agricolas',
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
             'key' => 'Alcoholics drinks',
             'des' => 'Prueba categoria',
             'porcent' => 15,
-            'require' => 'marca|restricted',
+            'require' => 'brand|restricted',
         ]);
         \App\Models\Category::create([
             'key' => 'Artesania',
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
             'key' => 'Electronics accesories',
             'des' => 'Prueba categoria',
             'porcent' => 5,
-            'require' => 'marca|modelo',
+            'require' => 'brand|model',
         ]);
 
         \App\Models\Category::create([
@@ -104,7 +104,7 @@ class DatabaseSeeder extends Seeder
             'key' => 'Electrodomestics',
             'des' => 'Prueba categoria',
             'porcent' => 8,
-            'require' => 'marca|modelo',
+            'require' => 'brand|model',
         ]);
 
         \App\Models\Brand::create(['name' => 'Xiaomi']);
@@ -115,7 +115,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Brand::create(['name' => 'Hawei']);
         \App\Models\Brand::create(['name' => 'Apple']);
 
-        \App\Models\BrandModel::create(['brand_id' => 1, 'name' => 'Redmi note 9']);
+        \App\Models\BrandModel::create([ 'brand_id' => 1, 'name' => 'Redmi note 9']);
         \App\Models\BrandModel::create([ 'brand_id' => 1, 'name' => 'Mi band 6' ]);
         \App\Models\BrandModel::create([ 'brand_id' => 1, 'name' => 'Mi 9', 'detail' => 'Pro' ]);
         \App\Models\BrandModel::create([ 'brand_id' => 2, 'name' => 'Pavilion' ]);
@@ -127,5 +127,13 @@ class DatabaseSeeder extends Seeder
         \App\Models\BrandModel::create([ 'brand_id' => 7, 'name' => 'Iphone 14', 'detail' => 'Pro' ]);
         \App\Models\BrandModel::create([ 'brand_id' => 7, 'name' => 'Imac 2' ]);
         \App\Models\BrandModel::create([ 'brand_id' => 7, 'name' => 'Ipad 13' ]);
+
+
+        \App\Models\PersonalizationModule::create([
+                'key' => 'title-des-left-image', 
+                'modules' => json_encode(['title', 'description', 'left-image'])
+        ]);
+
+        
     }
 }

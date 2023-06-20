@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use ProtoneMedia\Splade\Facades\Toast;
 
 trait RegisterController
 {
@@ -33,7 +34,11 @@ trait RegisterController
 
         Auth::guard()->login($user);
 
-        return redirect()->intended('')->with('success', "Account successfully registered.");
+        Toast::success(trans("Account successfully registered."))
+            ->backdrop()
+            ->autoDismiss(5);
+
+        return redirect()->intended($this->redirectLoginTo());
     }
     
 }

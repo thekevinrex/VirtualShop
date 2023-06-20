@@ -3,6 +3,8 @@
 namespace App\Tables;
 
 use App\Models\Product;
+use App\Models\ProductVariant;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use ProtoneMedia\Splade\AbstractTable;
@@ -38,9 +40,21 @@ class Products extends AbstractTable
     public function for()
     {
 
-        $seller = Auth::guard('seller')->user();
+        $seller = Auth::user()->seller;
         
-        return Product::query()->where('seller_id', $seller->getKey());
+        return Product::query()->with([
+                'cates' => [
+                    'variants' => [
+                        'image',
+                    ],
+                ], 
+                'variant' => [
+                    'image',
+                ], 
+                'listening' => [
+                    'category',
+                ],
+            ])->where('seller_id', $seller->getKey());
     }
 
     /**
@@ -58,7 +72,7 @@ class Products extends AbstractTable
             ->column(key:'price', label: trans('product.price'))
             ->column(key: 'state', label: trans('product.state'))
             ->column(key:'actions', label: trans('product.actions'))
-            ->paginate(1);
+            ->paginate(10);
 
         $table::hidePaginationWhenResourceContainsOnePage();
     }

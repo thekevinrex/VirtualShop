@@ -3,11 +3,11 @@
     <section aria-labelledby="select-perso-module-heading" aria-describedby="select-perso-module-details">
 
         <h1 class="text-lg font-semibold" id="select-perso-module-heading">
-            @lang('product.perso_modules')
+            {{__('Product personalization modules')}}
         </h1>
 
         <p class="text-base mb-5" id="select-perso-module-details">
-            @lang('product.perso_modules_select_help')
+            {{__('Select the module that you want to add, each module has his own elements')}}
         </p>
 
         <selectModuleComponent v-slot="{ addModule }">

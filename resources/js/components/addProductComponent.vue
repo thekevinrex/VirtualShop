@@ -4,23 +4,67 @@
         
         <slot :isLoading="isLoading"></slot>
 
-        <div class="sticky-top top-14 z-50 bg-white dark:bg-dark w-full flex-col">
-            <slot name="header" :updateProduct="updateProduct" :isDisabled="isDisableUpdateProduct"  :actualTab="actualTab" :updateTab="updateTab"></slot>
+        <div class="sticky-top top-14 z-50 bg-white dark:bg-dark border-b dark:border-neutral-700 w-full flex-col">
+            <slot name="header" 
+                :updateProduct="updateProduct" 
+                :isDisabled="isDisableUpdateProduct"  
+                :navegationTabs="navegationTabs"
+                :tabsInfo="tabsInfo"
+                :updateTab="updateTab">
+            </slot>
         </div>
-        
+
         <div class="flex flex-wrap flex-row w-full">
             
-            <div v-if="actualTab == 'info'" class="flex flex-row flex-wrap w-full dark:text-white">
-                <slot name="info" :price="price" :info="info" :listening="listening" :marcas="marcas" :addInfo="addInfo" :deleteInfo="deleteInfo" :fetch_video="fetch_video" :loading="loadingCategory" :required="required" :fieldsData="getFieldsData"></slot>
+            <div 
+                v-if="navegationTabs.actualTab == 'info'" 
+                class="flex flex-row flex-wrap w-full dark:text-white"
+            >
+                <slot name="info" 
+                    :price="price" 
+                    :info="info" 
+                    :listening="listening"
+                    :addInfo="addInfo" 
+                    :deleteInfo="deleteInfo" 
+                    :fetchVideo="fetchVideo" 
+                    :loading="loadingCategory" 
+                    :required="required" 
+                    :models="models"
+                    :setFetchedData="setFetchedData"
+                    :fieldsData="getFieldsData">
+                </slot>
             </div>
 
-            <div v-if="actualTab == 'variantes'"  class="flex flex-row flex-wrap w-full dark:text-white">
-                <slot name="variantes" :selectVarianteCate="selectVarianteCate" :selectedCate="selectedCate" :variantes="variantes" :addVariante="addVariante" :setCateVarianteAsMain="setCateToHaveImages" :addVarianteCate="addVarianteCate" :deleteVarianteCate="deleteVarianteCate" :deleteVariante="deleteVariante" :fieldsData="getFieldsData"></slot>
+            <div 
+                v-if="navegationTabs.actualTab == 'variantes'" 
+                class="flex flex-row flex-wrap w-full dark:text-white"
+            >
+                <slot name="variantes" 
+                    :selectVariantCate="selectVariantCate" 
+                    :selectedCate="selectedCate" 
+                    :variantsData="variantsData" 
+                    :addVariant="addVariant" 
+                    :setCateVariantAsMain="setCateToHaveImages" 
+                    :addVariantCate="addVariantCate" 
+                    :deleteVariantCate="deleteVariantCate" 
+                    :deleteVariant="deleteVariant" 
+                    :fieldsData="getFieldsData">
+                </slot>
             </div>
 
-            <div v-if="actualTab == 'money'"  class="flex flex-row flex-wrap w-full dark:text-white">    
-                <slot name="money" :price="price" :variantes="variantes" :provincias="provincias" :fieldsData="getFieldsData"></slot>
+            <div 
+                v-if="navegationTabs.actualTab == 'money'"  
+                class="flex flex-row flex-wrap w-full dark:text-white"
+            >
+                <slot name="money" 
+                    :price="price" 
+                    :payments="payments"
+                    :variantsData="variantsData" 
+                    :provinces="provinces" 
+                    :fieldsData="getFieldsData">
+                </slot>
             </div>
+
         </div>
     </div>
 
@@ -40,62 +84,88 @@ export default {
     props: {
         fetchCategoryDataFrom: String,
         sendProductDataTo: String,
-        provincias : [String, Array],
+        provinces: Array,
+        payments: Array,
+        seller_id: Number,
     },
     
     data() {
         return {
-
+            
             info: {
                 name : '',
                 description: '',
-                restric_age: true,
+                restricted_age: true,
                 ratings : 'allow',
                 details: [],
                 videos: [],
             },
 
             price: {
-                mergedVariantes: [],
-                price: 0 + "",
-                delivery: 'logistic',
-                delivery_data: [],
-                currency: 'USD'
+                mergedVariants  : [],
+                price            : '0',
+                shipping         : 'logistic',
+                shipping_aviable : [],
+                currency: 'USD',
+                payments: [],
             },
             
             listening: {
-                category: "",
-                marca: "",
-                modelo: "",
+                category_id    : "",
+                brand_id       : "0",
+                brand_model_id : "0",
             },
 
-            variantes: {
-                cates: [],
-                variantes: [],
-                mainVariante : uuidv4(),
+            variantsData : {
+                cates       : [],
+                variants    : [],
+                mainVariant : uuidv4(),
             },
 
-            selectedCate : 0,
-            loadingCategory: false,
-            isLoading : false,
+            selectedCate    : 0,
+            loadingCategory : false,
+            isLoading       : false,
 
-            marcas: [],
+            brands: [],
             required: [],
-            fetch_video: '',
+            fetchVideo: '',
 
+
+            models: [],
             fieldsData : [],
 
-            actualTab : 'info',
+            navegationTabs: {
+                actualTab: 'info',
+                prevTab: null,
+                nextTab: 'variantes',
+            },
+
+            tabsInfo: [
+                {
+                    num : 0,
+                    key: 'info',
+                    passed: false,
+                },
+                {
+                    num: 1,
+                    key: 'variantes',
+                    passed: false,
+                },
+                {
+                    num: 2,
+                    key: 'money',
+                    passed: false,
+                }
+            ],
         };
     },
 
     mounted() {
 
-        this.provincias.forEach(element => {
-
-            this.price.delivery_data.push({
+        this.provinces.forEach(element => {
+            this.price.shipping_aviable.push({
                 id: element.id,
-                municipios: element.municipios.map((e) => {
+                municipalities: element.municipalities.map((e) => {
                     return {
                         id : e.id,
                         price : e.price,
@@ -103,24 +173,25 @@ export default {
                     };
                 }),
             });
-            
+        });
+
+        this.payments.forEach(element => {
+            this.price.payments.push({
+                key: element.key,
+                value: true,
+            });
         });
         
-        this.variantes.variantes.push({
-            id: uuidv4(),
-            cate: this.variantes.mainVariante,
-
-            image: '',
-            images: [],
+        this.addVariant({
+            cate: this.variantsData.mainVariant,
             name: 'Main variante',
-            des : '',
         });
 
     },
 
     watch: {
 
-        'listening.category': function (newValue) {
+        'listening.category_id': function (newValue) {
             this.fetchRequiredDataFromCategory(newValue);
         },
         
@@ -130,9 +201,8 @@ export default {
 
         isDisableUpdateProduct: function () {
 
-            if (this.fieldsData.filter(e => { return e.error }).length > 0) {
+            if (this.fieldsData.filter(e => { return e.error }).length > 0) 
                 return true;
-            }
 
             return false;
         }
@@ -141,6 +211,12 @@ export default {
 
     methods: {
         ...mapActions(useMainStore, ['addNewPageNotification']),
+
+
+        setFetchedData: function (data) {
+            console.log(data);
+            this.models = data;
+        },
 
         /**
          * Used to verificate the required input, it is passed to every template and listen when each field input triggerit
@@ -157,29 +233,29 @@ export default {
         /**
          * When a new variante is created it call this method, that will permutate all the variantes
          */
-        generateCrossCateVsVarianteModel: function () {
+        generateCrossCateVsVariantModel: function () {
 
-            if (this.variantes.cates.length == 0) {
-                this.price.mergedVariantes = [];
+            if (this.variantsData.cates.length == 0) {
+                this.price.mergedVariants = [];
                 return false;
             }
 
-            let variantes = [];
+            let variants = [];
 
-            this.variantes.cates.forEach((element) => {
-                variantes.push(
-                    this.variantes.variantes
+            this.variantsData.cates.forEach((element) => {
+                variants.push(
+                    this.variantsData.variants
                     .filter(e => { return e.cate == element.id })
                     .map(e => { return e.id })
                 );
             });
 
-            let newMergeVariantes = this.mergeCateWithVariante(variantes, this.variantes.cates.length);
+            let newMergeVariants = this.mergeCateWithVariant(variants, this.variantsData.cates.length);
 
-            this.price.mergedVariantes = [];
-            newMergeVariantes.forEach(element => {
+            this.price.mergedVariants = [];
+            newMergeVariants.forEach(element => {
 
-                this.price.mergedVariantes.push({
+                this.price.mergedVariants.push({
                     id: uuidv4(),
                     price : this.price.price,
                     merged: (!isArray(element)? [element] : element),
@@ -192,7 +268,7 @@ export default {
         /**
          * A recursive method to permutate the variants
          */
-        mergeCateWithVariante: function (arr, total) {
+        mergeCateWithVariant: function (arr, total) {
 
             let returnArr = [];
             let length = arr.length;
@@ -205,7 +281,7 @@ export default {
                 if (total == 1) {
                     return t;
                 } else {
-                    let b = this.mergeCateWithVariante(arr.slice(i + 1), total - 1);
+                    let b = this.mergeCateWithVariant(arr.slice(i + 1), total - 1);
                     t.forEach(element => {
                         b.forEach(ele => {
                             returnArr.push([
@@ -220,13 +296,7 @@ export default {
             return returnArr;  
         },
 
-        /**
-         * it update the tabs and validate the current tab
-         */
-        updateTab: function (newTab) {
-
-            if (!['money', 'variantes', 'info'].includes(newTab))
-                return false;
+        varificateIfThereIsAnyError: function () {
 
             this.fieldsData = this.fieldsData.filter(e => { return !e.deleted });
 
@@ -235,11 +305,52 @@ export default {
                     e.validate();
             });
 
-            if (this.fieldsData.filter(e => { return e.error }).length > 0) {
+            if (this.fieldsData.filter(e => { return e.error }).length > 0) 
+                return true;
+
+            return false;
+        },
+
+        /**
+         * it update the tabs and validate the current tab
+         */
+        updateTab: function (newTab) {
+
+            if (!this.tabsInfo.map((e) => {return e.key}).includes(newTab))
                 return false;
+
+            if (this.varificateIfThereIsAnyError())
+                return false;
+
+            let actualTab = this.tabsInfo.find((e) => { return this.navegationTabs.actualTab === e.key });
+            let nextTab   = this.tabsInfo.find((e) => { return newTab === e.key });
+
+            if (nextTab.num < 0 || nextTab.num > this.tabsInfo.length - 1)
+                return false;
+
+            if (nextTab.num > actualTab.num) {
+                if (nextTab.num - actualTab.num > 1) {
+                    if (!this.tabsInfo.find((e) => { return e.num == actualTab.num + 1 }).passed)
+                        return false;
+                }
             }
 
-            this.actualTab = newTab;
+            actualTab.passed = true;
+
+
+            if (nextTab.num == 0) {
+                this.navegationTabs.prevTab = null;
+            } else {
+                this.navegationTabs.prevTab = this.tabsInfo.find((e) => { return e.num == nextTab.num-1 }).key;
+            }
+
+            if (nextTab.num == this.tabsInfo.length - 1) {
+                this.navegationTabs.nextTab = null;
+            } else {
+                this.navegationTabs.nextTab = this.tabsInfo.find((e) => { return e.num == nextTab.num+1 }).key;
+            }
+
+            this.navegationTabs.actualTab = newTab;
         },
 
         addInfo: function () {
@@ -263,7 +374,7 @@ export default {
             var _this = this;
 
             let fd = {
-                'category' : value,
+                'category_id' : value,
             };
 
             axios.post(this.fetchCategoryDataFrom, fd)
@@ -280,108 +391,110 @@ export default {
                 });
                 
         },
+
         updateRequiredDataFromCategory: function (data) {
             this.loadingCategory = false;
             this.required = data;
         },
 
-        addVarianteCate: function () {
+        addVariantCate: function () {
+
             var idCate = uuidv4();
 
-            this.variantes.cates.push({
+            this.variantsData.cates.push({
                 id: idCate,
                 value: '',
-                with_image: false,
+                with_images: false,
             });
 
-            this.addVariante(idCate);
+            this.addVariant({cate:idCate});
 
-            if (this.variantes.cates.length == 1) {
+            if (this.variantsData.cates.length == 1) {
                 this.setCateToHaveImages(idCate);
-                this.selectVarianteCate(idCate);
             }
+            
+            this.selectVariantCate(idCate);
         },
 
         setCateToHaveImages: function (idCate) {
-            this.variantes.cates = this.variantes.cates.map((element) => { 
+            this.variantsData.cates = this.variantsData.cates.map((element) => { 
 
-                element.with_image = false;
+                element.with_images = false;
                 if (element.id == idCate)
-                    element.with_image = true;
+                    element.with_images = true;
 
                 return element;
              });
         },
 
-        selectVarianteCate: function (id) {
+        selectVariantCate: function (id) {
             this.selectedCate = id;
         },
         
-        addVariante: function (idCate) {
-            this.variantes.variantes.push({
-                id: uuidv4(),
-                cate: idCate,
+        addVariant: function (variant) {
 
+            let newVariant = Object.assign({
+                id: uuidv4(),
                 image: '',
                 images: [],
                 name: '',
-                des : '',
-            });
+                des: '',
+            }, variant);
 
-            this.generateCrossCateVsVarianteModel();
+            this.variantsData.variants.push(newVariant);
+
+            this.generateCrossCateVsVariantModel();
         },
 
-        deleteVarianteCate: function (id) {
+        deleteVariantCate: function (id) {
 
-            var with_image = this.variantes.cates.some((element) => { return element.id == id && element.with_image });
+            let with_images = this.variantsData.cates.some((element) => { return element.id == id && element.with_images });
 
-            this.variantes.cates = this.variantes.cates.filter((element) => { return element.id != id });
-            this.variantes.variantes = this.variantes.variantes.filter((element) => { return element.cate != id });
+            this.variantsData.cates = this.variantsData.cates.filter((element) => { return element.id != id });
+            this.variantsData.variants = this.variantsData.variants.filter((element) => { return element.cate != id });
 
-            var selectedCate = JSON.parse(JSON.stringify(this.variantes.cates)).shift();
+            this.generateCrossCateVsVariantModel();
+            
+            if (!with_images && this.selectedCate != id)
+                return true;
+
+            var selectedCate = JSON.parse(JSON.stringify(this.variantsData.cates)).shift();
 
             if (selectedCate == undefined)
                 return false;
             
             this.selectedCate = selectedCate.id;
 
-            if (with_image)
+            if (with_images)
                 this.setCateToHaveImages(selectedCate.id);
 
-            this.selectVarianteCate(selectedCate.id);
+            this.selectVariantCate(selectedCate.id);
         },
 
-        deleteVariante: function (id) {
+        deleteVariant: function (id) {
 
-            var cate = this.variantes.variantes.find((element) => { return element.id == id });
+            var variant = this.variantsData.variants.find((element) => { return element.id == id });
 
-            if (cate == undefined)
+            if (variant == undefined)
                 return false;
 
-            if (this.variantes.variantes.filter((element) => {return element.cate == cate.cate}).length == 1)
+            if (this.variantsData.variants.filter((element) => {return element.cate == variant.cate}).length == 1)
                 return false;
             
-            this.variantes.variantes = this.variantes.variantes.filter((element) => { return element.id != id });
+            this.variantsData.variants = this.variantsData.variants.filter((element) => { return element.id != id });
         },
 
 
         updateProduct: function () {
 
-            this.fieldsData = this.fieldsData.filter(e => { return !e.deleted });
-
-            this.fieldsData.forEach(e => {
-                if (typeof e.validate() == 'function')
-                    e.validate();
-            });
-
-            if (this.fieldsData.filter(e => { return e.error }).length > 0) {
+            if (this.varificateIfThereIsAnyError())
                 return false;
-            }
 
             let fd = {
+                'seller_id' : this.seller_id,
                 ...this.info,
                 ...this.listening,
-                ...this.variantes,
+                ...this.variantsData,
                 ...this.price,
             };
 

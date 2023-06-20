@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
+use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Product;
+use App\Services\PersonalizationModulesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use ProtoneMedia\Splade\Facades\Toast;
 
 class ProductPersoController extends Controller
@@ -12,16 +16,13 @@ class ProductPersoController extends Controller
     
     public function index(Product $product) {
 
-        $modulesData = array(
-            'title-des-left-image' => array('title', 'des', 'left-image'),
-            'title-des-right-image' => array('title', 'des', 'right-image'),
-        );
-
+        $modulesData = (new PersonalizationModulesService())->getModulesWithKey();
+        
         $modulesInfo = $product->modules->map(function ($e) {
             return [
                 'id' => $e->id,
                 'title' => $e->title,
-                'des' => $e->des,
+                'description' => $e->description,
                 'order' => $e->order,
                 'type' => $e->type,
                 'image' => [
@@ -37,34 +38,40 @@ class ProductPersoController extends Controller
 
     public function create (Product $product) {
 
-        $modules = array(
-            'title-des-left-image',
-        );
-
+        $modules = (new PersonalizationModulesService())->getModulesKey();
+        
         return view('seller.products.perso.add', ['modules' => $modules]);
     }
 
     public function store (Request $request, Product $product) {
 
+        
         $validated = $request->validate([
             'modules.*.id' => '',
             'modules.*.order' => 'int',
-            'modules.*.title' => 'string',
-            'modules.*.des' => '',
+            'modules.*.title' => '',
+            'modules.*.description' => '',
             'modules.*.type' => '',
             'modules.*.image.image' => '',
         ]);
 
+        $modulesData = (new PersonalizationModulesService())->getModulesWithKey();
+
         $existingDetails = [];
 
         if (isset($validated['modules'])) {
-            $existingDetails = array_filter(array_map(function ($e) {
-                if (isset($e['id']))
-                    return $e['id'];
+            foreach ($validated['modules'] as $module) {
 
-            }, $validated['modules']), function ($e) {
-                return $e != null;
-            });
+                $rules = PersonalizationModulesService::getValidationRules($modulesData->get($module['type']));
+
+                Validator::make(
+                    $module,
+                    $rules
+                )->validate();
+
+                if (isset($module['id']))
+                    $existingDetails[] = $module['id'];
+            }
         }
 
         foreach($product->modules as $module) {
@@ -75,12 +82,24 @@ class ProductPersoController extends Controller
 
         if (isset($validated['modules'])) {
             foreach ($validated['modules'] as $moduleData) {
-                $module = $product->modules()->create($moduleData);
-                $module->image()->create(['url' => $moduleData['image']['image']]);
+                if (isset($moduleData['id']) && in_array($moduleData['id'], $existingDetails)){
+
+                    $module = $product->modules()->find($moduleData['id']);
+
+                    $module->update($moduleData);
+
+                    if ($module->image->url != $moduleData['image']['image']){
+                        $module->image()->delete();
+                        $module->image()->create(['url' => $moduleData['image']['image']]);
+                    }
+                } else {
+                    $module = $product->modules()->create($moduleData);
+                    $module->image()->create(['url' => $moduleData['image']['image']]);
+                }
             }
         }
 
-        Toast::message('The product modules has been updated')
+        Toast::message(trans('The product modules has been updated'))
             ->backdrop()
             ->rightBottom()
             ->success()

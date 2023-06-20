@@ -36,6 +36,10 @@ class AuthController extends Controller
     }
 
     public function redirectLoginTo () {
+
+        if (Auth::check() && !Auth::user()->hasVerifiedEmail())
+            return route('verification.notice');
+
         return '/';
     }
 

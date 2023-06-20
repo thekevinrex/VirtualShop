@@ -42,7 +42,7 @@ class SellerHomeController extends Controller
         $provincias = Province::all();
 
         return view('seller.start-up')
-            ->with(compact(['plan', 'provincias']));
+            ->with(compact('plan', 'provincias'));
     }
 
     /**
@@ -60,11 +60,8 @@ class SellerHomeController extends Controller
             'url' => $safe['avatar']['image'],
         ];
     
-        $sellerData = $request->safe()->only('name', 'abaut_me', 'telegram', 'plan');
-        $sellerData['telephone'] = $safe['phone'];
-
+        $sellerData = $request->safe()->only('name', 'abaut_me', 'telegram', 'plan', 'payment_option', 'telephone');
         $sellerData['payment_method'] = 'qvapay';
-        $sellerData['payment_option'] = $safe['qvapay'];
 
         $addressData = [
             'province_id' => $safe['provincia'],

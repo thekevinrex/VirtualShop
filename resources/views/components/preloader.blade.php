@@ -1,7 +1,9 @@
-@props(['size', 'color', 'border'])
+@props(['size', 'color', 'border' => '', 'wraper' => 'full'])
 
+@if (in_array($wraper, ['full']))
 <div class="preloader-wraper">
-    <div class="preloader {{ $size }}">
+@endif
+    <div class="preloader {{ $size }}" {{ $attributes }} >
         <div class="spinner-layer {{ $color }}">
 
             <div class="circle-clipper {{ $border }} left">
@@ -13,4 +15,6 @@
 
         </div>
     </div>
+@if (in_array($wraper, ['full']))
 </div>
+@endif

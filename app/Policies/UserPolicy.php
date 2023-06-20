@@ -10,12 +10,14 @@ class UserPolicy
     use HandlesAuthorization;
 
     public function viewVerificationPages (User $user) {
+
         if ($user->hasVerifiedEmail()) {
             return false;
         }
 
         return true;
     }
+
 
     /**
      * Determine whether the user can view any models.

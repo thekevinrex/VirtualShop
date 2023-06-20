@@ -1,5 +1,10 @@
 <x-splade-form {{ $attributes }}>
     
+    @isset($loading)
+    <div v-if="form.processing || form.wasSuccessful">
+        {{$loading}}
+    </div>
+    @else
     <div class="w-full h-full absolute z-10 bg-white dark:bg-dark left-0 top-0 rounded-xl flex items-center" v-if="form.processing || form.wasSuccessful">
         <div class="flex flex-col w-full justify-center">
             <x-preloader color="pl-primary" border="pl-border-4x" size="pl-size-l"></x-preloader>
@@ -8,6 +13,8 @@
             </h2>
         </div>
     </div>
+    @endisset
+    
 
     @isset($header)
         {{ $header }}

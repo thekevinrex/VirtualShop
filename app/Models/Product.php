@@ -14,10 +14,12 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        
         'name',
         'description',
-        'seller_id',
         'listening_id',
+
+        'seller_id',
         'by_seller_id',
         
         'price',
@@ -46,7 +48,7 @@ class Product extends Model
     }
 
     public function cates () {
-        return $this->hasMany('App\Models\VarianteCate');
+        return $this->hasMany('App\Models\ProductCate');
     }
 
     public function infos () {
@@ -57,8 +59,8 @@ class Product extends Model
         return $this->hasMany('App\Models\ProductInventory');
     }
 
-    public function variante () {
-        return $this->hasOne('App\Models\Variante');
+    public function variant () {
+        return $this->hasOne('App\Models\ProductVariant');
     }
     
     public function modules () {
@@ -74,9 +76,9 @@ class Product extends Model
                 return $value['with_images'];
             });
 
-            $image = $cate[0]->variantes[0]->image;
+            $image = $cate[0]->variants[0]->image;
         } else {
-            $image = $this->variante->image;
+            $image = $this->variant->image;
         }
 
         return new Attribute(

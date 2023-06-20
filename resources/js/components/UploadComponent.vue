@@ -140,7 +140,7 @@ export default {
             this.error = '';
             var _this = this;
 
-            axios.post('/upload', fd, config)
+            axios.post('/api/upload', fd, config)
                 .then(function (res) {
                     _this.saveChanges(res.data);
                 })
@@ -180,7 +180,7 @@ export default {
             this.error = res.response.data.message;
 
             this.addNewPageNotification({
-                message: prepateAxiosErrorToDisplay(err),
+                message: prepateAxiosErrorToDisplay(res.response.data.message),
                 type: 'error',
                 autoDismiss: true,
             });

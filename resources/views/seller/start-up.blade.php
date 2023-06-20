@@ -1,10 +1,14 @@
-@extends('seller.layauts.docsContainer')
+@extends('seller.layauts.docs-container')
 
 @section('content')
     <div class="flex flex-wrap flex-row w-full">
 
         <div class="max-w-5xl lg:w-2/3 w-full flex flex-col p-20 relative pt-15 dark:text-white">
-            <x-form action="{{ route('seller.start-up.perform') }}" scroll-top method="post" :default="[ 'plan' => $plan, 'error' => [] ]" class="w-full">
+            <x-form action="{{ '/seller-panel/start-up' }}" method="post" :default="[ 'plan' => $plan, 'error' => [] ]" class="w-full">
+
+                <x-slot:loading>
+                    <x-barpage-loader></x-barpage-loader>
+                </x-slot:loading>
 
                 <input type="hidden" name="plan" v-model="form.plan">
 
@@ -77,8 +81,8 @@
                         {{__('Your contact information beside your email address in case of an emergency.Is also used to show in your shop')}}
                     </p>
 
-                    <InputComponent v-model:value="form.phone" v-model:validation="form.error" type="text" :inputData="{
-                        'name' : 'phone',
+                    <InputComponent v-model:value="form.telephone" v-model:validation="form.error" type="text" :inputData="{
+                        'name' : 'telephone',
                         'isHeader' : true,
                         'placeholder' : '{{ __('Telephone') }}',
                         'validate' : ['Required'],
@@ -167,8 +171,8 @@
                         {{ __('El sitio trabaja con QvaPay un intermediario de pago para transacciones mas limpias. Para porder redireccionar las ventas de los productos a ti tienes que prover tu link de pago del sitio QvaPay') }}
                     </p>
 
-                    <InputComponent v-model:value="form.qvapay" v-model:validation="form.error" type="text" :inputData="{
-                        'name' : 'qvapay',
+                    <InputComponent v-model:value="form.payment_option" v-model:validation="form.error" type="text" :inputData="{
+                        'name' : 'payment_option',
                         'isHeader' : true,
                         'placeholder' : '{{ __('Qvapay link payment') }}',
                         'validate': ['Required'],

@@ -12,15 +12,15 @@ class Listening extends Model
     protected $fillable = [
         'brand_model_id',
         'category_id',
+        'uuid',
         'name',
-        'name_secondary',
     ];
 
-    public function product () {
+    public function products () {
         return $this->hasMany('App\Models\Product');
     }
 
-    public function model () {
+    public function brand_model () {
         return $this->belongsTo('App\Models\BrandModel');
     }
 

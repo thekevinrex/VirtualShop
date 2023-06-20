@@ -14,7 +14,7 @@ class Image extends Model
         'is_primary',
     ];
 
-    public function imagrable () {
+    public function imageable () {
         return $this->morphTo();
     }
 }

@@ -27,7 +27,7 @@ return [
     'register' => 'Register a new account',
     'login' => 'Login into your account',
     'name' => 'Name',
-    'password' => '{0}Password|{1}Confirm Password|{2}Actual Password',
+    'passwords' => '{0}Password|{1}Confirm Password|{2}Actual Password',
     'or' => 'Or',
     'loading' => 'Loading...',
     'terms' => 'Terms',

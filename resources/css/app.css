@@ -19,6 +19,18 @@
 
 @layer components {
 
+    .animate-upload {
+        animation: upload .7s forwards infinite;
+    }
+
+    @keyframes upload {
+        0% {
+            top: 0%;
+        }
+        100% {
+            top: -80%;
+        }
+    }
     /*. - - - - - - -  - BG bubbles - - - - - - - */
 
     .bg-bubbles {

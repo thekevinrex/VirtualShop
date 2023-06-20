@@ -1,6 +1,7 @@
 {
     "Personal Information" : "Informacion Personal",
     "Your personal information. Also is used to show in your shop" : "Tu informacion personal. Tambien es utilizada para mostrarla en tu tienda",
-    "Password" : "Confirm Password|Password"
+    "Password" : "Confirm Password|Password",
+    "Account successfully registered." : "Tu cuenta se creo correctamente"
 
 }

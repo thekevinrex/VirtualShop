@@ -17,7 +17,7 @@ class ProductVariant extends Model
     ];
 
     public function cate () {
-        return $this->belongsTo('App\Models\ProductCate');
+        return $this->belongsTo('App\Models\ProductCate', 'product_cate_id');
     }
 
     public function product () {

@@ -23,6 +23,10 @@
                 @include('seller.sidebar.products')
             @endisset
 
+            @isset($settings)
+                @include('seller.sidebar.settings')
+            @endisset
+
             @include('seller.sidebar.content')
         
         </div>

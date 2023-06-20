@@ -1,7 +1,6 @@
 <script>
 
 import { v4 as uuidv4 } from 'uuid';
-import { prepateAxiosErrorToDisplay } from '../functions/axios.js';
 
 export default {
 
@@ -17,7 +16,7 @@ export default {
     mounted() {
 
         var _this = this;
-        this.$splade.on('add-new-module', function (module) {
+        this.$splade.on('add-new-module', function (module) { 
             _this.addNewModule(module.type);
         });
 
@@ -36,8 +35,8 @@ export default {
                     moduleData.title = module.title;
                 }
 
-                if (module.des != null) {
-                    moduleData.des = module.des;
+                if (module.description != null) {
+                    moduleData.description = module.description;
                 }
 
                 if (module.image != null) {
@@ -55,7 +54,7 @@ export default {
     methods: {
 
         addNewModule: function (module) {
-
+            
             if (!Object.keys(this.modulesData).includes(module)) {
                 return false;
             }
@@ -70,8 +69,8 @@ export default {
                 moduleData.title = 'module ' + moduleData.order;
             }
 
-            if (this.modulesData[module].includes('des')) {
-                moduleData.des = '';
+            if (this.modulesData[module].includes('description')) {
+                moduleData.description = '';
             }
 
             if (this.modulesData[module].includes('left-image') || this.modulesData[module].includes('right-image')) {

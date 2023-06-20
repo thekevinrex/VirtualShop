@@ -6,35 +6,35 @@
 
             <h1 id="admin-inventory-title" class=" flex justify-between">
                 <span class="font-bold text-2xl">
-                    @lang('product.admin_inventory')
+                    {{__('Admin inventory')}}
                 </span>
 
                 <div>
-                    <Link slideover href="{{ route('seller.products.inventory.create', $product) }}" class="py-1 px-3 rounded-md bg-transparent text-primary"  data-mdb-ripple="true" data-mdb-ripple-color="dark">@lang('product.add_inventory')</Link>
+                    <Link slideover href="{{ route('seller.products.inventory.create', $product) }}" class="py-1 px-3 rounded-md bg-transparent text-primary"  data-mdb-ripple="true" data-mdb-ripple-color="dark">
+                        {{__('Add inventory')}}
+                    </Link>
                 </div>
             </h1>
 
             <p id="admin-inventory-details" class="text-sm mt-1">
-                @lang('product.admin_inventory_help')
+                {{__('In this section you control how many units of each product variant do you want to sell')}}
             </p>
 
-            @foreach ($product->inventories as $inventory)
+            @foreach ($inventories as $inventory)
                 <div class="py-5 px-2 flex flex-col">
                     @if (count($product->cates) > 0 )
                         <div class="flex justify-between flex-row">
                             <div class="flex space-x-3 w-full overflow-x-auto overflow-y-auto">
                                             
-                                @foreach(json_decode($inventory->merged) as $merged)
-
-                                @php
-                                    $variante = \App\Models\Variante::where('id', $merged)->first();
-                                @endphp
-
+                                @foreach($inventory['variants'] as $variant)
+                            
                                 <div class="flex flex-row">
                                     <div class="border py-2 px-4 rounded-md flex flex-col">
-                                        <span class="text-sm font-semibold">{{ $variante->cate->cate_name }}</span>
+                                        <span class="text-sm font-semibold">
+                                            {{ $variant['cate']['name'] }}
+                                        </span>
 
-                                        {{ $variante->name }}
+                                        {{ $variant['name'] }}
                                     </div>
                                 </div>
                                 <div class="flex items-center mx-1 last:hidden">+</div>
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="flex shrink-0">
-                                <x-splade-data :default="['active' => ($inventory->active == '1'? true : false) ]">
+                                <x-splade-data :default="['active' => ($inventory['active'] == '1'? true : false) ]">
                                     <x-splade-defer 
                                         url="{{ route('seller.products.inventory.update', $inventory) }}"
                                         method="PUT"
@@ -51,9 +51,9 @@
                                         manual
                                     >
                                     <div class="flex items-center">
-                                        <input id="inventory-aviable-{{ $inventory->id }}" name="inventory-aviable" v-model="data.active" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                                        <label for="inventory-aviable-{{ $inventory->id }}" class="ml-2 block text-sm text-gray-900 dark:text-white">
-                                            @lang('product.aviable')
+                                        <input id="inventory-aviable-{{ $inventory['id'] }}" name="inventory-aviable" v-model="data.active" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        <label for="inventory-aviable-{{ $inventory['id'] }}" class="ml-2 block text-sm text-gray-900 dark:text-white">
+                                            {{__('Aviable')}}
                                         </label>
                                     </div>
                                     </x-splade-defer>
@@ -66,7 +66,7 @@
 
                         @if ($inventory->cantInventory->count() == 0) 
                             <p class="text-center">
-                                @lang('product.no_inventory')
+                                {{__('Still you have not added any product inventory')}}
                             </p>
                         @endif
 
@@ -101,27 +101,35 @@
 
         @include('seller.products.edit.information')
 
+        @inject('inventory', 'App\Services\InventoryService')
+
         @php
-            $totalCantInventory = \App\Http\Controllers\Seller\InventoryController::calcTotalInventory($product);
+            $totalCantInventory = $inventory::calcTotalInventory($product);
         @endphp
 
         <div class="border border-gray-200 rounded-md dark:border-neutral-700 p-3 space-y-4 mb-5">
             <h4 class="text-lg font-semibold">
-                @lang('product.inventory_total')
+                {{__('Inventory total')}}
             </h4>
         
             <div class="flex flex-row justify-between">
-                <span>@lang('product.new')</span>
+                <span>
+                    {{__('New')}}
+                </span>
                 <span>{{ $totalCantInventory['new'] }}</span>
             </div>
         
             <div class="flex flex-row justify-between">
-                <span>@lang('product.used')</span>
+                <span>
+                    {{__('Used')}}
+                </span>
                 <span>{{ $totalCantInventory['used'] }}</span>
             </div>
         
             <div class="flex flex-row justify-between">
-                <span>@lang('product.total')</span>
+                <span>
+                    {{__('Total')}}
+                </span>
                 <span>{{ $totalCantInventory['total'] }}</span>
             </div>
         </div>
